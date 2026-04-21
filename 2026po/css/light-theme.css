@@ -1,0 +1,460 @@
+/* ============================================
+   초토화 포트폴리오 라이트 모드 오버라이드
+   ============================================ */
+
+/* 
+  아래의 변수들은 다크모드의 :root 선언을 덮어씁니다.
+  .light-mode 클래스가 있는 body 내의 모든 요소에 적용됩니다. 
+*/
+body.light-mode {
+  /* 색상 팔레트: 밝은 회색 및 화이트 베이스 */
+  --bg-primary:     #F7F7F7; /* 오프화이트 (바탕) */
+  --bg-secondary:   #FFFFFF; /* 퓨어화이트 (섹션 교차) */
+  --bg-tertiary:    #F0F0F0;
+  --bg-card:        #FFFFFF; /* 카드 배경 */
+  --bg-card-hover:  #FAFAFA;
+  --bg-glass:       rgba(255, 255, 255, 0.85);
+
+  /* 텍스트: 가독성을 높인 진한 차콜/블랙 */
+  --text-primary:   #1A1A1A; 
+  --text-secondary: #4A4A4A;
+  --text-muted:     #777777;
+  --text-dim:       #999999;
+
+  /* 테두리: 거슬리지 않는 은은한 라인 */
+  --border-subtle:  rgba(0, 0, 0, 0.05); /* 카드 등 은은한 윤곽선 */
+  --border-light:   rgba(0, 0, 0, 0.1);  /* 구분선 */
+
+  /* 포인트 컬러: 흰 배경에 맞춰 더 깊고 강렬한 색감으로 가독성 최적화 */
+  --fire-red:       #C62828; 
+  --fire-orange:    #E65100;
+  --fire-gradient:  linear-gradient(135deg, #C62828, #E65100);
+  --fire-glow:      0 4px 20px rgba(198, 40, 40, 0.2);
+
+  /* 그림자: 
+     다크모드 특유의 '네온 빛 번짐'을 
+     애플/토스 스타일의 '플랫하고 깔끔한 그림자'로 변환 
+  */
+  --shadow-sm:   0 2px 8px rgba(0, 0, 0, 0.04);
+  --shadow-md:   0 4px 16px rgba(0, 0, 0, 0.08);
+  --shadow-lg:   0 8px 32px rgba(0, 0, 0, 0.1);
+  --shadow-xl:   0 16px 64px rgba(0, 0, 0, 0.15);
+
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+}
+
+/* ──────────────────────────────────────────
+   라이트 모드 전용 디테일 패치 (요소별 무드 변경)
+   ────────────────────────────────────────── */
+
+/* 1. 배경 섹션 교차 */
+body.light-mode .section--dark {
+  background-color: var(--bg-secondary);
+}
+body.light-mode .section--darker {
+  background-color: var(--bg-primary);
+}
+
+
+body.light-mode .mobile-menu {
+  background: rgba(255, 255, 255, 0.95);
+}
+body.light-mode .mobile-menu__link {
+  color: var(--text-primary);
+}
+
+/* 3. Hero 영역은 언제나 다크 테마 유지 (UCRM 스타일) */
+/* hero 관련 라이트모드 덮어쓰기 코드 삭제 완료 */
+
+body.light-mode .hero__scroll span {
+  color: #fff; /* 다크 바탕에 맞게 화이트 원복 */
+}
+body.light-mode .hero__scroll-line {
+  background: linear-gradient(to bottom, rgba(255,255,255,0.7), transparent);
+}
+
+/* 4. 카드 요소 둥근 엣지 및 그림자 깔끔하게 처리 */
+body.light-mode .purples__achievement-card,
+body.light-mode .purples__role-card,
+body.light-mode .project-card,
+body.light-mode .vision__manifesto-item,
+body.light-mode .skill-bar__track {
+  background: var(--bg-card);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border-light); /* 경계선 가시성 증가 */
+}
+
+/* 타임라인 아이템을 카드로 묶고 적절한 내부 여백 설정 */
+body.light-mode .timeline__item {
+  background: var(--bg-card);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-lg);
+  padding: var(--space-xl);
+  padding-top: var(--space-3xl); /* 상단 연결점 부분 여유 공간 */
+}
+
+/* 모달창 */
+body.light-mode .modal__body {
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border-subtle);
+  box-shadow: var(--shadow-xl);
+}
+
+/* 스크롤바 커스터마이징 (필요 시) */
+body.light-mode ::-webkit-scrollbar-track {
+  background: var(--bg-tertiary);
+}
+body.light-mode ::-webkit-scrollbar-thumb {
+  background: var(--text-muted);
+}
+body.light-mode ::-webkit-scrollbar-thumb:hover {
+  background: var(--text-secondary);
+}
+
+/* About 등 뱃지(Badge) 스타일링 보완 */
+body.light-mode .badge,
+body.light-mode .badge--muted {
+  background: rgba(0,0,0,0.05);
+  color: var(--text-secondary);
+}
+body.light-mode .badge--fire, 
+body.light-mode .badge--gold,
+body.light-mode .badge--green {
+  /* 포인트 뱃지들은 기존 색상을 유지하지만, 약간 텍스트를 진하게 잡아줍니다 */
+  color: #111;
+  font-weight: 600;
+}
+body.light-mode .badge--gold { background: rgba(255, 215, 0, 0.15); }
+body.light-mode .badge--green { background: rgba(0, 230, 118, 0.15); }
+
+/* 호버 상태 커서의 하이라이트 투명도 최적화 */
+body.light-mode .cursor--hover {
+  background-color: rgba(255, 51, 51, 0.08); /* 밝은 창에선 불꽃 레드가 너무 세지 않게 조금만 투명도 조정 */
+}
+
+/* 히어로 섹션 관련 텍스트 라이트모드 덮어쓰기 모두 제거 완료 (layout.css의 완벽한 흰색 유지) */
+
+/* 고스트 버튼 라이트모드 맞춤 튜닝 (뚜렷한 화이트 유리) */
+body.light-mode .btn--ghost {
+  background: rgba(255, 255, 255, 0.6) !important;
+  border: 1px solid rgba(0, 0, 0, 0.1) !important;
+  color: #111 !important;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  font-weight: 600;
+}
+
+body.light-mode .btn--ghost:hover {
+  background: rgba(255, 255, 255, 0.9) !important;
+  border-color: rgba(0, 0, 0, 0.2) !important;
+  color: #000 !important;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.08);
+}
+
+/* 우측 통계 영역 (통합된 글래스 패널 라이트 모드) - 깨끗하고 맑은 스리유리 질감 */
+body.light-mode .hero__stats-glass {
+  background: rgba(255, 255, 255, 0.5); /* 탁하지 않게 명도 확보 */
+  backdrop-filter: blur(40px) saturate(140%);
+  -webkit-backdrop-filter: blur(40px) saturate(140%);
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  box-shadow: 
+    0 16px 48px rgba(0, 0, 0, 0.05), /* 부드러운 그림자 */
+    inset 0 1px 1px rgba(255, 255, 255, 1); /* 빛 반사 디테일 */
+}
+
+body.light-mode .hero__stats-glass:hover {
+  background: rgba(255, 255, 255, 0.7);
+  box-shadow: 
+    0 24px 64px rgba(0, 0, 0, 0.08),
+    inset 0 1px 1.5px rgba(255, 255, 255, 1),
+    0 0 30px rgba(255, 51, 51, 0.06); 
+  border-color: rgba(255, 255, 255, 0.9);
+}
+
+body.light-mode .hero__stat-divider {
+  background: linear-gradient(to right, transparent, rgba(0,0,0,0.1), transparent) !important;
+}
+
+body.light-mode .hero__stat-number {
+  background: linear-gradient(135deg, #FF6600 0%, #B71C1C 100%) !important;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  color: transparent !important;
+  -webkit-text-fill-color: transparent !important;
+  text-shadow: none !important;
+}
+
+body.light-mode .hero__stat-number small {
+  -webkit-text-fill-color: rgba(0, 0, 0, 0.7) !important;
+}
+
+body.light-mode .hero__stat-unit {
+  color: #333 !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.15em !important;
+}
+
+body.light-mode .hero__stat-desc {
+  color: #666 !important;
+  font-weight: 500 !important;
+}
+
+/* 타임라인 선 연결 (흰색 그라데이션 -> 어두운 그라데이션) */
+body.light-mode .purples__milestone-track::before {
+  background: linear-gradient(90deg, transparent, rgba(0, 0, 0, 0.15) 10%, rgba(0, 0, 0, 0.15) 90%, transparent) !important;
+}
+
+/* 사이드 인디케이터 */
+body.light-mode .side-indicator__dot {
+  background: rgba(0, 0, 0, 0.2);
+}
+
+body.light-mode .side-indicator__dot--active {
+  background: var(--fire-red);
+}
+
+/* Vision 캔버스 입자 색상 (흰색 -> 검정색계열 반전) */
+body.light-mode #visionCanvas {
+  filter: invert(1) hue-rotate(180deg) opacity(0.6);
+}
+
+/* 로더 텍스트 / 퍼센트 가시성 강화 */
+body.light-mode .loader__text,
+body.light-mode .loader__count {
+  color: var(--text-primary);
+}
+
+/* 추가 컴포넌트(스킬 아이콘, 테크 배지 등) 카드 색상 오버라이드 */
+body.light-mode .skill-icon {
+  background: var(--bg-card);
+  border: 1px solid var(--border-light);
+  color: var(--text-secondary);
+  box-shadow: var(--shadow-sm);
+}
+body.light-mode .skill-icon:hover {
+  background: var(--bg-card-hover);
+  border-color: var(--fire-red);
+  color: var(--text-primary);
+  text-shadow: none;
+}
+body.light-mode .skill-icon::after {
+  background: linear-gradient(90deg, transparent, rgba(255, 51, 51, 0.1), transparent) !important;
+}
+
+body.light-mode .modal__tech-badge {
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-light);
+  color: var(--text-primary);
+}
+
+body.light-mode .modal__close {
+  background: rgba(0, 0, 0, 0.05);
+  color: var(--text-primary);
+}
+body.light-mode .modal__close:hover {
+  background: var(--fire-red);
+  color: #fff;
+}
+
+/* ============================================
+   P0: 스킬 섹션 가독성 수정 (WCAG AA 대비율 확보)
+   좌측 기획/PM 카드 텍스트가 배경에 묻혀 보이지 않던 이슈
+   ============================================ */
+body.light-mode .skills__category {
+  background: var(--bg-card) !important;
+  border: 1px solid var(--border-light) !important;
+  box-shadow: var(--shadow-sm);
+}
+
+/* 스킬 바 — 이름 텍스트 강제 진한색 */
+body.light-mode .skill-bar__name {
+  color: var(--text-primary) !important;
+  font-weight: 600;
+}
+
+/* 스킬 바 — 퍼센트 수치 (빨간색 유지) */
+body.light-mode .skill-bar__value {
+  color: var(--fire-red) !important;
+  font-weight: 700;
+}
+
+/* 스킬 바 — 트랙 배경 진하게 (게이지 가시성 확보) */
+body.light-mode .skill-bar__track {
+  background: var(--bg-tertiary) !important;
+  border: none !important;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.06) !important;
+}
+
+/* 스킬 카테고리 제목 */
+body.light-mode .skills__category-title {
+  color: var(--text-primary) !important;
+}
+
+/* ============================================
+   P0: 타임라인(Career) 섹션 하단 빈 공간 제거
+   가로 스크롤 타임라인 아래 ~400px 과도 여백 해소
+   ============================================ */
+body.light-mode #career {
+  padding-bottom: clamp(40px, 4vw, 80px) !important;
+}
+
+body.light-mode .career__timeline-wrapper {
+  margin-bottom: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+/* ============================================
+   P1: 프로젝트 카드 — Featured 카드만 좌측 액센트
+   모든 카드에 border-left가 적용되어 Featured 의미 희석되던 문제
+   card--featured 클래스 미사용으로, 라이트 모드에서 직접 제어
+   ============================================ */
+body.light-mode .card {
+  border-left: none !important;
+  border: 1px solid var(--border-light) !important;
+  border-radius: var(--radius-lg) !important;
+  box-shadow: var(--shadow-sm);
+  transition: all 0.3s ease;
+}
+
+body.light-mode .card:hover {
+  border-color: rgba(0, 0, 0, 0.15) !important;
+  box-shadow: var(--shadow-md);
+  transform: translateY(-4px);
+}
+
+/* ============================================
+   P1: 섹션 간 여백 리듬 통일 — 일관된 호흡감
+   ============================================ */
+body.light-mode .section {
+  padding: clamp(80px, 8vw, 120px) 0;
+}
+
+/* 히어로 → About 전환: 충분한 간격 유지 */
+body.light-mode .section--full {
+  padding: 0;
+}
+
+/* About/Purples Deep 적절한 여백 */
+body.light-mode #about,
+body.light-mode #purples-deep {
+  padding: clamp(80px, 8vw, 120px) 0;
+}
+
+/* 프로젝트 섹션 */
+body.light-mode #projects {
+  padding: clamp(80px, 8vw, 120px) 0;
+}
+
+/* 스킬 섹션 */
+body.light-mode #skills {
+  padding: clamp(80px, 8vw, 120px) 0;
+}
+
+/* ============================================
+   P2: Vision 섹션 밀도 향상 — 과도한 높이 축소
+   ============================================ */
+body.light-mode #vision {
+  min-height: 70vh !important;
+  padding: clamp(60px, 6vw, 100px) 0 !important;
+}
+
+body.light-mode .vision__content {
+  padding: var(--space-3xl) 0;
+}
+
+body.light-mode .vision__manifesto-item {
+  background: rgba(0, 0, 0, 0.02) !important;
+  border: 1px solid var(--border-light) !important;
+}
+
+body.light-mode .vision__manifesto-item:hover {
+  border-color: var(--fire-red) !important;
+  background: rgba(255, 51, 51, 0.03) !important;
+  box-shadow: var(--shadow-sm);
+}
+
+/* ============================================
+   P2: Contact 섹션 — 시각적 밀도 향상
+   ============================================ */
+body.light-mode #contact {
+  padding: clamp(60px, 6vw, 100px) 0;
+}
+
+body.light-mode .contact__cta {
+  background: var(--bg-card) !important;
+  border: 1px solid var(--border-light) !important;
+  box-shadow: var(--shadow-sm);
+}
+
+body.light-mode .contact__item {
+  border-bottom: 1px solid var(--border-light) !important;
+}
+
+/* ============================================
+   P2: About 프로필 채도 미세 조정
+   라이트 모드에서 빨간 원형 배경 채도 과도 문제 완화
+   ============================================ */
+body.light-mode .about__image-frame--circle {
+  border-color: rgba(255, 51, 51, 0.2) !important;
+  box-shadow: 
+    0 0 30px rgba(255, 51, 51, 0.08),
+    0 0 60px rgba(255, 51, 51, 0.04) !important;
+}
+
+body.light-mode .about__image-ring {
+  opacity: 0.5;
+}
+
+/* ============================================
+   P2: 마이크로 디테일 폴리싱
+   ============================================ */
+
+/* 필터 탭 — 라이트 모드 최적화 */
+body.light-mode .filter-tab {
+  background: var(--bg-card) !important;
+  border: 1px solid var(--border-light) !important;
+  color: var(--text-secondary) !important;
+}
+
+body.light-mode .filter-tab:hover {
+  border-color: rgba(0, 0, 0, 0.2) !important;
+  color: var(--text-primary) !important;
+}
+
+body.light-mode .filter-tab--active {
+  background: var(--fire-gradient) !important;
+  border-color: transparent !important;
+  color: #fff !important;
+}
+
+/* 푸터 — 섹션 전환 부드럽게 */
+body.light-mode .footer {
+  border-top: 1px solid var(--border-light);
+  background: var(--bg-secondary);
+}
+
+/* 퍼플스 실적 카드 호버 */
+body.light-mode .purples__achievement-card:hover {
+  border-color: rgba(0, 0, 0, 0.12) !important;
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md) !important;
+}
+
+body.light-mode .purples__role-card:hover {
+  border-color: rgba(0, 0, 0, 0.12) !important;
+  box-shadow: var(--shadow-sm);
+}
+
+/* 섹션 라벨 라인 — 라이트 모드 가시성 */
+body.light-mode .section__label::before {
+  background: var(--fire-gradient);
+  opacity: 0.8;
+}
+
+/* 구분선 */
+body.light-mode .divider {
+  opacity: 0.6;
+}

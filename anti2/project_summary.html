@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2026 퍼플스 B2B 제휴 프로젝트 통합 요약 보고서</title>
+    <link rel="icon" href="./images/purples_group_icon.png" type="image/png">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=Noto+Serif+KR:wght@700&display=swap');
+
+        :root {
+            --brand-purple: #4B0082;
+            --brand-gold: #C5A059;
+            --dark-bg: #0F051D;
+            --text-main: #333;
+            --text-muted: #666;
+            --accent-blue: #38bdf8;
+        }
+
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            line-height: 1.6;
+            color: var(--text-main);
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+        }
+
+        .page {
+            width: 210mm;
+            min-height: 297mm;
+            padding: 20mm;
+            margin: 10mm auto;
+            background: white;
+            box-shadow: 0 0-10px rgba(0, 0, 0, 0.1);
+            box-sizing: border-box;
+            position: relative;
+            overflow: hidden;
+        }
+
+        @media print {
+            body {
+                background: none;
+            }
+
+            .page {
+                margin: 0;
+                box-shadow: none;
+                page-break-after: always;
+            }
+
+            .no-print {
+                display: none;
+            }
+        }
+
+        /* Cover Page */
+        .cover {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            height: 257mm;
+        }
+
+        .cover .logo {
+            font-size: 24px;
+            font-weight: 700;
+            letter-spacing: 0.3em;
+            color: var(--brand-purple);
+            margin-bottom: 50px;
+        }
+
+        .cover .logo span {
+            color: var(--brand-gold);
+            font-size: 14px;
+        }
+
+        .cover h1 {
+            font-family: 'Noto Serif KR', serif;
+            font-size: 36px;
+            margin-bottom: 20px;
+            color: var(--dark-bg);
+            line-height: 1.3;
+        }
+
+        .cover .subtitle {
+            font-size: 18px;
+            color: var(--brand-gold);
+            margin-bottom: 100px;
+            font-weight: 500;
+        }
+
+        .cover .info {
+            font-size: 14px;
+            color: var(--text-muted);
+            border-top: 1px solid #ddd;
+            padding-top: 20px;
+            width: 80%;
+        }
+
+        /* Content Styles */
+        h2 {
+            font-family: 'Noto Serif KR', serif;
+            color: var(--brand-purple);
+            border-bottom: 2px solid var(--brand-gold);
+            padding-bottom: 10px;
+            margin-top: 40px;
+        }
+
+        h3 {
+            color: var(--brand-purple);
+            margin-top: 30px;
+            display: flex;
+            align-items: center;
+        }
+
+        h3::before {
+            content: '';
+            display: inline-block;
+            width: 4px;
+            height: 18px;
+            background: var(--brand-gold);
+            margin-right: 10px;
+        }
+
+        p {
+            margin: 15px 0;
+            font-size: 15px;
+        }
+
+        ul {
+            padding-left: 20px;
+        }
+
+        li {
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+
+        .highlight {
+            color: var(--brand-purple);
+            font-weight: 700;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        th {
+            background-color: #f9f6ff;
+            color: var(--brand-purple);
+            font-weight: 700;
+            text-align: left;
+            padding: 12px;
+            border-bottom: 2px solid #ddd;
+        }
+
+        td {
+            padding: 12px;
+            border-bottom: 1px solid #eee;
+            font-size: 14px;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .feature-item {
+            background: #fafafa;
+            border: 1px solid #eee;
+            padding: 15px;
+            border-radius: 8px;
+        }
+
+        .feature-title {
+            font-weight: 700;
+            color: var(--brand-purple);
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .footer {
+            position: absolute;
+            bottom: 20mm;
+            left: 20mm;
+            right: 20mm;
+            text-align: center;
+            font-size: 12px;
+            color: #999;
+            border-top: 1px solid #eee;
+            padding-top: 10px;
+        }
+
+        .btn-print {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--brand-purple);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            z-index: 100;
+            font-weight: bold;
+        }
+
+        .section-divider {
+            height: 1px;
+            background: #eee;
+            margin: 40px 0;
+        }
+    </style>
+</head>
+
+<body>
+    <button class="no-print btn-print" onclick="window.print()">PDF로 저장 / 인쇄</button>
+
+    <!-- Page 1: Cover -->
+    <div class="page">
+        <div class="cover">
+            <div class="logo">PURPLES <span>GROUP</span></div>
+            <h1>2026 퍼플스 그룹 B2B 제휴 프로젝트<br>IT인프라 통합 고도화 보고서</h1>
+            <p class="subtitle">Platform Infrastructure & Premium UX/UI Integration Summary</p>
+            <div class="info">
+                <p><strong>작성일:</strong> 2026년 1월 10일</p>
+                <p><strong>작성자:</strong> 장명환 본부장 </p>
+                <!-- <p><strong>대상:</strong> 퍼플스 제휴사업본부 이사회 및 파트너사</p> -->
+            </div>
+        </div>
+        <div class="footer">© 2026 Purples Group. All Rights Reserved.</div>
+    </div>
+
+    <!-- Page 2: Project Overview & Tech Stack -->
+    <div class="page">
+        <h2>1. 프로젝트 개요</h2>
+        <p>본 프로젝트는 퍼플스 그룹의 2026년 B2B 확장 전략에 따라, 기업 파트너십 유치와 임직원 복지 솔루션 제안을 **디지털화하고 자동화**하는 것을 목표로 합니다. 1단계 시스템 구축을 통해
+            견고한 인프라를 마련하였으며, 2단계 고도화를 통해 프리미엄 브랜드 가치를 극대화했습니다.</p>
+
+        <h3>상세 기술 스택 (Target Architecture)</h3>
+        <p>프로토타입 단계를 넘어 대규모 리드 수집 및 분석이 가능한 엔터프라이즈급 스택을 채택하고 있습니다.</p>
+        <table>
+            <thead>
+                <tr>
+                    <th>구분</th>
+                    <th>기술 스택</th>
+                    <th>비고</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="highlight">Frontend</td>
+                    <td>Next.js / Tailwind CSS</td>
+                    <td>SSR(서버 사이드 렌더링) 및 SEO 최적화</td>
+                </tr>
+                <tr>
+                    <td class="highlight">Backend</td>
+                    <td>Node.js (Turbo/Express)</td>
+                    <td>고성능 비즈니스 로직 및 API 서버</td>
+                </tr>
+                <tr>
+                    <td class="highlight">Database</td>
+                    <td>PostgreSQL (Supabase / Docker)</td>
+                    <td>컨테이너 환경 기반의 데이터 관리</td>
+                </tr>
+                <tr>
+                    <td class="highlight">Utilities</td>
+                    <td>Supabase SDK / Marked.js</td>
+                    <td>인증, 스토리지 및 AI 분석 보조</td>
+                </tr>
+                <tr>
+                    <td class="highlight">Analytics</td>
+                    <td>Google Tag Manager (GTM)</td>
+                    <td>사용자 행동 추적 및 마케팅 데이터 수집</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="footer">Page 2 / 5</div>
+    </div>
+
+    <!-- Page 3: Infrastructure & Data Integration -->
+    <div class="page">
+        <h2>2. 시스템 통합 및 데이터 연동</h2>
+        <h3>운영 환경 (Infrastructure)</h3>
+        <p>확장성과 유지보수 편의성을 위해 **Docker 컨테이너** 기반의 PostgreSQL 환경을 구축하였으며, Supabase 클라우드 인프라를 통해 전 세게 어디서나 안정적인 데이터 접근이
+            가능합니다.</p>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>항목</th>
+                    <th>설정 정보</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="highlight">Endpoint</td>
+                    <td>https://yhmazwpnhzmnrrvyaqbx.supabase.co</td>
+                </tr>
+                <tr>
+                    <td class="highlight">Database Table</td>
+                    <td>leads (통합 리드 및 상담 기록 테이블)</td>
+                </tr>
+                <tr>
+                    <td class="highlight">Data Flow</td>
+                    <td>상담 신청/AI 진단 즉시 기록 → 관리자 대시보드 실시간 반영</td>
+                </tr>
+                <tr>
+                    <td class="highlight">Security</td>
+                    <td>Row Level Security (RLS) 및 토큰 기반 인증 적용</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3>DB 테이블 상세 설계 (leads)</h3>
+        <p>수집되는 모든 리드는 다음과 같은 정규화된 스키마를 통해 안전하게 관리됩니다.</p>
+        <table>
+            <thead>
+                <tr>
+                    <th>컬럼명 (Column)</th>
+                    <th>타입 (Type)</th>
+                    <th>제약/설명 (Description)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="highlight">id</td>
+                    <td>uuid</td>
+                    <td>Primary Key (고유 식별값)</td>
+                </tr>
+                <tr>
+                    <td class="highlight">created_at</td>
+                    <td>timestamp</td>
+                    <td>상담 신청 일시 (자동 생성)</td>
+                </tr>
+                <tr>
+                    <td class="highlight">company_name</td>
+                    <td>text</td>
+                    <td>기업명 (필수)</td>
+                </tr>
+                <tr>
+                    <td class="highlight">name</td>
+                    <td>text</td>
+                    <td>담당자 성함 (필수)</td>
+                </tr>
+                <tr>
+                    <td class="highlight">phone</td>
+                    <td>text</td>
+                    <td>연락처 (필수)</td>
+                </tr>
+                <tr>
+                    <td class="highlight">brand</td>
+                    <td>text</td>
+                    <td>선택 브랜드 (Purples, D.Noble, Unnie 등)</td>
+                </tr>
+                <tr>
+                    <td class="highlight">hr_concern</td>
+                    <td>text</td>
+                    <td>주요 인사 고민 (AI 진단 기반)</td>
+                </tr>
+                <tr>
+                    <td class="highlight">memo</td>
+                    <td>text</td>
+                    <td>영업팀 개별 상담 메모 및 특이사항</td>
+                </tr>
+                <tr>
+                    <td class="highlight">utm_source</td>
+                    <td>text</td>
+                    <td>유입 채널 (Meta, Google, Naver 등)</td>
+                </tr>
+                <tr>
+                    <td class="highlight">status</td>
+                    <td>text</td>
+                    <td>진행 상태 (New, In-Progress, Completed)</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3>데이터 필드 구성 및 마케팅 분석</h3>
+        <p>정밀한 인사이트 도출을 위해 다음과 같은 데이터를 세밀하게 수집하고 관리합니다.</p>
+        <div class="feature-grid">
+            <div class="feature-item">
+                <div class="feature-title">기본 정보 필드</div>
+                <p class="text-muted" style="font-size: 13px;">기업명, 업종, 담당자 직함, 연락처 등 핵심 영업 리드 정보 자동 매핑.</p>
+            </div>
+            <div class="feature-item">
+                <div class="feature-title">AI 진단 로그</div>
+                <p class="text-muted" style="font-size: 13px;">임직원 연령대, 인사 고민 사항(이직률, 사기 등), 선호 복지 솔루션 데이터.</p>
+            </div>
+            <div class="feature-item">
+                <div class="feature-title">상담 성격 분석</div>
+                <p class="text-muted" style="font-size: 13px;">상담 선호 시간, 제휴 규모, 주요 관심 브랜드(5-Track) 자동 필터링.</p>
+            </div>
+            <div class="feature-item">
+                <div class="feature-title">마케팅 어트리뷰션</div>
+                <p class="text-muted" style="font-size: 13px;">유입 소스(UTM 파라미터), 레퍼러, 디바이스 정보를 통한 광고 효율 추적.</p>
+            </div>
+        </div>
+
+        <div class="footer">Page 3 / 5</div>
+    </div>
+
+    <!-- Page 4: Premium UX/UI Renewal -->
+    <div class="page">
+        <h2>3. 디자인 시스템 혁신 (Premium Persona)</h2>
+        <p>1단계 인프라 완성을 바탕으로, 2단계에서는 퍼플스 그룹만의 브랜드 가치를 시각화하는 최첨단 UI/UX를 구현했습니다.</p>
+
+        <h3>핵심 시각 인터페이스 및 인터랙션</h3>
+        <div class="feature-grid">
+            <div class="feature-item">
+                <div class="feature-title">Airy Mesh Gradient</div>
+                <p class="text-muted" style="font-size: 13px;">정적 배경에서 탈피하여 실시간 연산되는 메시 그래디언트를 적용, 현대적인 프리미엄 감성을 구현했습니다.
+                </p>
+            </div>
+            <div class="feature-item">
+                <div class="feature-title">Glassmorphism 2.0</div>
+                <p class="text-muted" style="font-size: 13px;">고해상도 백드롭 블러 처리를 통해 깊이감 있는 카드 레이아웃과 높은 가독성을 동시에 확보했습니다.
+                </p>
+            </div>
+            <div class="feature-item">
+                <div class="feature-title">Success Story Marquee</div>
+                <p class="text-muted" style="font-size: 13px;">3D 미니멀 아바타와 마티(Marquee) 엔진을 결합하여 파트너사의 성공 사례를 한눈에 볼 수 있도록
+                    자동화했습니다.</p>
+            </div>
+            <div class="feature-item">
+                <div class="feature-title">Responsive Narrative</div>
+                <p class="text-muted" style="font-size: 13px;">스크롤 리빌 애니메이션을 통해 콘텐츠가 자연스럽게 서사적으로 등장하여 정보 몰입감을 증대시켰습니다.
+                </p>
+            </div>
+        </div>
+
+        <h3>영업 기반 마케팅 엔진 (Conversion Optimization)</h3>
+        <ul>
+            <li><strong>지능형 5-Track 탭:</strong> 각 브랜드별(퍼플스, 디노블 등) 타겟 고객군에 맞춤화된 다중 레이아웃 탭 시스템 구현.</li>
+            <li><strong>블랙 멤버십 에셋 통합:</strong> VVIP 파티 및 컨시어지 영상 에셋을 시스템 내부에 네이티브하게 통합하여 신뢰도 극대화.</li>
+        </ul>
+
+        <div class="footer">Page 4 / 5</div>
+    </div>
+
+    <!-- Page 5: Future Strategy & Conclusion -->
+    <div class="page">
+        <h2>4. 영업 지원 관리 및 향후 전략</h2>
+        <p>수집된 리드를 실제 계약으로 전환하기 위한 관리자 기능 강화와 차기 시스템 고도화 방향입니다.</p>
+
+        <h3>관리자 대시보드 주요 기능</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>기능명</th>
+                    <th>상세 내용</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="highlight">실시간 리드 알림</td>
+                    <td>새로운 상담 신청 또는 AI 진단 완료 시 즉시 대시보드 업데이트</td>
+                </tr>
+                <tr>
+                    <td class="highlight">상세 상담 메모</td>
+                    <td>상담원별 커스터마이징된 메모 및 히스토리 기록 관리</td>
+                </tr>
+                <tr>
+                    <td class="highlight">엑셀/CSV 추출</td>
+                    <td>오프라인 마케팅 및 CRM 시스템 활용을 위한 데이터 내보내기</td>
+                </tr>
+                <tr>
+                    <td class="highlight">데이터 무결성 검사</td>
+                    <td>중복된 리드 및 무의미한 데이터 자동 필터링 엔진 탑재</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div
+            style="margin-top: 60px; text-align: center; border: 2px solid var(--brand-gold); padding: 40px; background: #fffcf5;">
+            <h3 style="margin: 0 0 15px 0; border: none; font-size: 20px; justify-content: center;">제언: 데이터 기반의 프리미엄 마케팅
+            </h3>
+            <p style="margin: 0; font-size: 16px; font-weight: 500;">본 시스템은 강력한 인프라와 높은 감도의 UI가 결합된 솔루션입니다.<br>향후 AI 진단
+                데이터를 바탕으로 타겟 기업별 **'초개인화된 맞춤형 제안서'**를 <br>자동 생성하는 모듈로 확장할 계획입니다.</p>
+        </div>
+
+        <div style="margin-top: 30px; text-align: center;">
+            <p class="text-muted" style="font-size: 12px;">본 문서는 퍼플스 B2B 제휴 시스템의 기술적 기반과 성과를 요약한 대외비 공식 보고서입니다.</p>
+        </div>
+
+        <div class="footer">Page 5 / 5</div>
+    </div>
+</body>
+
+</html>

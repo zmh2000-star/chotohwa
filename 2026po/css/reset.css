@@ -1,0 +1,120 @@
+/* ============================================
+   리셋 + 베이스 스타일
+   초토화 포트폴리오 2026
+   ============================================ */
+
+/* Box sizing 리셋 */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* HTML & Body 기본 */
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  min-height: 100vh;
+  line-height: 1.6;
+  overflow-x: hidden;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  font-size: var(--fs-body);
+  word-break: keep-all; 
+  word-wrap: break-word;
+}
+
+/* 미디어 요소 리셋 */
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+/* 인풋 폰트 상속 */
+input,
+button,
+textarea,
+select {
+  font: inherit;
+  color: inherit;
+}
+
+/* 링크 리셋 */
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* 리스트 리셋 */
+ul,
+ol {
+  list-style: none;
+}
+
+/* 버튼 리셋 */
+button {
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+/* 테이블 리셋 */
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+/* 스크롤바 커스텀 (Webkit) */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-primary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--text-muted);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--fire-red);
+}
+
+/* 선택 영역 스타일 */
+::selection {
+  background-color: var(--fire-red);
+  color: var(--text-primary);
+}
+
+/* 포커스 스타일 */
+:focus-visible {
+  outline: 2px solid var(--fire-red);
+  outline-offset: 2px;
+}
+
+/* 접근성: 모션 감소 선호 */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

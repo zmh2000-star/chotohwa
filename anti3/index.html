@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Purples Group - The Private Lounge</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap"
+        rel="stylesheet">
+
+    <style>
+        /* [기본 설정] */
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: #000;
+            color: #fff;
+            overflow-x: hidden;
+            /* 가로 스크롤 방지 */
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .font-serif {
+            font-family: 'Playfair Display', serif;
+        }
+
+        /* [골드 그라데이션 텍스트] */
+        .text-gold {
+            background: linear-gradient(to right, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            background-size: 200% auto;
+            animation: shine 4s linear infinite;
+        }
+
+        /* [골드 테두리 및 배경] */
+        .border-gold {
+            border: 1px solid #bf953f;
+        }
+
+        .bg-gold-gradient {
+            background: linear-gradient(135deg, #bf953f, #fcf6ba, #b38728);
+        }
+
+        @keyframes shine {
+            to {
+                background-position: 200% center;
+            }
+        }
+
+        /* [배경 처리] */
+        .bg-fixed-layer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            /* 배경 이미지 변경: 럭셔리한 다크 텍스처 */
+            background: url('https://images.unsplash.com/photo-1549557404-5e1431b81fa5?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80') no-repeat center center;
+            background-size: cover;
+        }
+
+        .bg-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: rgba(0, 0, 0, 0.88);
+            /* 배경 더 어둡게 처리하여 고급스러움 강조 */
+            backdrop-filter: blur(8px);
+        }
+
+        /* [섹션 전환 애니메이션] */
+        .page-section {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+            min-height: 100vh;
+            padding-top: 2rem;
+            padding-bottom: 4rem;
+        }
+
+        .page-section.active {
+            display: flex;
+            flex-direction: column;
+            opacity: 1;
+        }
+
+        /* [잠금 아이콘 애니메이션] */
+        .lock-container {
+            transition: all 0.5s ease;
+        }
+
+        .unlocked .fa-lock {
+            display: none;
+        }
+
+        .unlocked .fa-lock-open {
+            display: inline-block;
+            transform: scale(1.2);
+            color: #fcf6ba;
+        }
+
+        .fa-lock-open {
+            display: none;
+        }
+
+        /* [뉴스 티커 (Marquee)] */
+        .ticker-wrap {
+            width: 100%;
+            overflow: hidden;
+            background: rgba(10, 10, 10, 0.95);
+            border-top: 1px solid #333;
+            border-bottom: 1px solid #333;
+            white-space: nowrap;
+            box-sizing: border-box;
+        }
+
+        .ticker {
+            display: inline-block;
+            padding-left: 100%;
+            animation: ticker 25s linear infinite;
+        }
+
+        @keyframes ticker {
+            0% {
+                transform: translate3d(0, 0, 0);
+            }
+
+            100% {
+                transform: translate3d(-100%, 0, 0);
+            }
+        }
+
+        /* [유리 질감 카드 (Glassmorphism)] */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.6);
+        }
+
+        /* [Benefit Card Hover] */
+        .benefit-card {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .benefit-card:hover {
+            background: rgba(191, 149, 63, 0.05) !important;
+            border-color: rgba(191, 149, 63, 0.4) !important;
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+        }
+
+        .benefit-card:hover .icon-box {
+            background: linear-gradient(135deg, #bf953f, #fcf6ba, #b38728) !important;
+            transform: scale(1.1) rotate(5deg);
+            box-shadow: 0 0 25px rgba(191, 149, 63, 0.6);
+        }
+
+        .benefit-card:hover .icon-box i {
+            color: #000 !important;
+        }
+
+        /* [입력폼 스타일] */
+        .custom-input {
+            background: rgba(20, 20, 20, 0.6);
+            border: 1px solid #444;
+            color: white;
+            transition: border-color 0.3s;
+        }
+
+        .custom-input:focus {
+            border-color: #bf953f;
+            background: rgba(20, 20, 20, 0.8);
+            outline: none;
+        }
+
+        /* [모바일 최적화 유틸] */
+        @media (max-width: 640px) {
+            h1 {
+                font-size: 1.75rem;
+            }
+
+            .page-section {
+                padding-top: 1rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- 배경 레이어 (고정) -->
+    <div class="bg-fixed-layer"></div>
+    <div class="bg-overlay"></div>
+
+    <!-- ==========================================
+         PAGE 1: INTRO (THE GATE) - 중앙 정렬
+         ========================================== -->
+    <section id="page-intro" class="page-section active items-center justify-center text-center px-6">
+        <div class="w-full max-w-md">
+            <!-- 자물쇠 아이콘 -->
+            <div id="lock-icon-area" class="lock-container mb-8">
+                <i class="fas fa-lock text-6xl text-gray-500"></i>
+                <i class="fas fa-lock-open text-6xl text-gold"></i>
+            </div>
+
+            <!-- 메인 카피 -->
+            <h2 class="text-xs tracking-[0.3em] text-gray-400 mb-4 font-serif">AUTHORIZED PERSONNEL ONLY</h2>
+            <h1 class="font-bold mb-6 leading-tight">
+                귀하의 사원증에는<br>
+                <span class="text-gold text-4xl md:text-5xl font-serif block mt-2">650만 원</span>의<br>
+                숨겨진 가치가 있습니다.
+            </h1>
+
+            <!-- 서브 카피 -->
+            <p class="text-gray-300 text-sm md:text-base mb-10 leading-relaxed">
+                퍼플스 그룹 X <span class="corp-name font-bold text-white">제휴기업</span><br>
+                임직원만을 위한 시크릿 라운지입니다.<br><br>
+                회사 메일로 인증하고, <span class="text-gold font-bold">VVIP 혜택</span>을<br>
+                지금 바로 확인하세요.
+            </p>
+
+            <!-- 입력 폼 -->
+            <div class="space-y-4">
+                <input type="email" id="company-email" placeholder="회사 이메일 입력 (@company.com)"
+                    class="w-full p-4 rounded-lg custom-input text-center text-lg placeholder-gray-500">
+
+                <button onclick="unlockGate()"
+                    class="w-full bg-gold-gradient text-black font-bold py-4 rounded-lg text-lg shadow-[0_0_15px_rgba(191,149,63,0.4)] hover:scale-[1.02] transition-transform">
+                    내 혜택 확인하러 입장하기
+                </button>
+            </div>
+
+            <!-- 하단 안내 -->
+            <p class="mt-8 text-[10px] text-gray-600">
+                *본 혜택은 <span class="corp-name">제휴기업</span> 임직원 한정이며, 외부 공유를 금합니다.
+            </p>
+        </div>
+    </section>
+
+    <!-- ==========================================
+         PAGE 2: MAIN DASHBOARD (TOTAL SOLUTION)
+         ========================================== -->
+    <section id="page-dashboard" class="page-section items-center">
+
+        <!-- 상단 헤더 & 티커 -->
+        <div class="w-full fixed top-0 left-0 z-50 bg-black/90 backdrop-blur-md border-b border-gray-800">
+            <div class="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
+                <div>
+                    <span class="text-xs text-gold tracking-widest block mb-1">WELCOME MEMBER</span>
+                    <h2 class="text-lg font-bold text-white"><span class="corp-name">제휴기업</span> Lounge</h2>
+                </div>
+                <div class="bg-gray-800 px-3 py-1 rounded-full border border-gray-700 flex items-center">
+                    <span class="w-2 h-2 bg-green-500 rounded-full mr-2 animate-pulse"></span>
+                    <span class="text-[10px] text-gray-300">혜택 활성화됨</span>
+                </div>
+            </div>
+
+            <!-- 뉴스 티커 -->
+            <div class="ticker-wrap">
+                <div class="ticker text-xs py-2 text-gray-300">
+                    <span class="text-gold font-bold">[속보]</span> 현재 가장 인기 있는 혜택은 <span
+                        class="font-bold text-white">'Option B (안정)'</span> 입니다. &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+                    💎 청담동 오운의원 VIP 관리권 잔여 3매 &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp; ✈️ 몰디브 허니문 200만원 지원권 오픈
+                    &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp; 🍷 워커힐 호텔 와인 파티 초대장 발송 중
+                </div>
+            </div>
+        </div>
+
+        <!-- 메인 컨텐츠 (스크롤 가능 영역) -->
+        <div class="w-full max-w-5xl mx-auto px-4 mt-32">
+            <div class="text-center mb-10">
+                <h3 class="text-2xl font-bold mb-2">Total Lifestyle Solution</h3>
+                <p class="text-gray-400 text-sm">현재 귀하의 라이프스타일에 필요한 솔루션을 선택하세요.</p>
+            </div>
+
+            <!-- 카드 그리드 -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 pb-10">
+
+                <!-- Option A: Vitality (이미지 수정: 루프탑 파티 건배 - 에너지/사교) -->
+                <div onclick="startTest('A')"
+                    class="glass-card rounded-xl overflow-hidden cursor-pointer hover:border-[#bf953f] transition duration-300 group">
+                    <div class="h-48 relative">
+                        <img src="https://images.unsplash.com/photo-1527529482837-4698179dc6ce?auto=format&fit=crop&w=800&q=80"
+                            class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition"
+                            alt="Rooftop Party Toast">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent"></div>
+                        <div class="absolute bottom-4 left-4">
+                            <span
+                                class="bg-purple-900/80 text-purple-200 text-[10px] font-bold px-2 py-1 rounded uppercase mb-2 inline-block">Vitality</span>
+                            <h3 class="text-xl font-bold text-white">활력 (Option A)</h3>
+                        </div>
+                    </div>
+                    <div class="p-5">
+                        <p class="text-gold font-serif text-lg mb-2">"지루한 일상에 설렘을"</p>
+                        <p class="text-sm text-gray-400 mb-4">#와인파티 #취미공유 #직무네트워킹</p>
+                        <div
+                            class="text-xs text-gray-500 border-t border-gray-700 pt-3 flex justify-between items-center">
+                            <span>Target: 2030 MZ세대</span>
+                            <span>언니의인맥 ></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Option B: Stability (이미지 수정: 맞잡은 손/결혼 반지 - 신뢰/약속) -->
+                <div onclick="startTest('B')"
+                    class="glass-card rounded-xl overflow-hidden cursor-pointer border-gold shadow-[0_0_15px_rgba(191,149,63,0.15)] transform scale-[1.02] md:scale-105 z-10 group">
+                    <div class="h-48 relative">
+                        <img src="https://images.unsplash.com/photo-1606800052052-a08af7148866?auto=format&fit=crop&w=800&q=80"
+                            class="w-full h-full object-cover opacity-90 group-hover:opacity-100 transition"
+                            alt="Wedding Couple Hands">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent"></div>
+                        <div
+                            class="absolute top-4 right-4 bg-red-600 text-white text-xs font-bold px-2 py-1 rounded shadow">
+                            BEST</div>
+                        <div class="absolute bottom-4 left-4">
+                            <span
+                                class="bg-blue-900/80 text-blue-200 text-[10px] font-bold px-2 py-1 rounded uppercase mb-2 inline-block">Stability</span>
+                            <h3 class="text-xl font-bold text-white">안정 (Option B)</h3>
+                        </div>
+                    </div>
+                    <div class="p-5">
+                        <p class="text-gold font-serif text-lg mb-2">"완벽한 내 편을 찾다"</p>
+                        <p class="text-sm text-gray-400 mb-4">#결혼전제 #전문직매칭 #가치관맞춤</p>
+                        <div
+                            class="text-xs text-gray-500 border-t border-gray-700 pt-3 flex justify-between items-center">
+                            <span>Target: 3040 핵심인재</span>
+                            <span>디노블 ></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Option C: Prestige (이미지 수정: 압도적인 샹들리에/호텔 - 최상류층) -->
+                <div onclick="startTest('C')"
+                    class="glass-card rounded-xl overflow-hidden cursor-pointer hover:border-[#bf953f] transition duration-300 group">
+                    <div class="h-48 relative">
+                        <img src="https://images.unsplash.com/photo-1578683010236-d716f9a3f461?auto=format&fit=crop&w=800&q=80"
+                            class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition"
+                            alt="Luxury Chandelier Interior">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent"></div>
+                        <div class="absolute bottom-4 left-4">
+                            <span
+                                class="bg-gray-800/80 text-gray-200 text-[10px] font-bold px-2 py-1 rounded uppercase mb-2 inline-block">Prestige</span>
+                            <h3 class="text-xl font-bold text-white">품격 (Option C)</h3>
+                        </div>
+                    </div>
+                    <div class="p-5">
+                        <p class="text-gold font-serif text-lg mb-2">"가문의 격을 높이다"</p>
+                        <p class="text-sm text-gray-400 mb-4">#상위0.1% #자산가 #비공개매칭</p>
+                        <div
+                            class="text-xs text-gray-500 border-t border-gray-700 pt-3 flex justify-between items-center">
+                            <span>Target: 임원/CEO자녀</span>
+                            <span>퍼플스 ></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 퍼플스 그룹 소개 (NEW) -->
+            <div class="mt-24 mb-24">
+                <div class="text-center mb-16">
+                    <h3 class="text-xs text-gold tracking-[0.3em] font-serif mb-2">HERITAGE & TRUST</h3>
+                    <h2 class="text-3xl font-bold">Purples Group</h2>
+                    <div class="w-12 h-0.5 bg-gold-gradient mx-auto mt-4"></div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                    <div class="order-2 md:order-1">
+                        <h4 class="text-2xl font-bold mb-6 text-[#fcf6ba] leading-tight">대한민국 0.1%를 위한<br>노블레스 성혼의 기준
+                        </h4>
+                        <p class="text-gray-400 text-base leading-relaxed mb-8">
+                            2001년 청담동 본사를 시작으로 20년 이상 대한민국 상류층의 성혼을 책임져온 퍼플스 그룹은 단순한 매칭을 넘어 가문의 결합과 품격 있는 라이프스타일을 설계합니다.
+                            전문직, 자산가, 명문가 네트워크를 기반으로 업계 최고의 성혼율을 기록하고 있습니다.
+                        </p>
+                        <div class="grid grid-cols-2 gap-6">
+                            <div class="glass-card p-6 rounded-lg border-l-2 border-gold">
+                                <div class="text-3xl font-serif text-gold mb-1">2001</div>
+                                <div class="text-[10px] text-gray-500 uppercase tracking-widest">Heritage Starts</div>
+                            </div>
+                            <div class="glass-card p-6 rounded-lg border-l-2 border-gold">
+                                <div class="text-3xl font-serif text-gold mb-1">100+</div>
+                                <div class="text-[10px] text-gray-500 uppercase tracking-widest">Professional Managers
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="relative order-1 md:order-2">
+                        <div class="absolute -inset-4 bg-gold-gradient opacity-10 blur-3xl rounded-full"></div>
+                        <img src="https://www.purples.co.kr/images/party/effect/2024/10.jpg" alt="Luxury Party"
+                            class="rounded-2xl shadow-2xl relative z-10 opacity-90 border border-white/10">
+                    </div>
+                </div>
+            </div>
+
+            <!-- 제휴의 이점 (NEW) -->
+            <div class="mb-32">
+                <div class="text-center mb-16">
+                    <h3 class="text-xs text-gold tracking-[0.3em] font-serif mb-2">PARTNERSHIP EXCLUSIVE</h3>
+                    <h2 class="text-3xl font-bold">제휴 기업만의 특별한 혜택</h2>
+                    <p class="text-gray-400 text-sm mt-4"><span class="corp-name font-bold text-white">제휴기업</span>
+                        임직원분들께만 제공되는 프리미엄 베네핏입니다.</p>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <div class="glass-card benefit-card p-8 rounded-2xl border border-white/5">
+                        <div
+                            class="icon-box w-14 h-14 bg-gray-900 border border-gold/30 rounded-full flex items-center justify-center mb-6 transition-all duration-300">
+                            <i class="fas fa-percent text-gold text-xl transition-colors"></i>
+                        </div>
+                        <h4 class="text-lg font-bold mb-3">가입비 특별 할인</h4>
+                        <p class="text-xs text-gray-400 leading-relaxed">제휴 기업 임직원 대상 정규 가입비 20% 상시 할인 및 시즌 프로모션 혜택</p>
+                    </div>
+                    <div class="glass-card benefit-card p-8 rounded-2xl border border-white/5">
+                        <div
+                            class="icon-box w-14 h-14 bg-gray-900 border border-gold/30 rounded-full flex items-center justify-center mb-6 transition-all duration-300">
+                            <i class="fas fa-user-plus text-gold text-xl transition-colors"></i>
+                        </div>
+                        <h4 class="text-lg font-bold mb-3">매칭 기회 확대</h4>
+                        <p class="text-xs text-gray-400 leading-relaxed">기본 계약 횟수 외에 VIP 매칭 매니저의 재량에 따른 서비스 매칭권 2회 추가 증정
+                        </p>
+                    </div>
+                    <div class="glass-card benefit-card p-8 rounded-2xl border border-white/5">
+                        <div
+                            class="icon-box w-14 h-14 bg-gray-900 border border-gold/30 rounded-full flex items-center justify-center mb-6 transition-all duration-300">
+                            <i class="fas fa-gem text-gold text-xl transition-colors"></i>
+                        </div>
+                        <h4 class="text-lg font-bold mb-3">VIP 컨시어지</h4>
+                        <p class="text-xs text-gray-400 leading-relaxed">전담 커플 매니저의 1:1 밀착 관리 및 데이트 코스, 럭셔리 레스토랑 예약 대행
+                        </p>
+                    </div>
+                    <div class="glass-card benefit-card p-8 rounded-2xl border border-white/5">
+                        <div
+                            class="icon-box w-14 h-14 bg-gray-900 border border-gold/30 rounded-full flex items-center justify-center mb-6 transition-all duration-300">
+                            <i class="fas fa-glass-cheers text-gold text-xl transition-colors"></i>
+                        </div>
+                        <h4 class="text-lg font-bold mb-3">프라이빗 파티</h4>
+                        <p class="text-xs text-gray-400 leading-relaxed">서울 주요 특급 호텔에서 정기적으로 개최되는 비공개 사교 파티 우선 초대권</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Final Call to Action inside Dashboard (Optional but good) -->
+            <div class="text-center pb-20">
+                <button onclick="window.scrollTo({top: 0, behavior: 'smooth'})"
+                    class="text-gray-500 text-xs hover:text-gold transition">
+                    <i class="fas fa-chevron-up mb-2 block"></i>
+                    상단으로 이동하여 혜택 선택하기
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================
+         PAGE 3: INTERACTIVE TEST
+         ========================================== -->
+    <section id="page-test" class="page-section items-center justify-center px-4">
+        <div class="w-full max-w-md glass-card p-6 md:p-8 rounded-2xl relative">
+            <button onclick="showSection('page-dashboard')"
+                class="absolute top-4 left-4 text-gray-400 hover:text-white"><i class="fas fa-arrow-left"></i></button>
+
+            <!-- Progress Bar -->
+            <div class="w-full bg-gray-700 h-1.5 mb-8 rounded-full mt-6">
+                <div id="progress-bar" class="bg-gold-gradient h-1.5 rounded-full transition-all duration-500"
+                    style="width: 25%"></div>
+            </div>
+
+            <!-- Title -->
+            <h2 class="text-xl md:text-2xl font-bold mb-2 text-center">B2B 등급 진단</h2>
+            <p class="text-gray-400 text-xs md:text-sm text-center mb-8">내 스펙으로 만날 수 있는 이성의 등급은?</p>
+
+            <!-- Question Area -->
+            <div id="question-container" class="min-h-[200px]">
+                <!-- 질문이 JS로 렌더링 됩니다 -->
+            </div>
+
+            <!-- Next Button -->
+            <button id="next-btn" onclick="nextQuestion()"
+                class="w-full bg-white text-black font-bold py-3 rounded-lg mt-6 hover:bg-gray-200 transition">
+                다음 단계 (1/4)
+            </button>
+        </div>
+    </section>
+
+    <!-- ==========================================
+         PAGE 4: FAKE LOADING
+         ========================================== -->
+    <section id="page-loading"
+        class="page-section items-center justify-center text-center bg-black/95 z-50 fixed inset-0">
+        <div class="w-16 h-16 border-4 border-gray-800 border-t-[#bf953f] rounded-full animate-spin mb-8 mx-auto"></div>
+        <h2 id="loading-text" class="text-lg md:text-xl font-bold text-white mb-2 animate-pulse">
+            퍼플스 그룹 20년 데이터 대조 중...
+        </h2>
+        <p class="text-gray-500 text-xs">최적의 매칭 대상을 선별하고 있습니다.</p>
+    </section>
+
+    <!-- ==========================================
+         PAGE 5: RESULT & CONVERSION
+         ========================================== -->
+    <section id="page-result" class="page-section items-center pt-10 px-4 pb-32">
+        <div class="w-full max-w-2xl mx-auto">
+
+            <!-- Result Card -->
+            <div
+                class="bg-gradient-to-b from-gray-900 to-black border border-gold p-8 rounded-2xl text-center shadow-[0_0_30px_rgba(191,149,63,0.15)] mb-8 relative overflow-hidden">
+                <div class="absolute top-0 left-0 w-full h-1 bg-gold-gradient"></div>
+                <div class="inline-block bg-[#bf953f] text-black font-bold px-3 py-1 rounded-full text-[10px] mb-4">
+                    VERIFIED</div>
+
+                <h2 class="text-xl font-light text-gray-300 mb-2"><span class="corp-name">제휴기업</span> OOO님의 결과</h2>
+                <div class="text-5xl font-serif text-gold font-bold mb-4 drop-shadow-lg scale-100 animate-pulse">Diamond
+                </div>
+                <p class="text-gray-400 text-sm">현재 매칭 가능한 이성 Pool</p>
+                <p class="text-xl font-bold text-white mt-1">상위 10% <span class="text-[#fcf6ba]">전문직/대기업</span> 종사자</p>
+            </div>
+
+            <!-- Hook Message -->
+            <div class="glass-card p-6 rounded-xl border-l-4 border-purple-600 mb-8">
+                <p class="text-base md:text-lg font-bold text-white leading-relaxed">
+                    "결혼을 못 해도 손해가 아닙니다.<br>
+                    이 모든 <span class="text-gold">멤버십 혜택 (650만원)</span>은<br>
+                    가입 즉시 귀하의 것이 됩니다."
+                </p>
+            </div>
+
+            <!-- Benefits Grid -->
+            <div class="grid grid-cols-2 gap-3 mb-10">
+                <div class="bg-gray-900/80 p-3 rounded-lg border border-gray-800 flex items-center">
+                    <span class="text-2xl mr-3">🤵</span>
+                    <div class="text-left">
+                        <div class="text-[10px] text-gray-500">Styling</div>
+                        <div class="text-xs font-bold">예복 100만원</div>
+                    </div>
+                </div>
+                <div class="bg-gray-900/80 p-3 rounded-lg border border-gray-800 flex items-center">
+                    <span class="text-2xl mr-3">✈️</span>
+                    <div class="text-left">
+                        <div class="text-[10px] text-gray-500">Trip</div>
+                        <div class="text-xs font-bold">허니문 200만원</div>
+                    </div>
+                </div>
+                <div class="bg-gray-900/80 p-3 rounded-lg border border-gray-800 flex items-center">
+                    <span class="text-2xl mr-3">💆‍♀️</span>
+                    <div class="text-left">
+                        <div class="text-[10px] text-gray-500">Beauty</div>
+                        <div class="text-xs font-bold">VIP케어 150만원</div>
+                    </div>
+                </div>
+                <div class="bg-gray-900/80 p-3 rounded-lg border border-gray-800 flex items-center">
+                    <span class="text-2xl mr-3">🍷</span>
+                    <div class="text-left">
+                        <div class="text-[10px] text-gray-500">Party</div>
+                        <div class="text-xs font-bold">호텔파티 초대</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Final Form (White Box) -->
+            <div class="bg-white text-black p-6 md:p-8 rounded-2xl shadow-2xl relative overflow-hidden">
+                <!-- Timer Banner -->
+                <div
+                    class="bg-red-600 text-white text-xs font-bold px-3 py-2 absolute top-0 left-0 w-full text-center flex justify-center items-center">
+                    <i class="fas fa-clock mr-2"></i> 혜택 마감 임박 <span id="timer"
+                        class="ml-2 font-mono text-sm">04:59</span>
+                </div>
+
+                <div class="mt-8 text-center mb-6">
+                    <h3 class="text-xl font-bold mb-1 text-gray-900">상담만 받아도 100% 증정</h3>
+                    <p class="text-gray-500 text-xs">부담 갖지 마세요. 혜택만 챙기셔도 됩니다.</p>
+                </div>
+
+                <div class="flex justify-center space-x-2 md:space-x-4 mb-6">
+                    <div class="bg-gray-100 p-2 rounded-lg text-center w-1/3">
+                        <div class="text-2xl mb-1">☕️</div>
+                        <span class="text-[10px] font-bold block leading-tight">스타벅스<br>전원 증정</span>
+                    </div>
+                    <div class="bg-gray-100 p-2 rounded-lg text-center w-1/3">
+                        <div class="text-2xl mb-1">🎟️</div>
+                        <span class="text-[10px] font-bold block leading-tight">가입비<br>20% 할인</span>
+                    </div>
+                    <div class="bg-gray-100 p-2 rounded-lg text-center w-1/3">
+                        <div class="text-2xl mb-1">📂</div>
+                        <span class="text-[10px] font-bold block leading-tight">무료 매칭<br>프로필</span>
+                    </div>
+                </div>
+
+                <form class="space-y-3" onsubmit="event.preventDefault(); alert('신청되었습니다. VIP 담당자가 곧 연락드립니다.');">
+                    <input type="text" placeholder="이름"
+                        class="w-full bg-gray-100 border border-gray-300 text-black p-3 rounded-lg focus:bg-white focus:border-black outline-none transition">
+                    <input type="tel" placeholder="연락처 (010-0000-0000)"
+                        class="w-full bg-gray-100 border border-gray-300 text-black p-3 rounded-lg focus:bg-white focus:border-black outline-none transition">
+
+                    <button type="submit"
+                        class="w-full bg-[#FEE500] text-[#191919] font-bold text-lg py-4 rounded-lg flex items-center justify-center hover:bg-[#fae100] transition shadow-md">
+                        <i class="fas fa-comment text-xl mr-2"></i> 카카오톡 1초 간편 신청
+                    </button>
+                    <p class="text-[10px] text-gray-400 text-center mt-2">개인정보는 혜택 지급 목적으로만 활용됩니다.</p>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Floating Banner -->
+    <div class="fixed bottom-6 right-4 z-50 cursor-pointer animate-bounce"
+        onclick="alert('02-548-6050 (VIP 센터)로 연결됩니다.')">
+        <div
+            class="bg-black/90 backdrop-blur text-white px-4 py-3 rounded-full shadow-[0_4px_20px_rgba(0,0,0,0.5)] border border-gold flex items-center">
+            <div class="w-2 h-2 bg-red-500 rounded-full mr-2 animate-ping"></div>
+            <div class="text-left mr-2">
+                <div class="font-bold text-xs text-gold">VIP 전담 문의</div>
+                <div class="text-[9px] text-gray-300">임원 자녀 및 전문직</div>
+            </div>
+            <i class="fas fa-chevron-right text-xs text-gray-400"></i>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        // 1. 기업명 파싱
+        const urlParams = new URLSearchParams(window.location.search);
+        const corpName = urlParams.get('corp') || '제휴 임직원';
+        document.querySelectorAll('.corp-name').forEach(el => el.textContent = corpName);
+
+        // 2. 섹션 이동 함수
+        function showSection(id) {
+            document.querySelectorAll('.page-section').forEach(el => {
+                el.classList.remove('active');
+                el.style.display = 'none'; // 명시적으로 숨김
+            });
+            const activeEl = document.getElementById(id);
+            activeEl.style.display = 'flex'; // flex로 표시
+            setTimeout(() => activeEl.classList.add('active'), 10); // 페이드 효과
+            window.scrollTo(0, 0);
+        }
+
+        // 3. 잠금 해제 로직
+        function unlockGate() {
+            const email = document.getElementById('company-email').value;
+            if (email.length < 3) {
+                alert('유효한 회사 이메일을 입력해주세요.');
+                return;
+            }
+
+            document.getElementById('lock-icon-area').classList.add('unlocked');
+
+            // 0.8초 후 대시보드로 이동
+            setTimeout(() => {
+                showSection('page-dashboard');
+            }, 800);
+        }
+
+        // 4. 테스트 로직
+        let currentStep = 1;
+        const totalSteps = 4;
+        const questions = [
+            {
+                label: "Q1. 기본 정보",
+                html: `
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="bg-gray-800 p-3 rounded-lg text-center cursor-pointer hover:bg-gold-gradient hover:text-black transition border border-gray-700">남성</div>
+                    <div class="bg-gray-800 p-3 rounded-lg text-center cursor-pointer hover:bg-gold-gradient hover:text-black transition border border-gray-700">여성</div>
+                </div>
+                <div class="mt-4">
+                    <select class="w-full bg-gray-800 border border-gray-700 text-white p-3 rounded-lg outline-none">
+                        <option>1985년생 ~ 1989년생</option>
+                        <option selected>1990년생 ~ 1994년생</option>
+                        <option>1995년생 ~ 1999년생</option>
+                        <option>2000년생 이후</option>
+                    </select>
+                </div>`
+            },
+            {
+                label: "Q2. 직업군",
+                html: `
+                <div class="space-y-2">
+                    <div class="bg-gray-800 p-3 rounded-lg cursor-pointer hover:bg-gold-gradient hover:text-black transition border border-gray-700 flex justify-between"><span>전문직 (의사/변호사 등)</span> <i class="fas fa-check opacity-0"></i></div>
+                    <div class="bg-gray-800 p-3 rounded-lg cursor-pointer hover:bg-gold-gradient hover:text-black transition border border-gray-700 flex justify-between"><span>대기업 / 공기업 / 외국계</span> <i class="fas fa-check opacity-0"></i></div>
+                    <div class="bg-gray-800 p-3 rounded-lg cursor-pointer hover:bg-gold-gradient hover:text-black transition border border-gray-700 flex justify-between"><span>사업가 / 자산가</span> <i class="fas fa-check opacity-0"></i></div>
+                    <div class="bg-gray-800 p-3 rounded-lg cursor-pointer hover:bg-gold-gradient hover:text-black transition border border-gray-700 flex justify-between"><span>기타 / 프리랜서</span> <i class="fas fa-check opacity-0"></i></div>
+                </div>`
+            },
+            {
+                label: "Q3. 경제력 (자산/연봉)",
+                html: `
+                <div class="mt-4 px-2">
+                    <input type="range" min="1" max="10" class="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-[#bf953f]">
+                    <div class="flex justify-between text-[10px] text-gray-400 mt-2">
+                        <span>Standard</span>
+                        <span>High End</span>
+                        <span>VVIP</span>
+                    </div>
+                </div>`
+            },
+            {
+                label: "Q4. 선호하는 이성 스타일",
+                html: `
+                <div class="grid grid-cols-2 gap-3">
+                    <div class="bg-gray-800 p-4 rounded-lg text-center cursor-pointer hover:border-gold border border-gray-700 transition">외모/스타일</div>
+                    <div class="bg-gray-800 p-4 rounded-lg text-center cursor-pointer hover:border-gold border border-gray-700 transition">능력/경제력</div>
+                    <div class="bg-gray-800 p-4 rounded-lg text-center cursor-pointer hover:border-gold border border-gray-700 transition">가정환경</div>
+                    <div class="bg-gray-800 p-4 rounded-lg text-center cursor-pointer hover:border-gold border border-gray-700 transition">성격/가치관</div>
+                </div>`
+            }
+        ];
+
+        function startTest(option) {
+            console.log("Selected:", option);
+            showSection('page-test');
+            currentStep = 1;
+            renderQuestion();
+        }
+
+        function renderQuestion() {
+            const container = document.getElementById('question-container');
+            const btn = document.getElementById('next-btn');
+            const progress = document.getElementById('progress-bar');
+
+            const q = questions[currentStep - 1];
+
+            container.innerHTML = `
+                <div class="fade-in">
+                    <label class="block text-gold text-sm font-bold mb-4">${q.label}</label>
+                    ${q.html}
+                </div>
+            `;
+
+            // 질문 클릭 시 UI 피드백 (간단 구현)
+            const options = container.querySelectorAll('.bg-gray-800');
+            options.forEach(opt => {
+                opt.addEventListener('click', function () {
+                    // Reset others
+                    options.forEach(o => {
+                        o.classList.remove('bg-gold-gradient', 'text-black');
+                        o.classList.add('bg-gray-800', 'text-white');
+                    });
+                    // Select this
+                    this.classList.remove('bg-gray-800', 'text-white');
+                    this.classList.add('bg-gold-gradient', 'text-black');
+                });
+            });
+
+            progress.style.width = `${(currentStep / totalSteps) * 100}%`;
+            btn.textContent = currentStep === totalSteps ? "결과 분석하기" : `다음 단계 (${currentStep}/${totalSteps})`;
+        }
+
+        function nextQuestion() {
+            if (currentStep < totalSteps) {
+                currentStep++;
+                renderQuestion();
+            } else {
+                runLoadingEffect();
+            }
+        }
+
+        // 5. 로딩 & 타이머
+        function runLoadingEffect() {
+            showSection('page-loading');
+            const textEl = document.getElementById('loading-text');
+
+            setTimeout(() => { textEl.textContent = `현재 ${corpName} 재직자 등급 보정치 적용 중...`; }, 1500);
+            setTimeout(() => {
+                textEl.textContent = "최적의 매칭 대상 1,420명 확보 완료!";
+                textEl.classList.add('text-gold');
+            }, 3000);
+            setTimeout(() => {
+                showSection('page-result');
+                startTimer();
+            }, 4000);
+        }
+
+        function startTimer() {
+            let duration = 299; // 5분
+            const display = document.querySelector('#timer');
+            const interval = setInterval(function () {
+                let minutes = parseInt(duration / 60, 10);
+                let seconds = parseInt(duration % 60, 10);
+
+                minutes = minutes < 10 ? "0" + minutes : minutes;
+                seconds = seconds < 10 ? "0" + seconds : seconds;
+
+                display.textContent = minutes + ":" + seconds;
+
+                if (--duration < 0) {
+                    clearInterval(interval);
+                    display.textContent = "00:00";
+                }
+            }, 1000);
+        }
+    </script>
+</body>
+
+</html>

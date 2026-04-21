@@ -1,0 +1,1018 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PURPLES | Admin Dashboard</title>
+    <link rel="icon" href="./images/purples_group_icon.png" type="image/png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            dark: '#0F051D',
+                            card: '#1A0B2E',
+                            main: '#4B0082',
+                            gold: '#C5A059',
+                            highlight: '#2D154D'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
+
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #0F051D;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #C5A059;
+            border-radius: 10px;
+        }
+
+        /* 상세 모달 애니메이션 */
+        .modal-fade-in {
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+    </style>
+</head>
+
+<body class="bg-brand-dark text-gray-300 min-h-screen">
+
+    <!-- [신규] 로그인 오버레이 -->
+    <div id="login-overlay" class="fixed inset-0 z-[100] bg-brand-dark flex items-center justify-center p-4">
+        <div class="bg-brand-card border border-white/10 p-8 rounded-2xl w-full max-w-md shadow-2xl">
+            <div class="text-center mb-8">
+                <h1 class="text-2xl font-bold text-white tracking-widest mb-2">PURPLES ADMIN</h1>
+                <p class="text-gray-500 text-sm">관리자 계정으로 로그인해 주세요.</p>
+            </div>
+            <form id="login-form" onsubmit="handleLogin(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-bold text-gray-500 uppercase mb-2">Email Address</label>
+                    <input type="email" id="login-email" required
+                        class="w-full bg-brand-dark border border-white/10 rounded-lg px-4 py-3 text-white focus:border-brand-gold outline-none">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-gray-500 uppercase mb-2">Password</label>
+                    <input type="password" id="login-password" required
+                        class="w-full bg-brand-dark border border-white/10 rounded-lg px-4 py-3 text-white focus:border-brand-gold outline-none">
+                </div>
+
+                <div class="flex items-center gap-2">
+                    <input type="checkbox" id="remember-me"
+                        class="w-4 h-4 rounded border-gray-600 text-brand-gold focus:ring-brand-gold bg-brand-dark">
+                    <label for="remember-me" class="text-xs text-gray-500 cursor-pointer select-none">아이디 / 비밀번호
+                        저장</label>
+                </div>
+
+                <button type="submit" id="login-btn"
+                    class="w-full bg-brand-gold text-brand-dark font-bold py-3 rounded-lg hover:bg-yellow-600 transition duration-300">
+                    로그인
+                </button>
+                <p id="login-error" class="text-red-500 text-xs text-center hidden mt-2"></p>
+            </form>
+        </div>
+    </div>
+
+    <!-- 사이드바 -->
+    <aside class="fixed left-0 top-0 h-full w-64 bg-brand-card border-r border-white/5 z-40 hidden lg:block">
+        <div class="p-8">
+            <h1 class="text-xl font-bold text-white tracking-widest">PURPLES <span
+                    class="text-brand-gold text-[10px] block">ADMIN</span></h1>
+        </div>
+        <nav class="mt-4 px-4 space-y-2" id="sidebar-nav">
+            <a href="#" onclick="switchTab('all')" id="nav-all"
+                class="flex items-center gap-3 px-4 py-3 bg-brand-gold/10 text-brand-gold rounded-lg border border-brand-gold/20 transition nav-item">
+                <i class="fas fa-chart-pie"></i>
+                <span class="font-medium">대시보드</span>
+            </a>
+            <a href="#" onclick="switchTab('B2B_LEAD')" id="nav-b2b"
+                class="flex items-center gap-3 px-4 py-3 text-gray-400 hover:bg-white/5 hover:text-white rounded-lg transition nav-item">
+                <i class="fas fa-users"></i>
+                <span>리드 관리</span>
+            </a>
+            <a href="#" onclick="switchTab('B2B_PROPOSAL')" id="nav-proposal"
+                class="flex items-center gap-3 px-4 py-3 text-gray-400 hover:bg-white/5 hover:text-white rounded-lg transition nav-item">
+                <i class="fas fa-archive"></i>
+                <span>제휴 선제안 아카이빙</span>
+            </a>
+            <a href="#" onclick="switchTab('AI_CONSULTING')" id="nav-ai"
+                class="flex items-center gap-3 px-4 py-3 text-gray-400 hover:bg-white/5 hover:text-white rounded-lg transition nav-item">
+                <i class="fas fa-robot"></i>
+                <span>AI 컨설팅 로그</span>
+            </a>
+            <a href="#"
+                class="flex items-center gap-3 px-4 py-3 text-gray-400 hover:bg-white/5 hover:text-white rounded-lg transition nav-item disabled opacity-50 cursor-not-allowed">
+                <i class="fas fa-cog"></i>
+                <span>시스템 설정</span>
+            </a>
+        </nav>
+        <div class="absolute bottom-8 left-0 w-full px-8">
+            <button onclick="loadDashboardData()"
+                class="w-full py-2 bg-white/5 border border-white/10 rounded-lg text-sm hover:bg-brand-gold/20 hover:text-brand-gold transition mb-2">
+                <i class="fas fa-sync-alt mr-2"></i> 새로고침
+            </button>
+            <button onclick="handleLogout()"
+                class="w-full py-2 bg-white/5 border border-white/10 rounded-lg text-sm hover:bg-red-900/20 hover:text-red-400 transition">
+                <i class="fas fa-sign-out-alt mr-2"></i> 로그아웃
+            </button>
+        </div>
+    </aside>
+
+    <!-- 메인 컨텐츠 영역 -->
+    <main class="lg:ml-64 p-4 lg:p-8">
+        <!-- 상단 헤더 -->
+        <header class="flex justify-between items-center mb-10">
+            <div>
+                <h2 class="text-2xl font-bold text-white" id="main-title">B2B 제휴 현황</h2>
+                <p class="text-gray-500 text-sm mt-1" id="today-count-text">인증 확인 중...</p>
+            </div>
+            <div class="flex items-center gap-4">
+                <button id="btn-new-proposal" onclick="openWriteModal()"
+                    class="hidden bg-brand-gold text-brand-dark px-4 py-2 rounded-lg font-bold hover:bg-yellow-600 transition shadow-lg shadow-brand-gold/20">
+                    <i class="fas fa-plus mr-2"></i> 신규 등록
+                </button>
+                <button class="bg-brand-highlight text-white p-2 rounded-full hover:bg-brand-main transition">
+                    <i class="fas fa-bell"></i>
+                </button>
+                <div id="user-initial"
+                    class="w-10 h-10 rounded-full bg-brand-gold flex items-center justify-center text-brand-dark font-bold">
+                    -</div>
+            </div>
+        </header>
+
+        <!-- 핵심 지표 카드 -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10" id="stats-container">
+            <div class="bg-brand-card p-6 rounded-2xl border border-white/5">
+                <div class="flex items-center justify-between mb-4">
+                    <div
+                        class="w-12 h-12 bg-blue-500/10 text-blue-500 rounded-xl flex items-center justify-center text-xl">
+                        <i class="fas fa-handshake"></i>
+                    </div>
+                    <span class="text-green-500 text-xs font-bold">+12% <i class="fas fa-arrow-up"></i></span>
+                </div>
+                <h3 class="text-gray-500 text-sm">전체 제휴 리드</h3>
+                <p class="text-3xl font-bold text-white mt-1" id="stat-total-leads">0</p>
+            </div>
+            <div class="bg-brand-card p-6 rounded-2xl border border-white/5">
+                <div class="flex items-center justify-between mb-4">
+                    <div
+                        class="w-12 h-12 bg-purple-500/10 text-purple-500 rounded-xl flex items-center justify-center text-xl">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <span class="text-green-500 text-xs font-bold">+5.4% <i class="fas fa-arrow-up"></i></span>
+                </div>
+                <h3 class="text-gray-500 text-sm">AI 컨설팅 횟수</h3>
+                <p class="text-3xl font-bold text-white mt-1" id="stat-total-ai">0</p>
+            </div>
+            <div class="bg-brand-card p-6 rounded-2xl border border-white/5">
+                <div class="flex items-center justify-between mb-4">
+                    <div
+                        class="w-12 h-12 bg-brand-gold/10 text-brand-gold rounded-xl flex items-center justify-center text-xl">
+                        <i class="fas fa-award"></i>
+                    </div>
+                    <span class="text-brand-gold text-xs">종합 전환율</span>
+                </div>
+                <h3 class="text-gray-500 text-sm">미팅 전환율</h3>
+                <p class="text-3xl font-bold text-white mt-1" id="stat-meeting-rate">0%</p>
+            </div>
+            <div class="bg-brand-card p-6 rounded-2xl border border-white/5">
+                <div class="flex items-center justify-between mb-4">
+                    <div
+                        class="w-12 h-12 bg-pink-500/10 text-pink-500 rounded-xl flex items-center justify-center text-xl">
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <span class="text-green-500 text-xs font-bold" id="stat-contract-trend">+0% <i
+                            class="fas fa-arrow-up"></i></span>
+                </div>
+                <h3 class="text-gray-500 text-sm">신규 계약 완료</h3>
+                <p class="text-3xl font-bold text-white mt-1" id="stat-new-contracts">0</p>
+            </div>
+        </div>
+
+        <!-- 리드 관리 테이블 -->
+        <div class="bg-brand-card rounded-2xl border border-white/5 overflow-hidden">
+            <div class="p-6 border-b border-white/5 flex flex-col sm:flex-row justify-between items-center gap-4">
+                <h3 class="text-lg font-bold text-white" id="table-title">최근 접수된 리드 목록</h3>
+                <div class="flex gap-2">
+                    <div class="relative">
+                        <i class="fas fa-search absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 text-sm"></i>
+                        <input type="text" id="search-input" placeholder="회사명, 담당자 검색..." onkeyup="handleSearch(event)"
+                            class="bg-brand-dark/50 border border-white/10 rounded-lg pl-10 pr-4 py-2 text-sm focus:border-brand-gold outline-none w-full sm:w-64">
+                    </div>
+                    <button onclick="loadDashboardData()"
+                        class="bg-white/5 border border-white/10 px-4 py-2 rounded-lg text-sm hover:bg-white/10 transition">
+                        <i class="fas fa-redo text-gray-500"></i>
+                    </button>
+                    <button onclick="exportToCSV()"
+                        class="bg-brand-gold text-brand-dark px-4 py-2 rounded-lg text-sm font-bold hover:bg-yellow-600 transition">
+                        <i class="fas fa-download mr-2"></i> CSV 추출
+                    </button>
+                </div>
+            </div>
+            <div class="overflow-x-auto custom-scrollbar">
+                <table class="w-full text-left">
+                    <thead class="bg-brand-dark/30 text-xs uppercase text-gray-500 font-bold">
+                        <tr id="table-header-row">
+                            <th class="px-6 py-4">일시</th>
+                            <th class="px-6 py-4">구분</th>
+                            <th class="px-6 py-4">유입 출처</th>
+                            <th class="px-6 py-4">회사명 / 담당자</th>
+                            <th class="px-6 py-4">연락처 / 이메일</th>
+                            <th class="px-6 py-4">선택 솔루션 / 고민</th>
+                            <th class="px-6 py-4 text-center">상태</th>
+                            <th class="px-6 py-4 text-right">관리</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-white/5" id="lead-tbody">
+                        <tr>
+                            <td colspan="7" class="px-6 py-10 text-center text-gray-500 italic">로그인이 필요합니다.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="p-6 border-t border-white/5 flex justify-between items-center">
+                <p class="text-xs text-gray-500" id="total-results-text">Showing 0 results</p>
+            </div>
+        </div>
+    </main>
+
+    <!-- [신규] 상세 상담 모달 -->
+    <div id="detail-modal" class="fixed inset-0 z-50 hidden bg-black/80 flex items-center justify-center p-4">
+        <div
+            class="bg-brand-card border border-white/10 w-full max-w-2xl rounded-2xl shadow-2xl modal-fade-in overflow-hidden">
+            <div class="p-6 border-b border-white/5 flex justify-between items-center">
+                <h3 class="text-xl font-bold text-white">리드 상세 정보 및 상담 기록</h3>
+                <button onclick="closeDetailModal()" class="text-gray-500 hover:text-white transition">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            <div class="p-8 custom-scrollbar max-h-[70vh] overflow-y-auto">
+                <div class="grid grid-cols-2 gap-6 mb-8">
+                    <div>
+                        <p class="text-[10px] uppercase text-gray-500 font-bold mb-1">Company Name</p>
+                        <p id="modal-company" class="text-white text-lg font-medium">-</p>
+                    </div>
+                    <div>
+                        <p class="text-[10px] uppercase text-gray-500 font-bold mb-1">Contact Name</p>
+                        <p id="modal-name" class="text-white text-lg font-medium">-</p>
+                    </div>
+                    <div>
+                        <p class="text-[10px] uppercase text-gray-500 font-bold mb-1">Phone</p>
+                        <p id="modal-tel" class="text-gray-300">-</p>
+                    </div>
+                    <div>
+                        <p class="text-[10px] uppercase text-gray-500 font-bold mb-1">Email</p>
+                        <p id="modal-email" class="text-gray-300">-</p>
+                    </div>
+                    <div class="col-span-2">
+                        <p class="text-[10px] uppercase text-gray-500 font-bold mb-1">Request Details (Solutions / Age /
+                            HR Concern)</p>
+                        <div id="modal-details" class="flex flex-wrap gap-2 pt-1 mb-4"></div>
+
+                        <div class="bg-brand-dark/50 p-4 rounded-xl border border-white/5 mt-2">
+                            <p class="text-[10px] uppercase text-brand-gold font-bold mb-2">Marketing Tracking Data (마케팅
+                                추적 데이터)</p>
+                            <div class="grid grid-cols-2 gap-x-6 gap-y-2 text-[11px]">
+                                <div class="flex justify-between border-b border-white/5 pb-1">
+                                    <span class="text-gray-500">Source Page (유입 페이지)</span>
+                                    <span id="modal-source-page" class="text-gray-300">-</span>
+                                </div>
+                                <div class="flex justify-between border-b border-white/5 pb-1">
+                                    <span class="text-gray-500">Device (기기 타입)</span>
+                                    <span id="modal-device" class="text-gray-300">-</span>
+                                </div>
+                                <div class="flex justify-between border-b border-white/5 pb-1">
+                                    <span class="text-gray-500">UTM Source (유입 소스)</span>
+                                    <span id="modal-utm-source" class="text-gray-300">-</span>
+                                </div>
+                                <div class="flex justify-between border-b border-white/5 pb-1">
+                                    <span class="text-gray-500">UTM Medium (매체)</span>
+                                    <span id="modal-utm-medium" class="text-gray-300">-</span>
+                                </div>
+                                <div class="flex justify-between border-b border-white/5 pb-1">
+                                    <span class="text-gray-500">UTM Campaign (캠페인)</span>
+                                    <span id="modal-utm-campaign" class="text-gray-300">-</span>
+                                </div>
+                                <div class="flex justify-between border-b border-white/5 pb-1">
+                                    <span class="text-gray-500">Referrer (이전 페이지)</span>
+                                    <span id="modal-referrer" class="text-gray-300 truncate max-w-[120px]">-</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="border-t border-white/5 pt-6">
+                    <label class="block text-xs font-bold text-brand-gold uppercase mb-3">Consulting Memo (상담 기록 및 진행
+                        상황)</label>
+                    <textarea id="modal-memo" rows="6"
+                        class="w-full bg-brand-dark border border-white/10 rounded-xl p-4 text-gray-200 focus:border-brand-gold outline-none resize-none custom-scrollbar"
+                        placeholder="상담 진행 내역을 이곳에 기록하세요..."></textarea>
+                    <p class="text-[11px] text-gray-500 mt-2 italic">* 작성 후 저장을 누르면 실시간으로 반영됩니다.</p>
+                </div>
+            </div>
+            <div class="p-6 bg-brand-dark/50 border-t border-white/5 flex justify-end gap-3">
+                <button onclick="closeDetailModal()"
+                    class="px-6 py-2 text-sm text-gray-400 hover:text-white transition">취소</button>
+                <button id="save-memo-btn"
+                    class="bg-brand-gold text-brand-dark px-8 py-2 rounded-lg text-sm font-bold hover:bg-yellow-600 transition">
+                    데이터 저장하기
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- [신규] 등록/수정 모달 (제휴 선제안용) -->
+    <div id="write-modal" class="fixed inset-0 z-50 hidden bg-black/80 flex items-center justify-center p-4">
+        <div
+            class="bg-brand-card border border-white/10 w-full max-w-2xl rounded-2xl shadow-2xl modal-fade-in overflow-hidden">
+            <div class="p-6 border-b border-white/5 flex justify-between items-center">
+                <h3 class="text-xl font-bold text-white" id="write-modal-title">제휴 선제안 등록</h3>
+                <button onclick="closeWriteModal()" class="text-gray-500 hover:text-white transition">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            <div class="p-8 custom-scrollbar max-h-[75vh] overflow-y-auto">
+                <form id="write-form" onsubmit="saveProposalData(event)" class="space-y-6">
+                    <input type="hidden" id="write-id">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-xs font-bold text-gray-500 uppercase mb-2">업체명 <span
+                                    class="text-red-500">*</span></label>
+                            <input type="text" id="write-company" required
+                                class="w-full bg-brand-dark border border-white/10 rounded-lg px-4 py-3 text-white focus:border-brand-gold outline-none placeholder-gray-600"
+                                placeholder="업체명을 입력하세요">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-gray-500 uppercase mb-2">담당자</label>
+                            <input type="text" id="write-name"
+                                class="w-full bg-brand-dark border border-white/10 rounded-lg px-4 py-3 text-white focus:border-brand-gold outline-none placeholder-gray-600"
+                                placeholder="담당자 성함">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-gray-500 uppercase mb-2">연락처</label>
+                            <input type="text" id="write-tel"
+                                class="w-full bg-brand-dark border border-white/10 rounded-lg px-4 py-3 text-white focus:border-brand-gold outline-none placeholder-gray-600"
+                                placeholder="010-0000-0000">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-gray-500 uppercase mb-2">이메일</label>
+                            <input type="email" id="write-email"
+                                class="w-full bg-brand-dark border border-white/10 rounded-lg px-4 py-3 text-white focus:border-brand-gold outline-none placeholder-gray-600"
+                                placeholder="example@email.com">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-gray-500 uppercase mb-2">상태</label>
+                            <select id="write-status"
+                                class="w-full bg-brand-dark border border-white/10 rounded-lg px-4 py-3 text-white focus:border-brand-gold outline-none">
+                                <option value="신규접수">신규접수</option>
+                                <option value="진행중">처리중(진행중)</option>
+                                <option value="확인완료">확인완료</option>
+                                <option value="계약완료">계약완료</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-gray-500 uppercase mb-2">등록일 (비워두면 현재시간)</label>
+                            <input type="datetime-local" id="write-date"
+                                class="w-full bg-brand-dark border border-white/10 rounded-lg px-4 py-3 text-white focus:border-brand-gold outline-none [color-scheme:dark]">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-gray-500 uppercase mb-2">메모 / 비고</label>
+                        <textarea id="write-memo" rows="5"
+                            class="w-full bg-brand-dark border border-white/10 rounded-lg p-4 text-white focus:border-brand-gold outline-none resize-none placeholder-gray-600"
+                            placeholder="제휴 제안 내용이나 특이사항을 입력하세요..."></textarea>
+                    </div>
+
+                    <div class="flex justify-end gap-3 pt-6 border-t border-white/5">
+                        <button type="button" onclick="closeWriteModal()"
+                            class="px-6 py-3 text-sm text-gray-400 hover:text-white transition rounded-lg border border-transparent hover:border-white/10">취소</button>
+                        <button type="submit" id="save-write-btn"
+                            class="bg-brand-gold text-brand-dark px-8 py-3 rounded-lg text-sm font-bold hover:bg-yellow-600 transition shadow-lg">
+                            저장하기
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- [설정] Supabase 접속 정보 ---
+        const SUPABASE_URL = "https://yhmazwpnhzmnrrvyaqbx.supabase.co";
+        const SUPABASE_KEY = "sb_publishable_7Z-Waa8V6exEHPTqgvbPaQ_QtxIRNFG";
+        const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+        let allData = [];
+        let currentFilter = 'all';
+        let currentLeadId = null;
+
+        // 페이지 로드 시 인증 확인
+        document.addEventListener('DOMContentLoaded', checkAuth);
+
+        async function checkAuth() {
+            // [기능추가] 저장된 아이디/비번 불러오기
+            const savedEmail = localStorage.getItem('saved_email');
+            const savedPw = localStorage.getItem('saved_password');
+            if (savedEmail && savedPw) {
+                document.getElementById('login-email').value = savedEmail;
+                document.getElementById('login-password').value = savedPw;
+                document.getElementById('remember-me').checked = true;
+            }
+
+            const { data: { session } } = await _supabase.auth.getSession();
+            if (session) {
+                onLoginSuccess(session.user);
+            } else {
+                document.getElementById('login-overlay').classList.remove('hidden');
+                document.getElementById('today-count-text').innerText = "로그인이 필요합니다.";
+            }
+        }
+
+        async function handleLogin(e) {
+            e.preventDefault();
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+            const rememberMe = document.getElementById('remember-me').checked;
+            const btn = document.getElementById('login-btn');
+            const errorEl = document.getElementById('login-error');
+
+            // [기능추가] 아이디/비번 저장 로직
+            if (rememberMe) {
+                localStorage.setItem('saved_email', email);
+                localStorage.setItem('saved_password', password);
+            } else {
+                localStorage.removeItem('saved_email');
+                localStorage.removeItem('saved_password');
+            }
+
+            btn.disabled = true;
+            btn.innerText = "로그인 중...";
+            errorEl.classList.add('hidden');
+
+            const { data, error } = await _supabase.auth.signInWithPassword({ email, password });
+
+            if (error) {
+                errorEl.innerText = "로그인 실패: 이메일 또는 비밀번호를 확인하세요.";
+                errorEl.classList.remove('hidden');
+                btn.disabled = false;
+                btn.innerText = "로그인";
+            } else {
+                onLoginSuccess(data.user);
+            }
+        }
+
+        function onLoginSuccess(user) {
+            document.getElementById('login-overlay').classList.add('hidden');
+            document.getElementById('user-initial').innerText = user.email[0].toUpperCase();
+            loadDashboardData();
+
+            // 초기 탭 설정: 로드 후 URL에 따라 탭바꿀수도 있지만 일단 기본 실행
+        }
+
+        async function handleLogout() {
+            if (!confirm('로그아웃 하시겠습니까?')) return;
+
+            try {
+                await _supabase.auth.signOut();
+            } catch (error) {
+                console.error('Logout error:', error);
+            }
+
+            // [안전장치] 로컬스토리지 내 Supabase 세션 토큰 강제 삭제
+            // (서버 환경 등에서 signOut 후에도 세션이 남는 경우 방지)
+            Object.keys(localStorage).forEach(key => {
+                if (key.startsWith('sb-') && key.endsWith('-auth-token')) {
+                    localStorage.removeItem(key);
+                }
+            });
+
+            location.reload();
+        }
+
+        async function loadDashboardData() {
+            try {
+                const { data, error } = await _supabase
+                    .from('leads')
+                    .select('*')
+                    .order('created_at', { ascending: false });
+
+                if (error) throw error;
+
+                allData = data;
+                updateStatistics(data);
+                filterAndRender();
+
+            } catch (error) {
+                console.error('데이터 로드 실패:', error.message);
+                const tbody = document.getElementById('lead-tbody');
+                tbody.innerHTML = `<tr><td colspan="7" class="px-6 py-10 text-center text-red-500">데이터 로드 실패: ${error.message}</td></tr>`;
+            }
+        }
+
+        function updateStatistics(data) {
+            const b2bLeads = data.filter(item => item.type === 'B2B_LEAD');
+            const totalLeads = b2bLeads.length;
+            const totalAI = data.filter(item => item.type === 'AI_CONSULTING').length;
+
+            document.getElementById('stat-total-leads').innerText = totalLeads.toLocaleString();
+            document.getElementById('stat-total-ai').innerText = totalAI.toLocaleString();
+
+            const convertedLeads = b2bLeads.filter(item => item.status && item.status !== '신규접수').length;
+            const conversionRate = totalLeads > 0 ? ((convertedLeads / totalLeads) * 100).toFixed(1) : 0;
+            document.getElementById('stat-meeting-rate').innerText = `${conversionRate}%`;
+
+            const completedContracts = b2bLeads.filter(item => item.status === '계약완료').length;
+            document.getElementById('stat-new-contracts').innerText = completedContracts.toLocaleString();
+
+            const today = new Date().toISOString().split('T')[0];
+            const todayCount = data.filter(item => item.created_at.startsWith(today)).length;
+            document.getElementById('today-count-text').innerText = `오늘 접수된 새로운 데이터가 ${todayCount}건 있습니다.`;
+        }
+
+        function switchTab(filter) {
+            currentFilter = filter;
+            const navItems = document.querySelectorAll('.nav-item');
+            navItems.forEach(item => {
+                item.classList.remove('bg-brand-gold/10', 'text-brand-gold', 'border', 'border-brand-gold/20');
+                item.classList.add('text-gray-400');
+            });
+
+            const activeId = filter === 'all' ? 'nav-all' :
+                (filter === 'B2B_LEAD' ? 'nav-b2b' :
+                    (filter === 'B2B_PROPOSAL' ? 'nav-proposal' : 'nav-ai'));
+
+            const activeNav = document.getElementById(activeId);
+            if (activeNav) {
+                activeNav.classList.remove('text-gray-400');
+                activeNav.classList.add('bg-brand-gold/10', 'text-brand-gold', 'border', 'border-brand-gold/20');
+            }
+
+            const mainTitle = document.getElementById('main-title');
+            const tableTitle = document.getElementById('table-title');
+            const statsContainer = document.getElementById('stats-container');
+            const btnNewProposal = document.getElementById('btn-new-proposal');
+            const tableHeaderRow = document.getElementById('table-header-row');
+
+            // 기본 헤더 복원
+            tableHeaderRow.innerHTML = `
+                <th class="px-6 py-4">일시</th>
+                <th class="px-6 py-4">구분</th>
+                <th class="px-6 py-4">유입 출처</th>
+                <th class="px-6 py-4">회사명 / 담당자</th>
+                <th class="px-6 py-4">연락처 / 이메일</th>
+                <th class="px-6 py-4">선택 솔루션 / 고민</th>
+                <th class="px-6 py-4 text-center">상태</th>
+                <th class="px-6 py-4 text-right">관리</th>
+            `;
+
+            if (filter === 'all') {
+                mainTitle.innerText = "B2B 제휴 현황";
+                tableTitle.innerText = "최근 접수된 리드 목록";
+                statsContainer.classList.remove('hidden');
+                btnNewProposal.classList.add('hidden');
+            } else if (filter === 'B2B_LEAD') {
+                mainTitle.innerText = "리드 관리";
+                tableTitle.innerText = "기업 제휴 문의 내역";
+                statsContainer.classList.add('hidden');
+                btnNewProposal.classList.add('hidden');
+            } else if (filter === 'B2B_PROPOSAL') {
+                mainTitle.innerText = "제휴 선제안 아카이빙";
+                tableTitle.innerText = "선제안 영업 리스트";
+                statsContainer.classList.add('hidden');
+                btnNewProposal.classList.remove('hidden');
+                // 헤더 변경 (메모 컬럼 강조 등 필요시)
+                tableHeaderRow.innerHTML = `
+                    <th class="px-6 py-4">등록일</th>
+                    <th class="px-6 py-4">업체명</th>
+                    <th class="px-6 py-4">담당자</th>
+                    <th class="px-6 py-4">연락처/이메일</th>
+                    <th class="px-6 py-4 w-1/3">메모/내용</th>
+                    <th class="px-6 py-4 text-center">상태</th>
+                    <th class="px-6 py-4 text-right">관리 (수정/삭제)</th>
+                `;
+            } else {
+                mainTitle.innerText = "AI 컨설팅 로그";
+                tableTitle.innerText = "AI 건강 진단 기록";
+                statsContainer.classList.add('hidden');
+                btnNewProposal.classList.add('hidden');
+            }
+
+            filterAndRender();
+        }
+
+        function handleSearch(e) {
+            filterAndRender();
+        }
+
+        function filterAndRender() {
+            const searchTerm = document.getElementById('search-input').value.toLowerCase();
+            let filtered = allData;
+
+            if (currentFilter !== 'all') {
+                filtered = filtered.filter(item => item.type === currentFilter);
+            }
+
+            if (searchTerm) {
+                filtered = filtered.filter(item =>
+                    (item.company_name && item.company_name.toLowerCase().includes(searchTerm)) ||
+                    (item.contact_name && item.contact_name.toLowerCase().includes(searchTerm)) ||
+                    (item.tel && item.tel.includes(searchTerm)) ||
+                    (item.email && item.email.toLowerCase().includes(searchTerm)) ||
+                    (item.memo && item.memo.toLowerCase().includes(searchTerm))
+                );
+            }
+
+            renderLeadTable(filtered);
+        }
+
+        function renderLeadTable(data) {
+            const tbody = document.getElementById('lead-tbody');
+            tbody.innerHTML = '';
+
+            if (data.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="7" class="px-6 py-10 text-center text-gray-500 italic">일치하는 내역이 없습니다.</td></tr>';
+                document.getElementById('total-results-text').innerText = `Showing 0 results`;
+                return;
+            }
+
+            data.forEach(item => {
+                const date = new Date(item.created_at).toLocaleString('ko-KR', {
+                    year: '2-digit', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit'
+                });
+
+                const status = item.status || '신규접수';
+                let statusClass = 'bg-green-500/20 text-green-400';
+                if (status === '진행중') statusClass = 'bg-blue-500/20 text-blue-400';
+                if (status === '확인완료') statusClass = 'bg-gray-500/20 text-gray-400';
+                if (status === '계약완료') statusClass = 'bg-brand-gold/20 text-brand-gold';
+
+                let row = '';
+
+                // B2B_PROPOSAL 전용 렌더링
+                if (currentFilter === 'B2B_PROPOSAL') {
+                    row = `
+                    <tr class="hover:bg-white/5 transition group border-b border-white/5">
+                        <td class="px-6 py-4 text-xs whitespace-nowrap text-gray-500">${date}</td>
+                        <td class="px-6 py-4 text-white font-bold">${item.company_name || '-'}</td>
+                        <td class="px-6 py-4 text-sm text-gray-300">${item.contact_name || '-'}</td>
+                        <td class="px-6 py-4 text-xs text-gray-400">
+                            <p>${item.tel || '-'}</p>
+                            <p>${item.email || '-'}</p>
+                        </td>
+                        <td class="px-6 py-4 text-xs text-gray-400 break-words whitespace-pre-wrap max-w-xs">${item.memo || '-'}</td>
+                        <td class="px-6 py-4 text-center">
+                            <span class="${statusClass} text-[11px] font-bold py-1 px-3 rounded-full inline-block min-w-[60px]">${status}</span>
+                        </td>
+                        <td class="px-6 py-4 text-right">
+                            <div class="flex items-center justify-end gap-1">
+                                <button onclick="openWriteModal('${item.id}')" class="text-gray-500 hover:text-brand-gold p-2 transition">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button onclick="deleteLead('${item.id}')" class="text-gray-600 hover:text-red-400 p-2 transition">
+                                    <i class="fas fa-trash-alt"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                    `;
+                } else {
+                    // 기존 렌더링 (ALL, B2B_LEAD, AI_CONSULTING)
+                    const typeClass = item.type === 'B2B_LEAD' ? 'bg-blue-500/10 text-blue-400' :
+                        (item.type === 'B2B_PROPOSAL' ? 'bg-orange-500/10 text-orange-400' : 'bg-purple-500/10 text-purple-400');
+                    const typeName = item.type === 'B2B_LEAD' ? '제휴문의' :
+                        (item.type === 'B2B_PROPOSAL' ? '선제안' : 'AI컨설팅');
+
+                    const solutionBadges = item.solutions ? item.solutions.map(s =>
+                        `<span class="bg-brand-gold/10 text-brand-gold px-2 py-0.5 rounded text-[10px]">${s}</span>`
+                    ).join('') : '<span class="text-gray-600">-</span>';
+
+                    const memoIndicator = item.memo ? '<i class="fas fa-sticky-note ml-1 text-brand-gold" title="메모 있음"></i>' : '';
+
+                    const sourceInfo = item.utm_source ?
+                        `<div class="text-[10px] text-gray-500"><p class="text-brand-gold font-bold">${item.utm_source}</p><p>${item.utm_medium || ''}</p></div>` :
+                        `<div class="text-[10px] text-gray-500"><p>${item.source_page || '-'}</p><p class="opacity-50">${item.device_type || ''}</p></div>`;
+
+                    row = `
+                        <tr class="hover:bg-white/5 transition group border-b border-white/5">
+                            <td class="px-6 py-4 text-xs whitespace-nowrap text-gray-500">${date}</td>
+                            <td class="px-6 py-4 whitespace-nowrap"><span class="${typeClass} px-2 py-1 rounded-md text-[10px] font-bold">${typeName}</span></td>
+                            <td class="px-6 py-4 whitespace-nowrap">${sourceInfo}</td>
+                            <td class="px-6 py-4">
+                                <p class="text-white font-medium flex items-center">${item.company_name || '-'}${memoIndicator}</p>
+                                <p class="text-xs text-gray-500 mt-0.5">${item.contact_name || '-'}</p>
+                            </td>
+                            <td class="px-6 py-4 text-xs text-gray-400">
+                                <p>${item.tel || '-'}</p>
+                                <p>${item.email || '-'}</p>
+                            </td>
+                            <td class="px-6 py-4">
+                                <div class="flex flex-wrap gap-1">
+                                    ${item.type === 'AI_CONSULTING' ? `<span class="text-[11px] text-gray-400">${item.age_group} / ${item.hr_concern}</span>` : solutionBadges}
+                                </div>
+                            </td>
+                            <td class="px-6 py-4 text-center">
+                                <select onchange="updateStatus('${item.id}', this.value)" 
+                                    class="${statusClass} text-[11px] font-bold py-1 px-3 rounded-full bg-transparent border-none appearance-none cursor-pointer outline-none hover:brightness-125 transition">
+                                    <option value="신규접수" class="bg-brand-card text-white" ${status === '신규접수' ? 'selected' : ''}>신규접수</option>
+                                    <option value="진행중" class="bg-brand-card text-white" ${status === '진행중' ? 'selected' : ''}>진행중</option>
+                                    <option value="확인완료" class="bg-brand-card text-white" ${status === '확인완료' ? 'selected' : ''}>확인완료</option>
+                                    <option value="계약완료" class="bg-brand-card text-white" ${status === '계약완료' ? 'selected' : ''}>계약완료</option>
+                                </select>
+                            </td>
+                            <td class="px-6 py-4 text-right">
+                                <div class="flex items-center justify-end gap-1">
+                                    ${item.type === 'B2B_PROPOSAL'
+                            ? `<button onclick="openWriteModal('${item.id}')" class="text-gray-500 hover:text-brand-gold p-2 transition"><i class="fas fa-edit"></i></button>`
+                            : `<button onclick="openDetailModal('${item.id}')" class="text-gray-500 hover:text-brand-gold p-2 transition"><i class="fas fa-edit"></i></button>`
+                        }
+                                    <button onclick="deleteLead('${item.id}')" class="text-gray-600 hover:text-red-400 p-2 transition">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    `;
+                }
+
+                tbody.insertAdjacentHTML('beforeend', row);
+            });
+
+            document.getElementById('total-results-text').innerText = `Showing ${data.length} results`;
+        }
+
+        // --- 기존 상세 모달 함수들 (유지) ---
+        function openDetailModal(id) {
+            const item = allData.find(d => d.id === id);
+            if (!item) return;
+
+            currentLeadId = id;
+            document.getElementById('modal-company').innerText = item.company_name || '-';
+            document.getElementById('modal-name').innerText = item.contact_name || '-';
+            document.getElementById('modal-tel').innerText = item.tel || '-';
+            document.getElementById('modal-email').innerText = item.email || '-';
+            document.getElementById('modal-memo').value = item.memo || '';
+
+            document.getElementById('modal-source-page').innerText = item.source_page || '-';
+            document.getElementById('modal-device').innerText = item.device_type || '-';
+            document.getElementById('modal-utm-source').innerText = item.utm_source || '-';
+            document.getElementById('modal-utm-medium').innerText = item.utm_medium || '-';
+            document.getElementById('modal-utm-campaign').innerText = item.utm_campaign || '-';
+            document.getElementById('modal-referrer').innerText = item.referrer || '-';
+            document.getElementById('modal-referrer').title = item.referrer || '';
+
+            const detailsEl = document.getElementById('modal-details');
+            detailsEl.innerHTML = '';
+
+            if (item.type === 'AI_CONSULTING') {
+                detailsEl.innerHTML = `
+                    <span class="bg-purple-500/20 text-purple-400 px-3 py-1 rounded-full text-xs">연령대: ${item.age_group}</span>
+                    <span class="bg-purple-500/20 text-purple-400 px-3 py-1 rounded-full text-xs">HR고민: ${item.hr_concern}</span>
+                `;
+            } else {
+                const solutions = item.solutions ? item.solutions.map(s =>
+                    `<span class="bg-brand-gold/20 text-brand-gold px-3 py-1 rounded-full text-xs">${s}</span>`
+                ).join('') : '<span class="text-gray-500">선택한 솔루션 없음</span>';
+                detailsEl.innerHTML = solutions;
+            }
+
+            document.getElementById('detail-modal').classList.remove('hidden');
+            document.getElementById('save-memo-btn').onclick = () => updateMemo(id);
+        }
+
+        function closeDetailModal() {
+            document.getElementById('detail-modal').classList.add('hidden');
+            currentLeadId = null;
+        }
+
+        async function updateMemo(id) {
+            const memo = document.getElementById('modal-memo').value;
+            const btn = document.getElementById('save-memo-btn');
+
+            btn.disabled = true;
+            btn.innerText = "저장 중...";
+
+            try {
+                const { error } = await _supabase
+                    .from('leads')
+                    .update({ memo: memo })
+                    .eq('id', id);
+
+                if (error) throw error;
+
+                const index = allData.findIndex(d => d.id === id);
+                if (index !== -1) allData[index].memo = memo;
+
+                alert('저장되었습니다.');
+                closeDetailModal();
+                filterAndRender();
+            } catch (error) {
+                alert('저장 실패: ' + error.message);
+            } finally {
+                btn.disabled = false;
+                btn.innerText = "데이터 저장하기";
+            }
+        }
+
+        // --- [신규] 등록/수정 모달 함수들 ---
+        function openWriteModal(id = null) {
+            const form = document.getElementById('write-form');
+            const title = document.getElementById('write-modal-title');
+
+            form.reset();
+
+            if (id) {
+                // 수정 모드
+                const item = allData.find(d => d.id === id);
+                if (!item) return;
+
+                title.innerText = "제휴 선제안 수정";
+                document.getElementById('write-id').value = id;
+                document.getElementById('write-company').value = item.company_name || '';
+                document.getElementById('write-name').value = item.contact_name || '';
+                document.getElementById('write-tel').value = item.tel || '';
+                document.getElementById('write-email').value = item.email || '';
+                document.getElementById('write-status').value = item.status || '신규접수';
+                document.getElementById('write-memo').value = item.memo || '';
+
+                // 날짜 포맷팅 (datetime-local 용)
+                if (item.created_at) {
+                    const dt = new Date(item.created_at);
+                    // 한국 시간대 고려
+                    const pad = (n) => n < 10 ? '0' + n : n;
+                    const localIso = dt.getFullYear() + '-' +
+                        pad(dt.getMonth() + 1) + '-' +
+                        pad(dt.getDate()) + 'T' +
+                        pad(dt.getHours()) + ':' +
+                        pad(dt.getMinutes());
+                    document.getElementById('write-date').value = localIso;
+                }
+
+            } else {
+                // 신규 등록 모드
+                title.innerText = "제휴 선제안 등록";
+                document.getElementById('write-id').value = '';
+                document.getElementById('write-status').value = '신규접수';
+                // 날짜는 비워두면 현재시간
+            }
+
+            document.getElementById('write-modal').classList.remove('hidden');
+        }
+
+        function closeWriteModal() {
+            document.getElementById('write-modal').classList.add('hidden');
+        }
+
+        async function saveProposalData(e) {
+            e.preventDefault();
+            const btn = document.getElementById('save-write-btn');
+            const id = document.getElementById('write-id').value;
+
+            const payload = {
+                type: 'B2B_PROPOSAL',
+                company_name: document.getElementById('write-company').value,
+                contact_name: document.getElementById('write-name').value,
+                tel: document.getElementById('write-tel').value,
+                email: document.getElementById('write-email').value,
+                status: document.getElementById('write-status').value,
+                memo: document.getElementById('write-memo').value
+            };
+
+            const dateInput = document.getElementById('write-date').value;
+            if (dateInput) {
+                payload.created_at = new Date(dateInput).toISOString();
+            } else if (!id) {
+                // 신규이면서 날짜 지정 안하면 현재시간
+                payload.created_at = new Date().toISOString();
+            }
+
+            btn.disabled = true;
+            btn.innerText = "저장 중...";
+
+            try {
+                let error;
+                if (id) {
+                    // Update
+                    const { error: err } = await _supabase
+                        .from('leads')
+                        .update(payload)
+                        .eq('id', id);
+                    error = err;
+                } else {
+                    // Insert
+                    const { error: err } = await _supabase
+                        .from('leads')
+                        .insert([payload]);
+                    error = err;
+                }
+
+                if (error) throw error;
+
+                alert('저장되었습니다.');
+                closeWriteModal();
+                loadDashboardData(); // 데이터 새로고침
+
+            } catch (error) {
+                alert('저장 실패: ' + error.message);
+                console.error(error);
+            } finally {
+                btn.disabled = false;
+                btn.innerText = "저장하기";
+            }
+        }
+
+        async function updateStatus(id, newStatus) {
+            try {
+                const { error } = await _supabase
+                    .from('leads')
+                    .update({ status: newStatus })
+                    .eq('id', id);
+
+                if (error) throw error;
+
+                const index = allData.findIndex(d => d.id === id);
+                if (index !== -1) allData[index].status = newStatus;
+
+                updateStatistics(allData);
+                filterAndRender();
+            } catch (error) {
+                alert('상태 업데이트 실패: ' + error.message);
+            }
+        }
+
+        async function deleteLead(id) {
+            if (!confirm('정말 삭제하시겠습니까?')) return;
+            try {
+                const { error } = await _supabase
+                    .from('leads')
+                    .delete()
+                    .eq('id', id);
+
+                if (error) throw error;
+                loadDashboardData();
+            } catch (error) {
+                alert('삭제 실패: ' + error.message);
+            }
+        }
+
+        function exportToCSV() {
+            if (allData.length === 0) return alert('추출할 데이터가 없습니다.');
+
+            const headers = ['일시', '구분', '회사명', '담당자', '연락처', '이메일', '연령대/솔루션', '고민/솔루션', '상태', '상담내역(메모)'];
+            const rows = allData.map(item => [
+                new Date(item.created_at).toLocaleString(),
+                item.type,
+                item.company_name,
+                item.contact_name,
+                item.tel,
+                item.email,
+                item.age_group || (item.solutions ? item.solutions.join(',') : ''),
+                item.hr_concern || '',
+                item.status || '신규접수',
+                (item.memo || '').replace(/,/g, ' ').replace(/\n/g, ' ')
+            ]);
+
+            const csvContent = "\uFEFF" + [headers, ...rows].map(e => e.join(",")).join("\n");
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement("a");
+            link.setAttribute("href", url);
+            link.setAttribute("download", `purples_leads_detailed_${new Date().toISOString().split('T')[0]}.csv`);
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+    </script>
+</body>
+
+</html>

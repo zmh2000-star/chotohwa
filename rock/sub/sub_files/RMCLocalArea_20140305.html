@@ -1,0 +1,127 @@
+
+<!-- saved from url=(0102)http://serviceapi.rmcnmv.naver.com/resources/js/RMCLocalArea_20140305.html?rmcPlayer_14505122254948964 -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<script type="text/javascript">
+	var messageHead = {
+		"setUserData" : "RMCMessage.setUserData",
+		"getUserData" : "RMCMessage.getUserData"
+	};
+	var sendMessageHead = {
+		"loaded" : "RMCMessage.loadedPostArea",
+		"userData" : "RMCMessage.userData"
+	};
+	var watcherItems = [];
+	var objId = "";
+	function init() {
+		var address = location.href;
+		var splitAdd = address.split("?");
+		objId = splitAdd[1];
+		window.addEventListener("message", onPostMessage, false);
+		parent.postMessage(objId + "|" + sendMessageHead["loaded"], "*");
+		var watcherData = window.localStorage.getItem("watcher");
+		if (watcherData && watcherData != 0) {
+			sendQualityStatisticsInfo(watcherData);
+			//              window.localStorage.setItem("watcher",0);
+		}
+		window.localStorage.setItem("watcher", 0);
+		
+		var playLogData = window.localStorage.getItem("playLogData");
+		if (playLogData && playLogData != 0) {
+			//sendPlayLogData(playLogData);
+		}
+		window.localStorage.setItem("playLogData", 0);
+	}
+	
+	function sendPlayLogData(playLogData) {
+		var targetUrl = "http://videost.nmv.naver.com/pt.html";
+		var targetParams = "p=" + escape(playLogData);
+		var simpleRequest = new XMLHttpRequest();
+		simpleRequest.open("POST", targetUrl );
+		request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+		simpleRequest.send(targetParams);
+	}
+
+	function sendQualityStatisticsInfo(watcherData) {
+		var targetParams = escape(watcherData);
+		parent.postMessage(objId + "|RMCMessage.sendXHR|quality|" + targetParams, "*");
+	}
+	
+	function setOldData( data ){
+		for (var key in data) {
+			window.localStorage.setItem(key, data[key]);
+		}
+	}
+	
+	function localStorageMigration(serviceId) {
+		if (window.localStorage.getItem("hadMigration") == "true") {
+		} else {
+			var tvcastData = window.localStorage.getItem("userDataRMC_2010");
+			var sportsData = window.localStorage.getItem("userDataRMC_2002");
+			var movieData = window.localStorage.getItem("userDataRMC_2003");
+			var defaultData = window.localStorage.getItem("userDataRMC_default");
+			
+			//window.localStorage.removeItem("userDataRMC"); 
+			if (sportsData) {
+				var parsedData = JSON.parse(sportsData);
+				setOldData(parsedData);
+				window.localStorage.setItem("3GAlertConfirmExpireTime_" + serviceId, parsedData["3GAlertConfirmExpireTime"]);
+				//window.localStorage.removeItem("userDataRMC_2002");
+			}
+			if (movieData) {
+				var parsedData = JSON.parse(movieData);
+				setOldData(parsedData);
+				//window.localStorage.removeItem("userDataRMC_2003");
+			}
+			if (tvcastData) {
+				var parsedData = JSON.parse(tvcastData);
+				setOldData(parsedData);
+				//window.localStorage.removeItem("userDataRMC_2010");
+			}
+			if (defaultData) {
+				var parsedData = JSON.parse(defaultData);
+				setOldData(parsedData);
+				//window.localStorage.removeItem("userDataRMC_default");
+			}
+			window.localStorage.setItem("hadMigration","true");
+		}
+	}
+
+	function onPostMessage(event) {
+		var message = event.data;
+		if (message.indexOf(messageHead["setUserData"]) > -1) {
+			var messageSplit = message.split("|");
+			var userData = messageSplit[1];
+			var serviceId = "default";
+			
+			//var userData = message.substring(messageHead["setUserData"].length + 1);
+			window.localStorage.setItem("userDataRMC_" + serviceId, userData);
+		} else if (message.indexOf(messageHead["getUserData"]) > -1) {
+			var serviceId = "default";
+			var messageSplit = message.split("|");
+			if (messageSplit.length > 1) {
+				serviceId = messageSplit[1];
+			}
+			localStorageMigration(serviceId);
+			
+			var userData = {};
+			
+			for (var i = 0; i < window.localStorage.length; i++) {
+				var key = window.localStorage.key(i);
+				userData[key] = window.localStorage.getItem(key);
+			}
+			
+			
+			parent.postMessage(objId + "|" + sendMessageHead["userData"] + "|" + JSON.stringify(userData), "*");
+		} else if (message.indexOf("setData") > -1) {
+			var messageSplit = message.split("|");
+			if (messageSplit[0] == "setData") {
+				window.localStorage.setItem(messageSplit[1], messageSplit[2]);
+			}
+		}
+		//alert("Hello!!:" + message);
+	}
+</script>
+</head>
+<body onload="javascript:init();">
+
+</body></html>

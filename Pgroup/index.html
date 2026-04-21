@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PURPLES GROUP | The Apex of Heritage & Innovation</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;800&family=Playfair+Display:ital,wght@0,400;0,700;0,800;1,400&display=swap"
+        rel="stylesheet">
+    <!-- CSS Load -->
+    <link rel="stylesheet" href="css/index.css">
+    <!-- Swiper & Icon & GSAP -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js" defer></script>
+    <script src="js/index.js" defer></script>
+</head>
+
+<body>
+    <!-- Scroll Progress Bar -->
+    <div id="scrollProgress" class="scroll-progress"></div>
+    <!-- Header -->
+    <header class="main-header">
+        <div class="container nav-wrapper">
+            <div class="logo">
+                <a href="index.html" class="serif">PURPLES <span>GROUP</span></a>
+            </div>
+            <nav class="gnb">
+                <ul>
+                    <li><a href="#philosophy">Philosophy</a></li>
+                    <li><a href="#history">Legacy</a></li>
+                    <li><a href="#chairman">Greeting</a></li>
+                    <li><a href="#pillars">Business</a></li>
+                    <li><a href="#global">Global</a></li>
+                    <li><a href="#partnership">Partnership</a></li>
+                    <li><a href="#culture">Culture</a></li>
+                    <li><a href="#synergy">Synergy</a></li>
+                    <li><a href="#news">News</a></li>
+                    <li><a href="#esg">ESG</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </nav>
+            <div class="lang-selector">
+                <button>KR</button>
+                <div class="line"></div>
+                <button>EN</button>
+            </div>
+            <!-- Mobile Toggle -->
+            <button class="mobile-toggle" aria-label="Menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Mobile Menu Overlay -->
+    <div class="mobile-menu-overlay">
+        <div class="mobile-menu-content">
+            <nav class="mobile-gnb">
+                <ul>
+                    <li><a href="#philosophy">Philosophy</a></li>
+                    <li><a href="#history">Legacy</a></li>
+                    <li><a href="#chairman">Greeting</a></li>
+                    <li><a href="#pillars">Business</a></li>
+                    <li><a href="#global">Global</a></li>
+                    <li><a href="#partnership">Partnership</a></li>
+                    <li><a href="#culture">Culture</a></li>
+                    <li><a href="#synergy">Synergy</a></li>
+                    <li><a href="#news">News</a></li>
+                    <li><a href="#esg">ESG</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </nav>
+            <div class="mobile-lang">
+                <button>KR</button>
+                <button>EN</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Section 1. Hero: Philosophy -->
+    <section id="hero" class="hero-section">
+        <div class="video-bg-wrapper">
+            <video autoplay muted loop playsinline class="video-bg" poster="img/main/hero_poster.jpg">
+                <source src="https://www.purples.co.kr/rw_videos/main/section02/background.mp4" type="video/mp4">
+            </video>
+            <div class="overlay"></div>
+        </div>
+        <div class="container hero-content">
+            <h2 class="hero-subtitle">PURPLES GROUP</h2>
+            <h1 class="hero-title serif">
+                THE PREMIUM<br>STANDARD
+            </h1>
+            <p class="hero-desc">변치 않는 신뢰와 품격,<br>당신의 가장 빛나는 순간과 함께합니다.</p>
+        </div>
+        <div class="scroll-down">
+            <div class="line"></div>
+            <span>SCROLL</span>
+        </div>
+    </section>
+
+    <!-- Floating B2B Button -->
+    <div class="b2b-floating">
+        <a href="http://www.chotohwa.com/anti2/index4.html" target="_blank">
+            <i class="fa-solid fa-file-pdf"></i>
+            <span>2026 Partnership</span>
+        </a>
+    </div>
+
+    <!-- Section 2. History & Achievement -->
+    <section id="history" class="history-section section-padding">
+        <div class="video-bg-wrapper">
+            <video autoplay muted loop playsinline class="video-bg" poster="img/main/history_poster.jpg">
+                <source src="https://movie.purples.co.kr/2024_party_bg.mp4" type="video/mp4">
+            </video>
+            <div class="overlay dark"></div>
+        </div>
+        <div class="container content-overlay">
+            <div class="history-top-layout">
+                <div class="history-header">
+                    <h2 class="section-subtitle gold">OUR ETERNAL LEGACY</h2>
+                    <h3 class="section-title serif">HISTORY: 25 Years of <span class="gold">Heritage & Innovation</span>
+                    </h3>
+                    <p class="history-main-desc">"대한민국 상류층 결혼 문화의 어제와 오늘, 그리고 내일을 만듭니다."</p>
+                </div>
+                <div class="history-stats-box">
+                    <div class="h-stat-item">
+                        <span class="count serif">25</span><span class="suffix">th</span>
+                        <p>Anniversary</p>
+                    </div>
+                    <div class="h-stat-item">
+                        <span class="count serif">15</span><span class="suffix"></span>
+                        <p>Brand Awards</p>
+                    </div>
+                    <div class="h-stat-item">
+                        <span class="count serif">100</span><span class="suffix">K+</span>
+                        <p>Members</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="timeline-grid">
+                <!-- 2001 - 2010 -->
+                <div class="timeline-card">
+                    <div class="card-tag serif">2001 - 2010</div>
+                    <h4 class="era-title">노블레스 시장의 개척</h4>
+                    <ul class="era-list">
+                        <li><strong>청담 본사 설립:</strong> 국내 최초 상류층 전용 시스템 도입</li>
+                        <li><strong>VVIP 네트워크:</strong> 유학파·재벌가 중심의 독보적 DB 구축</li>
+                        <li><strong>비공개 성혼:</strong> 철저한 신원 인증 기반의 매칭 정착</li>
+                    </ul>
+                </div>
+                <!-- 2011 - 2020 -->
+                <div class="timeline-card">
+                    <div class="card-tag serif">2011 - 2020</div>
+                    <h4 class="era-title">전국 인프라 확장 및 전문화</h4>
+                    <ul class="era-list">
+                        <li><strong>전국 지사망:</strong> 부산·대구·대전·광주 거점 지사 설립</li>
+                        <li><strong>멀티 브랜드:</strong> 르매리, 디노블 운영으로 전문성 강화</li>
+                        <li><strong>브랜드 대상:</strong> 5년 연속 우수브랜드 대상 수상</li>
+                    </ul>
+                </div>
+                <!-- 2021 - 2024 -->
+                <div class="timeline-card">
+                    <div class="card-tag serif">2021 - 2024</div>
+                    <h4 class="era-title">디지털 혁신과 프리미엄 리더십</h4>
+                    <ul class="era-list">
+                        <li><strong>엑소바이옴코리아:</strong> 뷰티·바이오 부문 브랜드 런칭 및 사업 포트폴리오 다각화</li>
+                        <li><strong>한국프리미엄브랜드진흥원:</strong> 프리미엄 브랜드 가치 평가 및 K-Brand 글로벌 위상 강화</li>
+                        <li><strong>ESG 가치 경영:</strong> 최고 경영대상 가치창조 부문 수상 및 사회적 책임 확대</li>
+                    </ul>
+                </div>
+                <!-- 2025 - Present -->
+                <div class="timeline-card h-highlight">
+                    <div class="card-tag serif gold">2025 - Present</div>
+                    <h4 class="era-title">통합 라이프스타일 플랫폼</h4>
+                    <ul class="era-list">
+                        <li><strong>언니의인맥 인수:</strong> MZ 세대 아우르는 전략적 확장</li>
+                        <li><strong>5-Track 솔루션:</strong> 전 생애주기 매칭 그룹 등극</li>
+                        <li><strong>B2B 마케팅:</strong> 기업 임직원 맞춤형 제휴 본격화</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 3. Chairman's Message -->
+    <section id="chairman" class="chairman-section section-padding">
+        <div class="container">
+            <div class="chairman-wrapper">
+                <div class="chairman-img">
+                    <img src="img/main/0chairman.png" alt="김현중 회장" loading="lazy">
+                    <div class="decoration-frame"></div>
+                </div>
+                <div class="chairman-text">
+                    <h2 class="section-subtitle gold">CHAIRMAN'S GREETING</h2>
+                    <h3 class="section-title serif">세대를 이어갈 <br><span class="gold">변치 않는 가치</span>를<br>약속드립니다.</h3>
+                    <div class="message-body">
+                        <p>우리가 만드는 것은 단순한 매칭이나 서비스가 아닌, 한 사람의 인생에서 가장 빛나는 순간과 그 뒤를 잇는 고귀한 유산입니다.</p>
+                        <p>퍼플스 그룹은 지난 20년의 신뢰를 밑거름 삼아, 이제 혁신적인 엑소좀 바이오 기술과 프리미엄 브랜드 매니지먼트를 결합하여 세상에 없던 새로운 미래를 열어가려 합니다.
+                        </p>
+                        <p>고객의 신뢰라는 가장 크고 위대한 자산을 바탕으로, 대한민국을 넘어 글로벌 프리미엄 라이프스타일의 기준이 되겠습니다.</p>
+                    </div>
+                    <div class="chairman-sign">
+                        <span class="name serif">김 현 중</span>
+                        <span class="title">퍼플스 그룹 회장</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 4. Vision: AI & CSR -->
+    <section id="vision" class="vision-section section-padding">
+        <div class="container">
+            <div class="section-header text-center">
+                <h2 class="section-subtitle gold">HUMAN CENTRIC VISION</h2>
+                <h3 class="section-title serif">사람을 향한 진심,<br>기술을 넘어 감동으로</h3>
+                <p class="section-desc">우리의 모든 혁신은 결국 한 사람의 인생을<br>더 빛나게 하기 위한 것입니다.</p>
+            </div>
+            <div class="vision-grid">
+                <!-- Card 2: Connection/Brand -->
+                <div class="vision-card v-img-card v-network-img">
+                    <div class="card-overlay"></div>
+                    <div class="card-content">
+                        <div class="card-icon"><i class="fa-solid fa-people-group"></i></div>
+                        <h4 class="serif">Premium Network</h4>
+                        <p>사람과 가치를 잇는<br>고품격 브랜드 커뮤니티의 완성</p>
+                    </div>
+                </div>
+                <!-- Card 1: Bio -->
+                <div class="vision-card v-img-card v-bio-img">
+                    <div class="card-overlay"></div>
+                    <div class="card-content">
+                        <div class="card-icon"><i class="fa-solid fa-flask-vial"></i></div>
+                        <h4 class="serif">Bio-Aesthetic</h4>
+                        <p>차세대 바이오 기술로 완성하는<br>본연의 아름다움과 건강한 삶</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. Business Pillars Section (Added v4.0) -->
+    <section id="pillars" class="pillars-section section-padding">
+        <div class="container">
+            <!-- Pillar Category 1: Matching Services -->
+            <div class="pillar-category">
+                <div class="category-header">
+                    <h4>결혼정보 및 매칭 서비스</h4>
+                    <p>Marriage Information & Selective Matching</p>
+                </div>
+                <div class="pillar-grid">
+                    <!-- Purples -->
+                    <div class="pillar-card">
+                        <div class="pillar-media">
+                            <video autoplay muted loop playsinline>
+                                <source src="https://movie.purples.co.kr/2024_party_bg.mp4" type="video/mp4">
+                            </video>
+                        </div>
+                        <div class="pillar-content">
+                            <h5>프리미엄 퍼플스</h5>
+                            <p>대한민국 최초의 상류층 결혼정보회사로서, 지난 20년간 변치 않는 신뢰와 압도적인 성혼율을 자랑합니다.</p>
+                            <a href="https://www.purples.co.kr" target="_blank" class="pillar-link">Official Website <i
+                                    class="fa-solid fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+                    <!-- D-Noble -->
+                    <div class="pillar-card">
+                        <div class="pillar-media">
+                            <img src="https://img.youtube.com/vi/b_KVevj1Rpk/maxresdefault.jpg" alt="디노블"
+                                loading="lazy">
+                            <a href="https://youtu.be/b_KVevj1Rpk" target="_blank" class="video-overlay-btn"><i
+                                    class="fa-solid fa-play"></i></a>
+                        </div>
+                        <div class="pillar-content">
+                            <h5>노블레스 디노블</h5>
+                            <p>품격 있는 만남의 시작. 정재계 및 명문가 네트워크를 기반으로 최상의 프라이빗 매칭 서비스를 제공합니다.</p>
+                            <a href="https://www.dnoble.co.kr" target="_blank" class="pillar-link">Watch Movie <i
+                                    class="fa-solid fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+                    <!-- Le-Mari -->
+                    <div class="pillar-card">
+                        <div class="pillar-media">
+                            <img src="https://img.youtube.com/vi/x8kUNOeTM5s/maxresdefault.jpg" alt="르매리">
+                            <a href="https://www.youtube.com/watch?v=x8kUNOeTM5s" target="_blank"
+                                class="video-overlay-btn"><i class="fa-solid fa-play"></i></a>
+                        </div>
+                        <div class="pillar-content">
+                            <h5>재혼전문 르매리</h5>
+                            <p>새로운 시작을 위한 가장 따뜻한 동행. 풍부한 경험을 가진 전문가들이 제2의 인생을 설계해 드립니다.</p>
+                            <a href="https://www.remarry.co.kr" target="_blank" class="pillar-link">Watch Movie <i
+                                    class="fa-solid fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+                    <!-- Unni -->
+                    <div class="pillar-card">
+                        <div class="pillar-media">
+                            <img src="img/sub1/solution_vitality.png" alt="언니의인맥">
+                        </div>
+                        <div class="pillar-content">
+                            <h5>언니의인맥</h5>
+                            <p>MZ 세대를 위한 감성적이고 트렌디한 매칭 플랫폼. 진정성 있는 관계 맺기를 지향합니다.</p>
+                            <a href="#" class="pillar-link">Explore Platform <i class="fa-solid fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+                    <!-- Aunt -->
+                    <div class="pillar-card">
+                        <div class="pillar-media">
+                            <img src="img/sub1/auntinmac.png" alt="이모의인맥">
+                        </div>
+                        <div class="pillar-content">
+                            <h5>이모의인맥</h5>
+                            <p>편안하고 따뜻한 조언자로서의 매칭. 가족 같은 편안함 속에서 인연을 찾아드립니다.</p>
+                            <a href="#" class="pillar-link">Service Details <i class="fa-solid fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pillar Category 2: Brand & Culture & Bio -->
+            <div class="pillar-category">
+                <div class="category-header">
+                    <h4>브랜드 마케팅 및 바이오 사업</h4>
+                    <p>Brand Synergy & Bio Innovation</p>
+                </div>
+                <div class="pillar-grid">
+                    <!-- KPBA -->
+                    <div class="pillar-card">
+                        <div class="pillar-media">
+                            <video autoplay muted loop playsinline>
+                                <source src="https://image.kpbrand.co.kr/kpbrand/video/new_main-visual2.mp4"
+                                    type="video/mp4">
+                            </video>
+                        </div>
+                        <div class="pillar-content">
+                            <h5>한국프리미엄브랜드진흥원</h5>
+                            <p>기업의 가치를 브랜딩하고, 프리미엄의 기준을 정립하여 글로벌 시장에서의 경쟁력을 강화합니다.</p>
+                            <a href="http://kpbrand.co.kr" target="_blank" class="pillar-link">Official Website <i
+                                    class="fa-solid fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+                    <!-- Exobiome -->
+                    <div class="pillar-card">
+                        <div class="pillar-media">
+                            <video autoplay muted loop playsinline>
+                                <source
+                                    src="https://exobiomekorea.kr/myoffice/images/os/new_img1/main/video/main-visual.mp4"
+                                    type="video/mp4">
+                            </video>
+                        </div>
+                        <div class="pillar-content">
+                            <h5>엑소바이옴코리아</h5>
+                            <p>차세대 엑소좀 기술 기반의 코스메틱과 헬스케어 브랜드. 바이오 기술의 혁신이 일상이 됩니다.</p>
+                            <a href="https://exobiomekorea.kr" target="_blank" class="pillar-link">Product Universe <i
+                                    class="fa-solid fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+                    <!-- Association -->
+                    <div class="pillar-card">
+                        <div class="pillar-media">
+                            <video autoplay muted loop playsinline>
+                                <source src="https://image.kpbrand.co.kr/kpbrand/video/new_main-visual1.mp4"
+                                    type="video/mp4">
+                            </video>
+                        </div>
+                        <div class="pillar-content">
+                            <h5>한국미인협회</h5>
+                            <p>내외면의 아름다움을 추구하고 문화 예술을 진흥시켜 한국의 위상을 알리는 문화 네트워크입니다.</p>
+                            <a href="http://kobeas.kr" target="_blank" class="pillar-link">About Society <i
+                                    class="fa-solid fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 10. Global Network Section (Added v5.0) -->
+    <section id="global" class="global-section section-padding">
+        <div class="container">
+            <div class="section-header text-center">
+                <h2 class="section-subtitle gold">GLOBAL FOOTPRINT</h2>
+                <h3 class="section-title serif">대한민국을 넘어 글로벌 프리미엄의 기준으로</h3>
+            </div>
+            <div class="global-content-wrapper">
+                <div class="global-map-container">
+                    <img src="img/nano_banana_world_map.png" alt="Nano Banana Global World Map" loading="lazy">
+                    <div class="map-point" style="top: 35%; left: 82%;"></div>
+                    <div class="map-point" style="top: 45%; left: 15%;"></div>
+                    <div class="map-point" style="top: 38%; left: 48%;"></div>
+                </div>
+                <div class="global-info">
+                    <div class="info-card">
+                        <h4>Global Hubs</h4>
+                        <p>서울 본사를 중심으로 뉴욕, 런던, 도쿄 등 주요 글로벌 시티와의 전략적 파트너십을 확장하고 있습니다.</p>
+                    </div>
+                    <div class="info-card">
+                        <h4>World-class Standards</h4>
+                        <p>글로벌 시장에서도 통용되는 프리미엄 서비스 품질 관리(QA) 시스템을 도입하여 최상의 가치를 유지합니다.</p>
+                    </div>
+                    <div class="info-card">
+                        <h4>Overseas Expansion</h4>
+                        <p>엑소바이옴코리아의 바이오 기술력과 K-뷰티의 위상을 전 세계 시장에 전파하는 글로벌 비즈니스를 전개합니다.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 11. B2B Partnership Section (Added v5.0) -->
+    <section id="partnership" class="partnership-section section-padding">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-subtitle gold">PARTNERSHIP VALUE</h2>
+                <h3 class="section-title serif">비즈니스의 성공, <br>퍼플스 그룹이 함께 디자인합니다</h3>
+            </div>
+            <div class="partnership-grid">
+                <div class="partner-card">
+                    <i class="fa-solid fa-briefcase"></i>
+                    <h4>기업 임직원 복지 솔루션</h4>
+                    <p>국내 유수 대기업 및 전문직 단체와의 제휴를 통해 품격 있는 매칭 서비스를 기반으로 한 맞춤형 복지를 제공합니다.</p>
+                    <ul>
+                        <li>임직원 전용 프라이빗 매칭권</li>
+                        <li>사내 미팅 및 네트워킹 이벤트 기획</li>
+                        <li>패밀리 브랜드 통합 할인 혜택</li>
+                    </ul>
+                </div>
+                <div class="partner-card">
+                    <i class="fa-solid fa-handshake-angle"></i>
+                    <h4>브랜드 콜라보레이션</h4>
+                    <p>프리미엄 세그먼트 타겟 마케팅을 위해 이종 산업 간의 혁신적인 협업 기회를 창출합니다.</p>
+                    <ul>
+                        <li>VIP 타겟 공동 프로모션</li>
+                        <li>럭셔리 라이프스타일 전시 및 행사</li>
+                        <li>시너지 마케팅 데이터 분석 지원</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 5. Members Slider -->
+    <section id="members" class="member-section section-padding">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-subtitle gold">VISIONARY LEADERS</h2>
+                <h3 class="section-title serif">끊임없는 혁신으로 프리미엄의 새로운 기준을 확립합니다</h3>
+            </div>
+            <div class="swiper member-swiper">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide">
+                        <div class="member-card">
+                            <div class="member-img"><img src="img/main/8bon.jpg" alt="방여름 대표" loading="lazy"></div>
+                            <div class="member-info">
+                                <span class="dept">디노블 대표이사</span>
+                                <h5 class="name serif">방여름 <span></span></h5>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="member-card">
+                            <div class="member-img"><img src="img/main/9bon.jpg" alt="오유진 대표" loading="lazy"></div>
+                            <div class="member-info">
+                                <span class="dept">르매리 대표이사</span>
+                                <h5 class="name serif">오유진 <span></span></h5>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="member-card">
+                            <div class="member-img"><img src="img/main/1bon.png" alt="최현욱 본부장" loading="lazy"></div>
+                            <div class="member-info">
+                                <span class="dept">퍼플스 영업본부</span>
+                                <h5 class="name serif">최현욱 <span>본부장</span></h5>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="member-card">
+                            <div class="member-img"><img src="img/main/2bon.jpg" alt="오현근 본부장" loading="lazy"></div>
+                            <div class="member-info">
+                                <span class="dept">퍼플스 경영지원본부</span>
+                                <h5 class="name serif">오현근 <span>본부장</span></h5>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="member-card">
+                            <div class="member-img"><img src="img/main/3bon.jpg" alt="이승순 본부장" loading="lazy"></div>
+                            <div class="member-info">
+                                <span class="dept">퍼플스 재무본부</span>
+                                <h5 class="name serif">이승순 <span>본부장</span></h5>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="member-card">
+                            <div class="member-img"><img src="img/main/4bon.png" alt="홍승표 본부장" loading="lazy"></div>
+                            <div class="member-info">
+                                <span class="dept">로즈앤듀크</span>
+                                <h5 class="name serif">홍승표 <span>본부장</span></h5>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="member-card">
+                            <div class="member-img"><img src="img/main/5bon.jpg" alt="장명환 본부장" loading="lazy"></div>
+                            <div class="member-info">
+                                <span class="dept">퍼플스 기획본부</span>
+                                <h5 class="name serif">장명환 <span>본부장</span></h5>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="member-card">
+                            <div class="member-img"><img src="img/main/6bon.jpg" alt="장혜미 이사" loading="lazy"></div>
+                            <div class="member-info">
+                                <span class="dept">한국프리미엄브랜드진흥원</span>
+                                <h5 class="name serif">장혜미 <span>이사</span></h5>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="member-card">
+                            <div class="member-img"><img src="img/main/7bon.jpg" alt="김동식 이사" loading="lazy"></div>
+                            <div class="member-info">
+                                <span class="dept">엑소바이옴코리아</span>
+                                <h5 class="name serif">김동식 <span>이사</span></h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 7. Corporate Culture Section (Added v4.0) -->
+    <section id="culture" class="culture-section section-padding">
+        <div class="container">
+            <div class="section-header text-center">
+                <h2 class="section-subtitle gold">CORPORATE CULTURE</h2>
+                <h3 class="section-title serif">사람의 성장이 그룹의 내일이 됩니다</h3>
+            </div>
+            <div class="culture-content">
+                <div class="culture-visual">
+                    <img src="https://exobiomekorea.kr/myoffice/images/os/new_img1/sub/culture/recruit-img.jpg"
+                        alt="기업문화 비주얼" loading="lazy">
+                </div>
+                <div class="culture-text">
+                    <h4 class="serif">함께 꾸는 꿈은 <span class="gold">현실</span>이 됩니다.</h4>
+                    <div class="culture-values">
+                        <div class="value-item">
+                            <h6>혁신적 사고 (Innovative Mind)</h6>
+                            <p>기존의 틀에 얽매이지 않고 새로운 기술과 트렌드를 선도하는 열린 사고를 지향합니다.</p>
+                        </div>
+                        <div class="value-item">
+                            <h6>함께하는 성장 (Growth Together)</h6>
+                            <p>개인의 역량이 그룹의 자산이 되고, 그룹의 성공이 개인의 보람이 되는 동반 성장을 실현합니다.</p>
+                        </div>
+                        <div class="value-item">
+                            <h6>사회적 책임 (Social Impact)</h6>
+                            <p>우리의 비즈니스가 세상에 긍정적인 변화를 일으킬 수 있도록 진정성 있는 가치를 나눕니다.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    </section>
+
+    <!-- 13. Synergy Membership Section (Added v5.0) -->
+    <section id="synergy" class="synergy-section section-padding">
+        <div class="container">
+            <div class="section-header text-center">
+                <h2 class="section-subtitle gold">PREMIUM SYNERGY</h2>
+                <h3 class="section-title serif">그룹사 통합 멤버십으로 누리는 <br>독보적인 베네핏</h3>
+            </div>
+            <div class="synergy-box">
+                <div class="synergy-grid">
+                    <div class="synergy-item">
+                        <div class="synergy-text">
+                            <h5>Private Beauty Care</h5>
+                            <p>퍼플스 VIP 정회원을 위한 엑소바이옴코리아 최고급 엠플 및 스킨케어 패키지 증정</p>
+                        </div>
+                    </div>
+                    <div class="synergy-item">
+                        <div class="synergy-text">
+                            <h5>Brand Certification</h5>
+                            <p>제휴사 및 파트너 기업을 위한 한국프리미엄브랜드진흥원 브랜드 인증 컨설팅 우대</p>
+                        </div>
+                    </div>
+                    <div class="synergy-item">
+                        <div class="synergy-text">
+                            <h5>Cultural Networking</h5>
+                            <p>한국미인협회 주관 정기 갈라 파티 및 문화 예술 행사 우선 초대권 제공</p>
+                        </div>
+                    </div>
+                    <div class="synergy-item">
+                        <div class="synergy-text">
+                            <h5>Exclusive Matching</h5>
+                            <p>그룹사 임직원 및 제휴 기업 대상을 위한 특별 매칭 우대 및 성혼 장려 프로그램</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 8. Newsroom Section (Added v4.0) -->
+    <section id="news" class="news-section section-padding">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-subtitle gold">NEWSROOM</h2>
+                <h3 class="section-title serif">퍼플스 그룹의 새로운 소식</h3>
+            </div>
+            <div class="news-list">
+                <article class="news-item">
+                    <a href="#" aria-label="퍼플스 그룹 대한민국 브랜드 대상 수상 소식 상세보기">
+                        <div class="news-info">
+                            <span class="date">2026.01.15</span>
+                            <h5>퍼플스 그룹, '2026 대한민국 브랜드 대상' 산업통상자원부 장관상 수상</h5>
+                        </div>
+                        <div class="news-more"><i class="fa-solid fa-chevron-right"></i></div>
+                    </a>
+                </article>
+                <article class="news-item">
+                    <a href="#" aria-label="엑소바이옴코리아 특허 등록 소식 상세보기">
+                        <div class="news-info">
+                            <span class="date">2026.01.08</span>
+                            <h5>엑소바이옴코리아, 차세대 엑소좀 원천 기술 특허 등록 완료</h5>
+                        </div>
+                        <div class="news-more"><i class="fa-solid fa-chevron-right"></i></div>
+                    </a>
+                </article>
+                <article class="news-item">
+                    <a href="#" aria-label="2026년 신년사 상세보기">
+                        <div class="news-info">
+                            <span class="date">2026.01.02</span>
+                            <h5>신년사: "글로벌 프리미엄 라이프스타일 리더로서의 도약"</h5>
+                        </div>
+                        <div class="news-more"><i class="fa-solid fa-chevron-right"></i></div>
+                    </a>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    </section>
+
+    <!-- 12. ESG Deep Dive Section (Added v5.0) -->
+    <section id="esg" class="esg-section section-padding">
+        <div class="container">
+            <div class="section-header text-center">
+                <h2 class="section-subtitle gold">ESG & SOCIAL IMPACT</h2>
+                <h3 class="section-title serif">지속 가능한 미래와 <br>사회적 가치 실현</h3>
+            </div>
+            <div class="esg-grid">
+                <article class="esg-card">
+                    <div class="esg-icon-box"><i class="fa-solid fa-leaf"></i></div>
+                    <h4>Eco-Friendly Bio</h4>
+                    <p>엑소바이옴코리아는 친환경 공수 방식과 지속 가능한 패키징 기술을 통해 환경 보호에 앞장섭니다.</p>
+                </article>
+                <article class="esg-card">
+                    <div class="esg-icon-box"><i class="fa-solid fa-heart-pulse"></i></div>
+                    <h4>Social Care</h4>
+                    <p>저출산 고령화 사회 문제 해결을 위한 결혼 장려 캠페인과 취약 계층을 위한 다양한 사회 공헌 활동을 전개합니다.</p>
+                </article>
+                <article class="esg-card">
+                    <div class="esg-icon-box"><i class="fa-solid fa-scale-balanced"></i></div>
+                    <h4>Transparent Mgmt</h4>
+                    <p>투명하고 공정한 경영 시스템을 구축하여 고객과 파트너사가 믿고 함께할 수 있는 기업 문화를 정착시킵니다.</p>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- 9. Contact Section (Added v4.0) -->
+    <section id="contact" class="contact-section section-padding">
+        <div class="container">
+            <div class="section-header text-center">
+                <h2 class="section-subtitle gold">GET IN TOUCH</h2>
+                <h3 class="section-title serif">당신의 소중한 가치를 함께하겠습니다</h3>
+            </div>
+            <div class="contact-grid">
+                <div class="contact-form">
+                    <form>
+                        <div class="form-group">
+                            <label>성함 (Name)</label>
+                            <input type="text" placeholder="성함을 입력해 주세요">
+                        </div>
+                        <div class="form-group">
+                            <label>연락처 (Contact)</label>
+                            <input type="tel" placeholder="연락처를 입력해 주세요">
+                        </div>
+                        <div class="form-group">
+                            <label>문의내용 (Message)</label>
+                            <textarea rows="5" placeholder="문의내용을 입력해 주세요"></textarea>
+                        </div>
+                        <button type="submit" class="submit-btn">상담 신청하기</button>
+                    </form>
+                </div>
+                <div class="contact-info-boxes">
+                    <div class="info-box">
+                        <h5>일반 고객 문의</h5>
+                        <p>상담 시간: 평일 10:00 - 18:00</p>
+                        <a href="tel:02-123-4567">02-123-4567</a>
+                    </div>
+                    <div class="info-box">
+                        <h5>기업 제휴 및 B2B 문의</h5>
+                        <p>그룹사와의 전략적 파트너십을 위한 전문 상담 채널</p>
+                        <a href="#" class="pillar-link">제휴 제안 바로가기 <i class="fa-solid fa-handshake"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+        <div class="container footer-grid">
+            <div class="footer-info">
+                <h2 class="logo serif">PURPLES <span>GROUP</span></h2>
+                <p class="copyright">&copy; 2026 PURPLES GROUP. All Rights Reserved.</p>
+            </div>
+            <div class="footer-links">
+                <div class="link-group">
+                    <h5 class="serif">Family Brands</h5>
+                    <ul>
+                        <li><a href="#">Cheongdam Purples</a></li>
+                        <li><a href="#">Exobiome Korea</a></li>
+                        <li><a href="#">KBA / KPBA</a></li>
+                    </ul>
+                </div>
+                <div class="link-group">
+                    <h5 class="serif">Connect</h5>
+                    <ul>
+                        <li><a href="#">Partnership</a></li>
+                        <li><a href="#">Newsroom</a></li>
+                        <li><a href="#">Contact Us</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-address">
+                <p>서울특별시 강남구 테헤란로 (퍼플스 빌딩)</p>
+                <p>Tel: 1588-0000 | Email: b2b@purples.group</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <button id="backToTop" class="back-to-top">
+        <i class="fa-solid fa-arrow-up"></i>
+    </button>
+</body>
+
+</html>

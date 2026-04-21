@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2026 기획본부 비전: Worker to Creator</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://unpkg.com/@studio-freight/lenis@1.0.33/dist/lenis.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Pretendard:wght@100;300;400;700;900&display=swap');
+
+        :root {
+            --accent: #00ffcc;
+            --bg: #050505;
+        }
+
+        html,
+        body {
+            background-color: var(--bg);
+            color: #fff;
+            font-family: 'Pretendard', sans-serif;
+            overflow-x: hidden;
+            word-break: keep-all;
+            width: 100%;
+        }
+
+        .text-glow {
+            text-shadow: 0 0 20px rgba(0, 255, 204, 0.5);
+        }
+
+        .glass {
+            background: rgba(255, 255, 255, 0.03);
+            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .section-padding {
+            padding: 8rem 5% 4rem 5%;
+        }
+
+        @media (min-width: 768px) {
+            .section-padding {
+                padding: 10rem 10% 5rem 10%;
+            }
+        }
+
+        .gradient-text {
+            background: linear-gradient(90deg, #fff, var(--accent));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Hero Background Animation */
+        #canvas-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.4;
+        }
+
+        .step-node {
+            width: 120px;
+            height: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            position: relative;
+            /* transition removed to prevent GSAP conflict */
+        }
+
+        .step-line {
+            height: 2px;
+            background: rgba(255, 255, 255, 0.1);
+            flex-grow: 1;
+            /* transition removed to prevent GSAP conflict */
+        }
+
+        /* Navigation Styles */
+        nav {
+            background: rgba(5, 5, 5, 0.8);
+            -webkit-backdrop-filter: blur(15px);
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .nav-link {
+            position: relative;
+            color: #666;
+            transition: color 0.3s ease;
+        }
+
+        .nav-link.active {
+            color: #00ffcc;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #00ffcc;
+            transition: width 0.3s ease;
+        }
+
+        .nav-link.active::after {
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="canvas-container">
+        <!-- Abstract BG effect can be added here -->
+    </div>
+
+    <!-- 0. Navigation / Progress Bar -->
+    <div class="fixed top-0 left-0 w-full z-50">
+        <nav class="flex justify-center items-center py-4 gap-4 md:gap-8">
+            <a href="index.html" class="nav-link active font-bold tracking-tighter text-sm uppercase">Vision</a>
+            <a href="performance.html" class="nav-link font-bold tracking-tighter text-sm uppercase">Performance</a>
+        </nav>
+        <div class="w-full h-[2px] bg-zinc-900">
+            <div id="progress" class="h-full bg-[#00ffcc] w-0 shadow-[0_0_10px_#00ffcc]"></div>
+        </div>
+    </div>
+
+    <!-- 1. Hero Section -->
+    <section class="h-screen flex flex-col justify-center items-center text-center relative px-6">
+        <div class="mb-4 opacity-0" id="hero-date">2025. 12. 28</div>
+        <h1 class="text-6xl md:text-9xl font-black leading-none mb-6 opacity-0" id="hero-title">
+            WORKER<br>
+            <span class="text-zinc-800 font-outline-2">TO</span> <br class="md:hidden"><span
+                class="highlight text-glow text-[#00ffcc]">CREATOR</span>
+        </h1>
+        <p class="text-xl md:text-2xl text-zinc-400 font-light max-w-2xl opacity-0" id="hero-desc">
+            “수행자에서 실현자로”<br>
+            2026 퍼플스 기획본부 운영철학 선포<br>
+            <span class="text-sm tracking-widest opacity-70 mt-4 block">-장명환 본부장-</span>
+        </p>
+        <div class="absolute bottom-10 animate-bounce text-zinc-600 text-sm tracking-widest">SCROLL DOWN</div>
+    </section>
+
+    <!-- 2. Intro Message -->
+    <section class="section-padding max-w-5xl mx-auto">
+        <h2 class="text-3xl md:text-5xl font-bold mb-12 leading-tight">
+            우리는 지금 <span class="text-[#00ffcc]">'기술의 진화'</span>를 넘어<br>
+            <span class="italic underline decoration-zinc-700">'존재의 정의'</span>가 바뀌는 변곡점에 서 있습니다.
+        </h2>
+        <div class="grid md:grid-cols-2 gap-12 text-zinc-400 text-lg leading-relaxed">
+            <p>
+                안녕하십니까. 본부장 장명환입니다. 이제는 전통적인 절차적인 진행에 의존하기보다, 무엇을 어떻게 실현하느냐라는 <span class="text-white font-bold">결과 중심의
+                    관점</span>이 조직과 개인의 생존을 결정하는 시대입니다.
+            </p>
+            <p>
+                과거의 복잡한 프로세스가 생략되고 실행의 속도가 앞서가는 패러다임의 전환이 이미 우리 곁에 와 있습니다.
+            </p>
+        </div>
+    </section>
+
+    <!-- 3. Process Destruction -->
+    <section class="section-padding bg-zinc-950/50" id="process-section">
+        <div class="mb-20 text-center">
+            <span class="text-[#00ffcc] font-bold tracking-widest text-sm">CHAPTER 01</span>
+            <h2 class="text-4xl md:text-6xl font-black mt-4">프로세스의 소멸</h2>
+            <p class="text-zinc-500 mt-4">AI는 중간 과정을 파괴하거나 제로(Zero)에 가깝게 단축시킵니다.</p>
+        </div>
+
+        <!-- Animated Process Chain -->
+        <div class="flex flex-col md:flex-row items-center justify-center gap-4 py-20 overflow-hidden"
+            id="process-chain">
+            <div class="step-node glass font-bold">기획</div>
+            <div class="step-line hidden md:block"></div>
+            <div class="step-node glass font-bold">디자인</div>
+            <div class="step-line hidden md:block"></div>
+            <div class="step-node glass font-bold">개발</div>
+            <div class="step-line hidden md:block"></div>
+            <div class="step-node bg-[#00ffcc] text-black font-black border-none shadow-[0_0_30px_rgba(0,255,204,0.4)]">
+                실현</div>
+        </div>
+
+        <!-- Case Studies -->
+        <div class="grid md:grid-cols-2 gap-8 mt-20">
+            <div class="glass p-8 rounded-3xl border-l-4 border-[#00ffcc]">
+                <h4 class="text-[#00ffcc] font-bold mb-4 uppercase tracking-tighter">Internal Case</h4>
+                <p class="text-2xl font-bold mb-4">제휴 사이트 DB 연동 관리자 페이지</p>
+                <p class="text-zinc-400">수 주가 소요되던 절차가 AI 활용을 통해 <span class="text-white font-bold">단 반나절</span> 만에
+                    실현되었습니다.</p>
+            </div>
+            <div class="glass p-8 rounded-3xl border-l-4 border-zinc-700">
+                <h4 class="text-zinc-500 font-bold mb-4 uppercase tracking-tighter">External Case</h4>
+                <p class="text-2xl font-bold mb-4">패션 기획자의 데이터 분석</p>
+                <p class="text-zinc-400">전문 지식 없이도 정교한 차트를 구현하며 <span class="text-white font-bold">의사결정을 주도</span>하고
+                    있습니다.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. Crisis Paradox -->
+    <section class="section-padding relative overflow-hidden">
+        <div
+            class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[15vw] md:text-[20vw] font-black text-white/[0.02] pointer-events-none uppercase">
+            Crisis
+        </div>
+        <div class="max-w-4xl mx-auto text-center relative z-10">
+            <span class="text-red-500 font-bold tracking-widest text-sm">CHAPTER 02</span>
+            <h2 class="text-4xl md:text-6xl font-black mt-4 mb-10">효율의 역설: 인력의 위기</h2>
+            <p class="text-2xl md:text-3xl text-zinc-300 leading-tight mb-8">
+                "중간 프로세스가 사라진다면,<br>그 과정 위에서 일하던 인력은 <span class="text-white underline">왜 필요한가?</span>"
+            </p>
+            <p class="text-zinc-500 text-lg">
+                단순히 주어진 지시를 절차에 맞춰 수행하는 수준에 머문다면,<br>우리는 이 효율의 파도에 휩쓸려 나갈 수밖에 없습니다.
+            </p>
+        </div>
+    </section>
+
+    <!-- 5. Evaluation Paradigm -->
+    <section class="section-padding bg-white text-black">
+        <div class="max-w-6xl mx-auto">
+            <span class="text-zinc-400 font-bold tracking-widest text-sm">CHAPTER 03</span>
+            <h2 class="text-4xl md:text-7xl font-black mt-4 mb-20 tracking-tighter">2026 성과 평가 패러다임</h2>
+
+            <div class="grid md:grid-cols-2 gap-10">
+                <div class="p-10 border-2 border-black rounded-3xl" id="eval-1">
+                    <h3 class="text-3xl font-black mb-6 flex items-center gap-3">
+                        <span
+                            class="w-10 h-10 bg-black text-white flex items-center justify-center rounded-full text-lg">01</span>
+                        과정의 효율화
+                    </h3>
+                    <p class="text-xl leading-relaxed text-zinc-600 font-medium">
+                        단순 반복 업무를 얼마나 <span class="text-black font-bold">시스템화하고 자동화</span>하여 리소스를 절감했는가.
+                    </p>
+                </div>
+                <div class="p-10 bg-black text-white rounded-3xl shadow-2xl" id="eval-2">
+                    <h3 class="text-3xl font-black mb-6 flex items-center gap-3">
+                        <span
+                            class="w-10 h-10 bg-[#00ffcc] text-black flex items-center justify-center rounded-full text-lg">02</span>
+                        결과의 실현
+                    </h3>
+                    <p class="text-xl leading-relaxed text-zinc-400 font-medium">
+                        확보된 리소스로 <span class="text-[#00ffcc] font-bold">수익과 성장에 기여할 신규 프로젝트</span>를 얼마나 스스로 생성하고 실현했는가.
+                    </p>
+                </div>
+            </div>
+
+            <div class="mt-20 p-12 border-4 border-dashed border-zinc-200 rounded-[3rem] text-center">
+                <p class="text-2xl md:text-4xl font-black leading-tight italic">
+                    "스스로 미션을 수립수행하고 그 결과를 실현하는 사람만이<br>
+                    기획본부의 구성원으로서 정당한 가치를 유지할 수 있습니다."
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 6. Conclusion -->
+    <section class="section-padding min-h-screen flex flex-col justify-center items-center text-center">
+        <h2 class="text-4xl md:text-7xl font-black mb-12 leading-none">
+            누군가에게는 <span class="text-zinc-800">위기</span>의 시간이겠지만,<br>
+            결단한 이에게는 <span class="text-[#00ffcc]">최고의 기회</span>가 될 것입니다.
+        </h2>
+
+        <div class="mt-20 space-y-4">
+            <p class="text-xl text-zinc-400 font-light italic">여러분의 주도적인 도전이 기획본부의 가치를 증명하고 미래를 실현할 것을 확신합니다.</p>
+            <div class="h-px w-20 bg-zinc-700 mx-auto my-10"></div>
+            <p class="text-sm tracking-[0.5em] text-zinc-500 mb-2">2025. 12. 28</p>
+            <p class="text-3xl font-black">기획본부 본부장 장명환 드림</p>
+        </div>
+    </section>
+
+    <footer class="py-10 text-center text-zinc-800 text-xs border-t border-zinc-900">
+        © 2026 PLANNING DIVISION. ALL RIGHTS RESERVED.
+    </footer>
+
+    <script>
+        // Smooth Scroll
+        const lenis = new Lenis();
+        function raf(time) {
+            lenis.raf(time);
+            requestAnimationFrame(raf);
+        }
+        requestAnimationFrame(raf);
+
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Progress Bar
+        gsap.to("#progress", {
+            width: "100%",
+            ease: "none",
+            scrollTrigger: { scrub: 0.3 }
+        });
+
+        // Hero Entrance
+        const tlHero = gsap.timeline();
+        tlHero.to("#hero-date", { opacity: 0.5, y: -10, duration: 1 })
+            .to("#hero-title", { opacity: 1, y: -20, duration: 1.2, ease: "power4.out" }, "-=0.5")
+            .to("#hero-desc", { opacity: 1, y: -15, duration: 1 }, "-=0.8");
+
+        // Process Destruction Animation
+        const processNodes = gsap.utils.toArray(".step-node");
+        const processLines = gsap.utils.toArray(".step-line");
+
+        gsap.to(processNodes.slice(0, 3), {
+            scrollTrigger: {
+                trigger: "#process-section",
+                start: "top 20%",
+                end: "bottom center",
+                scrub: 1
+            },
+            opacity: 0.1,
+            scale: 0.8,
+            filter: "blur(6px)",
+            y: 40,
+            stagger: 0.3
+        });
+
+        gsap.to(processLines, {
+            scrollTrigger: {
+                trigger: "#process-section",
+                start: "top 20%",
+                end: "bottom center",
+                scrub: 1
+            },
+            width: 0,
+            opacity: 0,
+            stagger: 0.3
+        });
+
+        // Evaluation Cards
+        gsap.from("#eval-1", {
+            scrollTrigger: { trigger: "#eval-1", start: "top 80%" },
+            x: -50,
+            opacity: 0,
+            duration: 1
+        });
+        gsap.from("#eval-2", {
+            scrollTrigger: { trigger: "#eval-2", start: "top 80%" },
+            x: 50,
+            opacity: 0,
+            duration: 1
+        });
+
+        // Vision Text Stagger
+        const visionTexts = gsap.utils.toArray(".vision-text");
+        visionTexts.forEach(text => {
+            gsap.from(text, {
+                scrollTrigger: {
+                    trigger: text,
+                    start: "top 90%",
+                },
+                opacity: 0,
+                y: 20,
+                duration: 1
+            });
+        });
+
+        // 3D Tilt Effect for Hero Title
+        const heroTitle = document.querySelector("#hero-title");
+        const heroSection = heroTitle.closest("section");
+
+        heroSection.addEventListener("mousemove", (e) => {
+            const { clientX, clientY } = e;
+            const { innerWidth, innerHeight } = window;
+
+            const rotateY = ((clientX / innerWidth) - 0.5) * 30; // Max 15deg
+            const rotateX = ((clientY / innerHeight) - 0.5) * -30; // Max 15deg
+
+            gsap.to(heroTitle, {
+                rotateY: rotateY,
+                rotateX: rotateX,
+                transformPerspective: 1000,
+                ease: "power2.out",
+                duration: 0.5
+            });
+        });
+
+        heroSection.addEventListener("mouseleave", () => {
+            gsap.to(heroTitle, {
+                rotateY: 0,
+                rotateX: 0,
+                ease: "power2.out",
+                duration: 0.8
+            });
+        });
+    </script>
+</body>
+
+</html>

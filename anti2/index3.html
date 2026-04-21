@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="ko" style="scroll-behavior: smooth;">
+
+<head>
+    <!-- Google Tag Manager -->
+    <script>(function (w, d, s, l, i) {
+            w[l] = w[l] || []; w[l].push({
+                'gtm.start':
+                    new Date().getTime(), event: 'gtm.js'
+            }); var f = d.getElementsByTagName(s)[0],
+                j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+                    'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-W83KRT2H');</script>
+    <!-- End Google Tag Manager -->
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PURPLES GROUP | B2B Integrated Solution</title>
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2220%22 fill=%22%23000000%22/><text x=%2250%22 y=%2272%22 font-family=%22serif%22 font-size=%2270%22 font-weight=%22bold%22 fill=%22%23D4AF37%22 text-anchor=%22middle%22>P</text></svg>">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;400;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Pretendard:wght@300;400;500;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'brand-black': '#0A0A0A', /* Ebony Black */
+                        'brand-gold': '#C5A059',  /* Champagne Gold */
+                        'brand-gold-light': '#E5C985',
+                        'brand-dark-gray': '#1F1F1F',
+                        'brand-text-gray': '#A0A0A0'
+                    },
+                    fontFamily: {
+                        serif: ['"Playfair Display"', '"Noto Serif KR"', 'serif'],
+                        sans: ['"Pretendard"', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .fade-in-up {
+            animation: fadeInUp 1.2s ease-out forwards;
+            opacity: 0;
+            transform: translateY(40px);
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .delay-300 {
+            animation-delay: 0.3s;
+        }
+
+        .delay-500 {
+            animation-delay: 0.5s;
+        }
+
+        .delay-700 {
+            animation-delay: 0.7s;
+        }
+
+        .glass-header {
+            background: rgba(10, 10, 10, 0.85);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(197, 160, 89, 0.1);
+        }
+
+        .gold-gradient-text {
+            background: linear-gradient(to right, #C5A059, #E5C985, #C5A059);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-size: 200% auto;
+            animation: shine 4s linear infinite;
+        }
+
+        @keyframes shine {
+            to {
+                background-position: 200% center;
+            }
+        }
+
+        .input-underline {
+            border-bottom: 1px solid #333;
+            transition: all 0.3s;
+        }
+
+        .input-underline:focus-within {
+            border-bottom: 1px solid #C5A059;
+        }
+    </style>
+</head>
+
+<body
+    class="bg-brand-black text-white font-sans antialiased overflow-x-hidden selection:bg-brand-gold selection:text-black">
+
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-W83KRT2H" height="0" width="0"
+            style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+
+    <!-- Header -->
+    <header class="fixed w-full z-50 glass-header transition-all duration-300 py-5">
+        <div class="container mx-auto px-4 md:px-6 flex justify-between items-center">
+            <a href="#"
+                class="text-lg md:text-2xl font-serif font-bold text-white tracking-widest flex items-center gap-2 whitespace-nowrap">
+                <!--<span class="text-brand-gold text-3xl">P</span>--> PURPLES GROUP
+            </a>
+            <nav class="hidden md:flex gap-10 text-sm font-light tracking-widest text-gray-300">
+                <a href="#about" class="hover:text-brand-gold transition-colors">ABOUT</a>
+                <a href="#brands" class="hover:text-brand-gold transition-colors">BRANDS</a>
+                <a href="#partnership" class="hover:text-brand-gold transition-colors">PARTNERSHIP</a>
+            </nav>
+            <a href="#inquiry"
+                class="border border-brand-gold/50 text-brand-gold px-4 md:px-6 py-2 text-[10px] md:text-xs tracking-[0.2em] hover:bg-brand-gold hover:text-black transition-all duration-500 whitespace-nowrap">
+                CONTACT VIP
+            </a>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="about" class="relative h-screen flex items-center justify-center overflow-hidden">
+        <div class="absolute inset-0 z-0">
+            <img src="./images/landing_hero.png" alt="Luxury View"
+                class="w-full h-full object-cover opacity-50 scale-105 animate-[pulse_10s_infinite_alternate]">
+            <div class="absolute inset-0 bg-gradient-to-b from-brand-black/30 via-transparent to-brand-black"></div>
+        </div>
+
+        <div class="relative z-10 text-center px-6 max-w-5xl mx-auto mt-20">
+            <p
+                class="text-brand-gold tracking-[0.3em] md:tracking-[0.4em] text-xs md:text-base mb-6 md:mb-8 fade-in-up uppercase font-serif">
+                Premier B2B Solution</p>
+            <h1
+                class="text-3xl sm:text-4xl md:text-7xl font-serif font-bold mb-6 md:mb-8 leading-snug md:leading-tight fade-in-up delay-300 break-keep">
+                대한민국 상위 1%,<br class="hidden md:block">
+                그 이상의 가치를 잇다
+            </h1>
+            <p
+                class="text-gray-300 text-sm sm:text-base md:text-xl font-light mb-10 md:mb-12 fade-in-up delay-500 max-w-2xl mx-auto leading-relaxed">
+                퍼플스 그룹 통합 비즈니스 솔루션으로<br class="hidden md:block">
+                귀사의 임직원에게 품격이 다른 인적 네트워크를 선물하십시오.
+            </p>
+
+            <div class="flex justify-center fade-in-up delay-700">
+                <a href="#inquiry"
+                    class="bg-brand-gold text-black px-8 md:px-12 py-4 md:py-5 text-sm md:text-base font-bold tracking-wider hover:bg-white transition-all duration-300 min-w-[260px] md:min-w-[300px] inline-block text-center shadow-xl">
+                    VIP 제휴 제안서 및 1:1 컨설팅 신청
+                </a>
+            </div>
+        </div>
+
+        <div class="absolute bottom-10 left-0 w-full flex justify-center animate-bounce">
+            <span class="text-xs text-brand-gold tracking-widest uppercase">Scroll Down</span>
+        </div>
+    </section>
+
+    <!-- Social Proof Section (Metrics) -->
+    <section id="metrics" class="py-16 md:py-20 border-y border-white/5 bg-brand-dark-gray">
+        <div class="container mx-auto px-6">
+            <div
+                class="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12 text-center divide-y md:divide-y-0 md:divide-x divide-white/10">
+                <div class="py-6 md:py-4">
+                    <p class="text-brand-text-gray text-[10px] md:text-xs tracking-widest mb-2 font-serif">CUMULATIVE
+                        MARRIAGES</p>
+                    <h3 class="text-3xl md:text-5xl font-serif text-white"><span class="counter"
+                            data-target="15230">0</span>+</h3>
+                    <p class="text-xs md:text-sm text-gray-500 mt-2">누적 성혼 커플 수</p>
+                </div>
+                <div class="py-6 md:py-4">
+                    <p class="text-brand-text-gray text-[10px] md:text-xs tracking-widest mb-2 font-serif">PARTNERED
+                        CORPORATIONS</p>
+                    <h3 class="text-3xl md:text-5xl font-serif text-white"><span class="counter"
+                            data-target="480">0</span>+</h3>
+                    <p class="text-xs md:text-sm text-gray-500 mt-2">국내 제휴 대기업 및 공기업</p>
+                </div>
+                <div class="py-6 md:py-4">
+                    <p class="text-brand-text-gray text-[10px] md:text-xs tracking-widest mb-2 font-serif">SATISFACTION
+                        RATE</p>
+                    <h3 class="text-3xl md:text-5xl font-serif text-white"><span class="counter"
+                            data-target="98">0</span>%</h3>
+                    <p class="text-xs md:text-sm text-gray-500 mt-2">VIP 회원 만족도</p>
+                </div>
+            </div>
+
+            <!-- Partner Logos Strip (Placeholder) -->
+            <div
+                class="mt-16 flex flex-wrap justify-center gap-8 opacity-40 grayscale hover:grayscale-0 transition-all duration-500">
+                <!-- Simple Text Placeholders for Logos to keep it clean -->
+                <span class="text-xl font-serif font-bold">SAMSUNG</span>
+                <span class="text-xl font-serif font-bold">HYUNDAI</span>
+                <span class="text-xl font-serif font-bold">SK</span>
+                <span class="text-xl font-serif font-bold">LG</span>
+                <span class="text-xl font-serif font-bold">LOTTE</span>
+                <span class="text-xl font-serif font-bold">HANWHA</span>
+                <span class="text-xl font-serif font-bold">POSCO</span>
+                <span class="text-xl font-serif font-bold">GS</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Brand Story Section (3-Track) -->
+    <section id="brands" class="py-20 md:py-32 bg-brand-black relative">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16 md:mb-20">
+                <h2 class="text-3xl md:text-5xl font-serif font-bold mb-4 md:mb-6 gold-gradient-text">5-Track Integrated
+                    Solution</h2>
+                <p class="text-sm md:text-base text-gray-400 font-light max-w-2xl mx-auto px-4 md:px-0">
+                    임직원의 라이프사이클과 니즈에 맞춘 최적의 브랜드 포트폴리오.<br class="hidden md:block">
+                    MZ세대부터 리더십 그룹까지 폭넓게 아우르는 통합 복지 솔루션입니다.
+                </p>
+            </div>
+
+            <div class="space-y-24 md:space-y-32">
+                <!-- Track 1: PURPLES -->
+                <div class="flex flex-col md:flex-row items-center gap-8 md:gap-12 group">
+                    <div class="w-full md:w-1/2 relative overflow-hidden aspect-[4/3]">
+                        <video id="purples-video" src="https://movie.purples.co.kr/2024_party_bg.mp4"
+                            class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 filter brightness-75 group-hover:brightness-100"
+                            muted loop playsinline poster="./images/brand_purples.png"></video>
+                        <div
+                            class="absolute inset-0 border border-brand-gold/30 scale-95 transition-transform duration-500 group-hover:scale-100">
+                        </div>
+                    </div>
+                    <div class="w-full md:w-1/2 md:pl-10 text-center md:text-left">
+                        <span
+                            class="text-brand-gold font-serif text-sm md:text-lg tracking-[0.2em] md:tracking-widest block mb-2 md:mb-4">THE
+                            PRESTIGE</span>
+                        <h3 class="text-2xl md:text-4xl font-serif font-bold text-white mb-4 md:mb-6">PURPLES <span
+                                class="block text-lg md:text-xl font-light text-gray-400 mt-1 md:mt-2 font-sans">퍼플스</span>
+                        </h3>
+                        <p class="text-sm md:text-base text-gray-300 leading-relaxed mb-6 md:mb-8 px-4 md:px-0">
+                            대한민국 최초, 최대 규모의 상류층 결혼정보회사.<br class="hidden md:block">
+                            재벌가, 명문가, 전문직 등 VVIP 성혼 노하우를 바탕으로<br class="hidden md:block">
+                            기업의 리더십 그룹에게 걸맞은 최상위 매칭 서비스를 제공합니다.
+                        </p>
+                        <ul class="text-xs md:text-sm text-gray-400 space-y-2 mb-6 md:mb-8 font-light list-none">
+                            <li><i class="fas fa-check text-brand-gold mr-2"></i> 철저한 신원 인증 시스템</li>
+                            <li><i class="fas fa-check text-brand-gold mr-2"></i> 베테랑 커플매니저 & 매칭팀 관리</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Track 2: DENOBLE -->
+                <div class="flex flex-col md:flex-row-reverse items-center gap-8 md:gap-12 group">
+                    <div class="w-full md:w-1/2 relative overflow-hidden aspect-[4/3]">
+                        <iframe class="w-full h-full object-cover pointer-events-none"
+                            src="https://www.youtube.com/embed/b_KVevj1Rpk?autoplay=1&mute=1&loop=1&playlist=b_KVevj1Rpk&start=33&controls=0&showinfo=0&rel=0&iv_load_policy=3&modestbranding=1"
+                            title="Denoble Brand Video" frameborder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                            allowfullscreen></iframe>
+                        <div
+                            class="absolute inset-0 border border-brand-gold/30 scale-95 transition-transform duration-500 group-hover:scale-100 pointer-events-none">
+                        </div>
+                    </div>
+                    <div class="w-full md:w-1/2 md:pr-10 text-center md:text-right">
+                        <span
+                            class="text-brand-gold font-serif text-sm md:text-lg tracking-[0.2em] md:tracking-widest block mb-2 md:mb-4">FOR
+                            ELITES</span>
+                        <h3 class="text-2xl md:text-4xl font-serif font-bold text-white mb-4 md:mb-6">D.NOBLE <span
+                                class="block text-lg md:text-xl font-light text-gray-400 mt-1 md:mt-2 font-sans">디노블</span>
+                        </h3>
+                        <p class="text-sm md:text-base text-gray-300 leading-relaxed mb-6 md:mb-8 px-4 md:px-0">
+                            전문직과 대기업 인재를 위한 정교한 매칭 플랫폼.<br class="hidden md:block">
+                            비슷한 라이프스타일과 가치관을 공유하는 엘리트 그룹 간의<br class="hidden md:block">
+                            만남을 주선하여, 기업의 핵심 인재들의 안정을 돕습니다.
+                        </p>
+                        <ul
+                            class="text-xs md:text-sm text-gray-400 space-y-2 mb-6 md:mb-8 font-light flex flex-col items-center md:items-end list-none">
+                            <li>국내 유수의 로펌 및 병원 제휴 네트워크 <i class="fas fa-check text-brand-gold ml-2"></i></li>
+                            <li>체계적인 매칭 알고리즘 기반 <i class="fas fa-check text-brand-gold ml-2"></i></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Track 3: UNNIE'S NETWORK -->
+                <div class="flex flex-col md:flex-row items-center gap-8 md:gap-12 group">
+                    <div class="w-full md:w-1/2 relative overflow-hidden aspect-[4/3]">
+                        <img src="./images/sister.png" alt="Unnies Network"
+                            class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 filter brightness-75 group-hover:brightness-100">
+                        <div
+                            class="absolute inset-0 border border-brand-gold/30 scale-95 transition-transform duration-500 group-hover:scale-100">
+                        </div>
+                    </div>
+                    <div class="w-full md:w-1/2 md:pl-10 text-center md:text-left">
+                        <span
+                            class="text-brand-gold font-serif text-sm md:text-lg tracking-[0.2em] md:tracking-widest block mb-2 md:mb-4">SOCIAL
+                            &
+                            CASUAL</span>
+                        <h3 class="text-2xl md:text-4xl font-serif font-bold text-white mb-4 md:mb-6">UNNIE'S NETWORK
+                            <span
+                                class="block text-lg md:text-xl font-light text-gray-400 mt-1 md:mt-2 font-sans">언니의인맥</span>
+                        </h3>
+                        <p class="text-sm md:text-base text-gray-300 leading-relaxed mb-6 md:mb-8 px-4 md:px-0">
+                            MZ세대를 위한 트렌디한 소셜 네트워킹 서비스.<br class="hidden md:block">
+                            자연스러운 만남과 파티 문화를 선호하는 젊은 임직원들에게<br class="hidden md:block">
+                            새로운 활력과 즐거운 관계 형성의 기회를 선물합니다.
+                        </p>
+                        <ul class="text-xs md:text-sm text-gray-400 space-y-2 mb-6 md:mb-8 font-light list-none">
+                            <li><i class="fas fa-check text-brand-gold mr-2"></i> 부담 없는 캐주얼 미팅 & 파티</li>
+                            <li><i class="fas fa-check text-brand-gold mr-2"></i> 검증된 회원 기반의 안전한 소셜링</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Track 4: AUNT'S NETWORK -->
+                <div class="flex flex-col md:flex-row-reverse items-center gap-8 md:gap-12 group">
+                    <div class="w-full md:w-1/2 relative overflow-hidden aspect-[4/3]">
+                        <img src="./images/auntinmac.png" alt="Aunt's Network"
+                            class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 filter brightness-75 group-hover:brightness-100">
+                        <div
+                            class="absolute inset-0 border border-brand-gold/30 scale-95 transition-transform duration-500 group-hover:scale-100">
+                        </div>
+                    </div>
+                    <div class="w-full md:w-1/2 md:pr-10 text-center md:text-right">
+                        <span
+                            class="text-brand-gold font-serif text-sm md:text-lg tracking-[0.2em] md:tracking-widest block mb-2 md:mb-4">CONNECTION</span>
+                        <h3 class="text-2xl md:text-4xl font-serif font-bold text-white mb-4 md:mb-6">AUNT'S NETWORK
+                            <span
+                                class="block text-lg md:text-xl font-light text-gray-400 mt-1 md:mt-2 font-sans">이모의인맥</span>
+                        </h3>
+                        <p class="text-sm md:text-base text-gray-300 leading-relaxed mb-6 md:mb-8 px-4 md:px-0">
+                            재혼보다는 연애 먼저, 경험이 만든 인연의 가치.<br class="hidden md:block">
+                            돌싱들을 위한 진정성 있는 연애와 관계의 가치를 실현하며,<br class="hidden md:block">
+                            새로운 시작을 꿈꾸는 임직원들에게 따뜻한 동행이 되어줍니다.
+                        </p>
+                        <ul
+                            class="text-xs md:text-sm text-gray-400 space-y-2 mb-6 md:mb-8 font-light flex flex-col items-center md:items-end list-none">
+                            <li>철저한 프라이버시 보호 및 신원 인증 <i class="fas fa-check text-brand-gold ml-2"></i></li>
+                            <li>공감과 소통 중심의 맞춤형 매칭 <i class="fas fa-check text-brand-gold ml-2"></i></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Track 5: LE MARRY -->
+                <div class="flex flex-col md:flex-row items-center gap-8 md:gap-12 group">
+                    <div class="w-full md:w-1/2 relative overflow-hidden aspect-[4/3]">
+                        <img src="./images/solution_newstart.png" alt="Le Marry"
+                            class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 filter brightness-75 group-hover:brightness-100">
+                        <div
+                            class="absolute inset-0 border border-brand-gold/30 scale-95 transition-transform duration-500 group-hover:scale-100">
+                        </div>
+                    </div>
+                    <div class="w-full md:w-1/2 md:pl-10 text-center md:text-left">
+                        <span
+                            class="text-brand-gold font-serif text-sm md:text-lg tracking-[0.2em] md:tracking-widest block mb-2 md:mb-4">NEW
+                            START</span>
+                        <h3 class="text-2xl md:text-4xl font-serif font-bold text-white mb-4 md:mb-6">LE MARRY <span
+                                class="block text-lg md:text-xl font-light text-gray-400 mt-1 md:mt-2 font-sans">르매리</span>
+                        </h3>
+                        <p class="text-sm md:text-base text-gray-300 leading-relaxed mb-6 md:mb-8 px-4 md:px-0">
+                            다시 시작하는 설렘, 두 번째 행복을 위한 동행.<br class="hidden md:block">
+                            재혼 및 만혼을 희망하는 임직원들을 위한 전문 컨설팅으로,<br class="hidden md:block">
+                            안정적인 가업 승계와 가정의 완성을 함께 설계합니다.
+                        </p>
+                        <ul class="text-xs md:text-sm text-gray-400 space-y-2 mb-6 md:mb-8 font-light list-none">
+                            <li><i class="fas fa-check text-brand-gold mr-2"></i> 재혼 전문 베테랑 성혼 전문가 배정</li>
+                            <li><i class="fas fa-check text-brand-gold mr-2"></i> 자산, 직업 등 정밀 데이터 기반 매칭</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Lead Generation Form Section -->
+    <section id="inquiry" class="py-24 relative bg-[#0F0F0F]">
+        <div class="container mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+
+            <div class="text-center md:text-left">
+                <span class="text-brand-gold font-serif tracking-[0.2em] mb-4 block text-sm md:text-base">PRIVATE
+                    INQUIRY</span>
+                <h2 class="text-3xl md:text-5xl font-serif font-bold text-white mb-6 md:mb-8 leading-normal">
+                    프라이빗 제휴 문의
+                </h2>
+                <p class="text-gray-400 text-base md:text-lg font-light mb-10 md:mb-12">
+                    귀사의 소중한 임직원을 위한 품격 있는 선택.<br class="hidden md:block">
+                    문의를 남겨주시면 B2B 전담 매니저가<br class="hidden md:block">
+                    <span class="text-white border-b border-brand-gold pb-1">24시간 이내</span>에 비공개로 연락드립니다.
+                </p>
+                <div class="bg-[#1A1A1A] p-5 md:p-6 border-l-2 border-brand-gold mx-4 md:mx-0">
+                    <p class="text-xs md:text-sm text-gray-400"><i class="fas fa-lock text-brand-gold mr-3"></i> 모든 상담
+                        내용은 철저한 보안이
+                        유지되며, 1:1 전담 매니저가 배정됩니다.</p>
+                </div>
+            </div>
+
+            <div class="bg-white/5 p-10 backdrop-blur-sm border border-brand-gold/20">
+                <form id="b2bForm" onsubmit="handleSubmit(event)" class="space-y-8">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div class="input-underline">
+                            <label class="block text-xs text-brand-gold mb-2 font-serif tracking-wide">COMPANY NAME
+                                (회사명)</label>
+                            <input type="text" id="contact_company" required
+                                class="w-full bg-transparent p-3 text-white outline-none placeholder-gray-600 font-light"
+                                placeholder="회사명 입력">
+                        </div>
+                        <div class="input-underline">
+                            <label class="block text-xs text-brand-gold mb-2 font-serif tracking-wide">CONTACT PERSON
+                                (담당자)</label>
+                            <input type="text" id="contact_name" required
+                                class="w-full bg-transparent p-3 text-white outline-none placeholder-gray-600 font-light"
+                                placeholder="담당자 성함">
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                        <div class="input-underline">
+                            <label class="block text-xs text-brand-gold mb-2 font-serif tracking-wide">JOB TITLE
+                                (직함)</label>
+                            <input type="text" id="contact_title"
+                                class="w-full bg-transparent p-3 text-white outline-none placeholder-gray-600 font-light"
+                                placeholder="직함/직위">
+                        </div>
+                        <div class="input-underline">
+                            <label class="block text-xs text-brand-gold mb-2 font-serif tracking-wide">MOBILE
+                                (연락처)</label>
+                            <input type="tel" id="contact_tel" required
+                                class="w-full bg-transparent p-3 text-white outline-none placeholder-gray-600 font-light"
+                                placeholder="연락처 (- 없이 입력)">
+                        </div>
+                        <div class="input-underline">
+                            <label class="block text-xs text-brand-gold mb-2 font-serif tracking-wide">EMAIL
+                                (이메일)</label>
+                            <input type="email" id="contact_email" required
+                                class="w-full bg-transparent p-3 text-white outline-none placeholder-gray-600 font-light"
+                                placeholder="이메일 주소">
+                        </div>
+                    </div>
+
+                    <div class="pt-4">
+                        <label class="block text-xs text-brand-gold mb-4 font-serif tracking-wide">INTERESTED BRANDS (관심
+                            브랜드 선택)</label>
+                        <div class="grid grid-cols-2 md:grid-cols-3 gap-y-4 gap-x-2">
+                            <label class="cursor-pointer flex items-center gap-2 group">
+                                <input type="checkbox" name="interest" value="퍼플스" class="hidden peer">
+                                <div
+                                    class="w-5 h-5 border border-gray-600 rounded-sm group-hover:border-brand-gold flex items-center justify-center transition-all peer-checked:border-brand-gold peer-checked:bg-brand-gold">
+                                    <i
+                                        class="fas fa-check text-black text-[10px] opacity-0 peer-checked:opacity-100 transition-opacity"></i>
+                                </div>
+                                <span
+                                    class="text-sm text-gray-400 group-hover:text-white transition-colors peer-checked:text-white">퍼플스</span>
+                            </label>
+                            <label class="cursor-pointer flex items-center gap-2 group">
+                                <input type="checkbox" name="interest" value="디노블" class="hidden peer">
+                                <div
+                                    class="w-5 h-5 border border-gray-600 rounded-sm group-hover:border-brand-gold flex items-center justify-center transition-all peer-checked:border-brand-gold peer-checked:bg-brand-gold">
+                                    <i
+                                        class="fas fa-check text-black text-[10px] opacity-0 peer-checked:opacity-100 transition-opacity"></i>
+                                </div>
+                                <span
+                                    class="text-sm text-gray-400 group-hover:text-white transition-colors peer-checked:text-white">디노블</span>
+                            </label>
+                            <label class="cursor-pointer flex items-center gap-2 group">
+                                <input type="checkbox" name="interest" value="언니의인맥" class="hidden peer">
+                                <div
+                                    class="w-5 h-5 border border-gray-600 rounded-sm group-hover:border-brand-gold flex items-center justify-center transition-all peer-checked:border-brand-gold peer-checked:bg-brand-gold">
+                                    <i
+                                        class="fas fa-check text-black text-[10px] opacity-0 peer-checked:opacity-100 transition-opacity"></i>
+                                </div>
+                                <span
+                                    class="text-sm text-gray-400 group-hover:text-white transition-colors peer-checked:text-white">언니의인맥</span>
+                            </label>
+                            <label class="cursor-pointer flex items-center gap-2 group">
+                                <input type="checkbox" name="interest" value="이모의인맥" class="hidden peer">
+                                <div
+                                    class="w-5 h-5 border border-gray-600 rounded-sm group-hover:border-brand-gold flex items-center justify-center transition-all peer-checked:border-brand-gold peer-checked:bg-brand-gold">
+                                    <i
+                                        class="fas fa-check text-black text-[10px] opacity-0 peer-checked:opacity-100 transition-opacity"></i>
+                                </div>
+                                <span
+                                    class="text-sm text-gray-400 group-hover:text-white transition-colors peer-checked:text-white">이모의인맥</span>
+                            </label>
+                            <label class="cursor-pointer flex items-center gap-2 group">
+                                <input type="checkbox" name="interest" value="르매리" class="hidden peer">
+                                <div
+                                    class="w-5 h-5 border border-gray-600 rounded-sm group-hover:border-brand-gold flex items-center justify-center transition-all peer-checked:border-brand-gold peer-checked:bg-brand-gold">
+                                    <i
+                                        class="fas fa-check text-black text-[10px] opacity-0 peer-checked:opacity-100 transition-opacity"></i>
+                                </div>
+                                <span
+                                    class="text-sm text-gray-400 group-hover:text-white transition-colors peer-checked:text-white">르매리</span>
+                            </label>
+                            <label class="cursor-pointer flex items-center gap-2 group">
+                                <input type="checkbox" name="interest" value="통합제안" class="hidden peer" checked>
+                                <div
+                                    class="w-5 h-5 border border-gray-600 rounded-sm group-hover:border-brand-gold flex items-center justify-center transition-all peer-checked:border-brand-gold peer-checked:bg-brand-gold">
+                                    <i
+                                        class="fas fa-check text-black text-[10px] opacity-0 peer-checked:opacity-100 transition-opacity"></i>
+                                </div>
+                                <span
+                                    class="text-sm text-gray-400 group-hover:text-white transition-colors peer-checked:text-white">통합제안</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <button type="submit"
+                        class="w-full bg-brand-gold text-brand-black font-bold py-5 mt-8 tracking-widest hover:bg-white hover:text-black transition-all duration-300">
+                        상담 신청하기
+                    </button>
+                </form>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-black py-16 border-t border-brand-gold/10 text-center text-gray-500 font-sans text-xs font-light">
+        <div class="mb-8">
+            <span class="text-brand-gold font-serif text-2xl font-bold tracking-widest">PURPLES GROUP</span>
+        </div>
+        <p class="leading-loose mb-8">
+            (주)퍼플스 | 대표이사: 김한승 | 서울특별시 강남구 청담동 1-1 퍼플스빌딩<br>
+            사업자등록번호: 211-88-12345 | 통신판매업신고: 제2010-서울강남-0000호<br>
+            고객센터: 1588-3934 | 팩스: 02-540-3934 | 이메일: master@purples.co.kr
+        </p>
+        <p class="opacity-50">COPYRIGHT © PURPLES GROUP. ALL RIGHTS RESERVED.</p>
+    </footer>
+
+    <!-- Sticky CTA Button -->
+    <div id="sticky-cta"
+        class="fixed bottom-0 w-full z-40 transform translate-y-full transition-transform duration-500">
+        <a href="#inquiry"
+            class="w-full bg-gradient-to-r from-brand-gold to-[#D4AF37] text-black font-bold py-4 md:py-5 text-base md:text-lg tracking-wider shadow-[0_-5px_20px_rgba(212,175,55,0.3)] hover:brightness-110 flex justify-center items-center gap-3">
+            <i class="fas fa-file-download"></i> <span class="whitespace-nowrap">지금 바로 VIP 제휴 제안서 받기</span>
+        </a>
+    </div>
+
+    <script>
+        // --- [마케팅 추적 시스템] ---
+        const trackingData = {
+            source_page: window.location.pathname.split('/').pop() || 'index3.html',
+            utm_source: new URLSearchParams(window.location.search).get('utm_source') || '',
+            utm_medium: new URLSearchParams(window.location.search).get('utm_medium') || '',
+            utm_campaign: new URLSearchParams(window.location.search).get('utm_campaign') || '',
+            referrer: document.referrer || '',
+            device_type: /Mobi|Android/i.test(navigator.userAgent) ? 'Mobile' : 'PC'
+        };
+
+        // --- [설정] Supabase 연동 ---
+        const SUPABASE_URL = "https://yhmazwpnhzmnrrvyaqbx.supabase.co";
+        const SUPABASE_KEY = "sb_publishable_7Z-Waa8V6exEHPTqgvbPaQ_QtxIRNFG";
+        const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+        async function saveDataToSupabase(data) {
+            try {
+                // DB 스키마에 없는 contact_title 등을 memo 필드로 통합하여 저장
+                const memoContent = data.title ? `[직함: ${data.title}]` : '';
+
+                const { error } = await _supabase
+                    .from('leads')
+                    .insert([{
+                        type: 'B2B_LEAD',
+                        company_name: data.company,
+                        contact_name: data.name,
+                        tel: data.tel,
+                        email: data.email,
+                        solutions: data.solutions,
+                        memo: `[직함: ${data.title || '-'}] [유입: ${trackingData.source_page}] [UTM: ${trackingData.utm_source}/${trackingData.utm_medium}] [이전페이지: ${trackingData.referrer}]`
+                    }]);
+
+                if (error) throw error;
+                console.log("Supabase: Data saved successfully");
+                return true;
+            } catch (error) {
+                console.error("Supabase Error:", error.message);
+                return false;
+            }
+        }
+
+        async function handleSubmit(event) {
+            event.preventDefault();
+            const btn = event.target.querySelector('button[type="submit"]');
+            const originalText = btn.innerText;
+
+            const data = {
+                company: document.getElementById('contact_company').value,
+                name: document.getElementById('contact_name').value,
+                title: document.getElementById('contact_title').value,
+                tel: document.getElementById('contact_tel').value,
+                email: document.getElementById('contact_email').value,
+                solutions: Array.from(document.querySelectorAll('input[name="interest"]:checked')).map(el => el.value)
+            };
+
+            btn.innerText = "전송 중...";
+            btn.disabled = true;
+
+            const success = await saveDataToSupabase(data);
+
+            if (success) {
+                alert("성공적으로 접수되었습니다. 담당 이사가 곧 연락드리겠습니다.");
+                event.target.reset();
+            } else {
+                alert("죄송합니다. 전송 중 오류가 발생했습니다. 잠시 후 다시 시도해주시거나 고객센터로 연락 부탁드립니다.");
+            }
+
+            btn.innerText = originalText;
+            btn.disabled = false;
+        }
+
+        // --- 기존 UI 로직 ---
+        const counterObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const target = +entry.target.getAttribute('data-target');
+                    const duration = 2000;
+                    const increment = target / (duration / 16);
+                    let current = 0;
+
+                    const update = () => {
+                        current += increment;
+                        if (current < target) {
+                            entry.target.innerText = Math.ceil(current).toLocaleString();
+                            requestAnimationFrame(update);
+                        } else {
+                            entry.target.innerText = target.toLocaleString();
+                        }
+                    };
+                    update();
+                    counterObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.5 });
+
+        document.querySelectorAll('.counter').forEach(el => counterObserver.observe(el));
+
+        window.addEventListener('scroll', () => {
+            const cta = document.getElementById('sticky-cta');
+            if (window.scrollY > 800) {
+                cta.classList.remove('translate-y-full');
+            } else {
+                cta.classList.add('translate-y-full');
+            }
+        });
+
+        // Video Intersection Observer
+        const purplesVideo = document.getElementById('purples-video');
+        if (purplesVideo) {
+            const videoObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        purplesVideo.play().catch(e => console.log("Auto-play failed:", e));
+                    } else {
+                        purplesVideo.pause();
+                    }
+                });
+            }, { threshold: 0.3 });
+            videoObserver.observe(purplesVideo);
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,917 @@
+<!DOCTYPE html>
+<html lang="ko" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>퍼플스 그룹 | Premium B2B Partnership with AI</title>
+
+    <!-- Tailwind CSS 라이브러리 로드 -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- 구글 폰트 로드 -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=Noto+Serif+KR:wght@300;500;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap"
+        rel="stylesheet">
+
+    <!-- 폰트어썸 아이콘 로드 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- AI 응답을 위한 마크다운 파서 로드 -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+    <!-- 테일윈드 CSS 커스텀 설정 -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            dark: '#1A0B2E',    // Deep Royal Purple
+                            main: '#4B0082',    // Standard Purple
+                            gold: '#C5A059',    // Champagne Gold
+                            light: '#F5F3F7',
+                            ai: '#10a37f'       // AI Feature Color
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['"Noto Sans KR"', 'sans-serif'],
+                        serif: ['"Noto Serif KR"', 'serif'],
+                        display: ['"Playfair Display"', 'serif'],
+                    },
+                    animation: {
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'shimmer': 'shimmer 2s infinite linear',
+                    },
+                    keyframes: {
+                        shimmer: {
+                            '0%': { transform: 'translateX(-100%)' },
+                            '100%': { transform: 'translateX(100%)' }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 1s cubic-bezier(0.5, 0, 0, 1);
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* 이미지 애니메이션: 평소 60% 투명도 유지, 활성화 시 순차적으로 100%로 밝아짐 */
+        .reveal img {
+            opacity: 0.6 !important;
+            transition: opacity 0.8s ease-in-out !important;
+        }
+
+        .reveal.active img {
+            opacity: 1 !important;
+        }
+
+        /* 한 섹션 내 이미지가 여러 개일 경우 순차적으로 밝아지는 효과 */
+        .reveal.active img:nth-of-type(1) {
+            transition-delay: 0.5s !important;
+        }
+
+        .reveal.active img:nth-of-type(2) {
+            transition-delay: 1.2s !important;
+        }
+
+        .reveal.active img:nth-of-type(3) {
+            transition-delay: 1.8s !important;
+        }
+
+        /* AI 출력 결과를 위한 마크다운 스타일 */
+        .ai-result p {
+            margin-bottom: 0.8em;
+            line-height: 1.6;
+        }
+
+        .ai-result strong {
+            color: #C5A059;
+            font-weight: 700;
+        }
+
+        .ai-result ul {
+            list-style-type: disc;
+            margin-left: 1.5em;
+            margin-bottom: 1em;
+            color: #d1d5db;
+        }
+
+        .ai-result h3 {
+            font-size: 1.25em;
+            font-weight: bold;
+            color: white;
+            margin-top: 1em;
+            margin-bottom: 0.5em;
+        }
+
+        /* 로딩 애니메이션 스타일 */
+        .loader {
+            border: 3px solid rgba(255, 255, 255, 0.1);
+            border-left-color: #C5A059;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* 스크롤 시 중앙 부근에 위치할 때 하이라이트 효과 (focused) */
+        .reveal.focused.group {
+            background-color: rgba(197, 160, 89, 0.2) !important;
+            border-color: rgba(197, 160, 89, 0.5) !important;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7) !important;
+            transform: translateY(-5px) scale(1.02) !important;
+        }
+
+        .reveal.focused.group i {
+            transform: scale(1.2) !important;
+            color: #C5A059 !important;
+        }
+
+        .reveal.focused .group-hover\:translate-x-1 {
+            transform: translateX(8px) !important;
+        }
+
+        /* 이미지도 중앙에 오면 더 선명해짐 */
+        .reveal.focused img {
+            opacity: 1 !important;
+            filter: brightness(1.1);
+        }
+
+        @media (max-width: 1024px) {
+            .reveal.focused.group {
+                background-color: rgba(197, 160, 89, 0.25) !important;
+            }
+        }
+    </style>
+</head>
+
+<body class="bg-brand-dark text-gray-300 font-sans selection:bg-brand-gold selection:text-brand-dark">
+
+    <!-- 헤더 영역 -->
+    <header id="header" class="fixed w-full z-50 transition-all duration-500 py-6">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8 flex justify-between items-center">
+            <a href="#" class="group">
+                <h1
+                    class="text-2xl font-display font-bold text-white tracking-widest group-hover:text-brand-gold transition-colors">
+                    PURPLES <span
+                        class="text-xs font-sans font-light tracking-[0.3em] block text-gray-400 group-hover:text-white transition-colors">GROUP</span>
+                </h1>
+            </a>
+            <nav class="hidden lg:flex items-center space-x-12">
+                <a href="#about"
+                    class="text-sm font-medium text-gray-300 hover:text-brand-gold tracking-wider transition">그룹소개</a>
+                <a href="#why"
+                    class="text-sm font-medium text-gray-300 hover:text-brand-gold tracking-wider transition">핵심가치</a>
+                <a href="#ai-consultant"
+                    class="text-sm font-bold text-brand-gold tracking-wider transition flex items-center gap-2">
+                    <i class="fas fa-sparkles"></i> AI 컨설팅
+                </a>
+                <a href="#solutions"
+                    class="text-sm font-medium text-gray-300 hover:text-brand-gold tracking-wider transition">솔루션</a>
+                <a href="#contact"
+                    class="border border-brand-gold text-brand-gold px-6 py-2 rounded-sm text-sm hover:bg-brand-gold hover:text-brand-dark transition duration-300">
+                    B2B 제휴상담
+                </a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- 히어로 섹션 영역 -->
+    <section class="relative h-screen flex items-center justify-center overflow-hidden">
+        <div class="absolute inset-0 z-0">
+            <!-- 배경 영상 추가 -->
+            <div class="absolute inset-0 pointer-events-none overflow-hidden opacity-50">
+                <video autoplay muted loop playsinline
+                    class="absolute top-1/2 left-1/2 min-w-full min-h-full w-auto h-auto -translate-x-1/2 -translate-y-1/2 object-cover">
+                    <source src="https://www.purples.co.kr/rw_videos/main/section02/background.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+            <div class="absolute inset-0 bg-gradient-to-b from-brand-dark/80 via-brand-dark/50 to-brand-dark"></div>
+        </div>
+        <div class="relative z-10 text-center px-6 max-w-5xl mx-auto reveal active">
+            <p class="text-brand-gold font-serif italic text-base md:text-lg mb-6 tracking-widest leading-relaxed">
+                Noblesse Oblige & Corporate Value
+            </p>
+            <h2
+                class="text-3xl md:text-6xl lg:text-7xl font-display font-bold text-white leading-tight mb-8 break-keep">
+                기업의 품격은<br class="hidden md:block">
+                <span class="text-brand-gold">가정의 안정</span>에서 완성됩니다.
+            </h2>
+            <p class="text-gray-400 text-base md:text-xl font-light mb-12 max-w-2xl mx-auto leading-relaxed">
+                대한민국 최초의 상류층 결혼정보회사 퍼플스 그룹.<br class="hidden md:block">
+                24년의 헤리티지로 귀사 임직원의 생애주기 행복을 설계합니다.
+            </p>
+            <div class="flex flex-col sm:flex-row gap-6 justify-center">
+                <a href="#ai-consultant"
+                    class="bg-gradient-to-r from-brand-gold to-yellow-600 text-white px-10 py-4 font-bold tracking-wide hover:shadow-lg hover:shadow-yellow-600/30 transition duration-300 flex items-center justify-center gap-2">
+                    <i class="fas fa-magic"></i> AI 맞춤형 전략 진단
+                </a>
+                <a href="#contact"
+                    class="border border-white/30 text-white px-10 py-4 font-medium tracking-wide hover:border-brand-gold hover:text-brand-gold transition duration-300">
+                    제휴 제안서 다운로드
+                </a>
+            </div>
+        </div>
+        <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce text-gray-500 text-center">
+            <span class="text-[10px] md:text-xs tracking-[0.3em] uppercase block mb-2">Scroll</span>
+            <i class="fas fa-chevron-down text-sm"></i>
+        </div>
+    </section>
+
+
+
+    <!-- [신규 기능] AI 맞춤형 복지 컨설팅 섹션 -->
+    <section id="ai-consultant" class="py-24 bg-[#120520] relative overflow-hidden border-y border-white/5">
+        <!-- 배경 효과 설정 -->
+        <div
+            class="absolute top-0 left-0 w-full h-full bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-5">
+        </div>
+        <div
+            class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-brand-main opacity-10 blur-[120px] rounded-full">
+        </div>
+
+        <div class="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
+            <div class="text-center mb-16 reveal">
+                <span
+                    class="inline-flex items-center gap-2 bg-white/10 text-brand-gold px-4 py-1 rounded-full text-sm font-bold mb-6 border border-brand-gold/20">
+                    <i class="fas fa-sparkles"></i> Powered by Purples AI
+                </span>
+                <h2 class="text-3xl lg:text-5xl font-serif font-bold text-white mb-6">
+                    AI 맞춤형 복지 컨설팅
+                </h2>
+                <p class="text-gray-400 text-lg max-w-2xl mx-auto leading-relaxed">
+                    우리 회사에 딱 맞는 복지는 무엇일까요?<br>
+                    간단한 정보만 입력하시면, <strong class="text-white">Purples AI</strong>가 퍼플스 그룹의 최적의 솔루션을 조합하여<br>
+                    <span class="text-brand-gold underline decoration-1 underline-offset-4">CEO 보고용 전략 리포트</span>를
+                    즉시
+                    생성해 드립니다.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-5 gap-8 lg:gap-12">
+                <!-- 좌측: 기업 정보 입력 양식 -->
+                <div
+                    class="lg:col-span-2 bg-white/5 backdrop-blur-md border border-white/10 p-8 rounded-2xl reveal shadow-2xl">
+                    <h3 class="text-xl font-bold text-white mb-6 flex items-center gap-2">
+                        <i class="fas fa-sliders-h text-brand-gold"></i> 기업 정보 입력
+                    </h3>
+                    <form id="aiForm" onsubmit="handleAIConsulting(event)" class="space-y-5">
+                        <div>
+                            <label class="block text-sm text-gray-400 mb-2">회사명 / 업종</label>
+                            <input type="text" id="companyName"
+                                class="w-full bg-black/40 border border-white/10 rounded-lg px-4 py-3 text-white focus:border-brand-gold focus:ring-1 focus:ring-brand-gold outline-none"
+                                placeholder="ex. 판교 IT 스타트업, 중견 제조기업">
+                        </div>
+                        <div>
+                            <label class="block text-sm text-gray-400 mb-2">주요 임직원 연령대</label>
+                            <select id="mainAge"
+                                class="w-full bg-black/40 border border-white/10 rounded-lg px-4 py-3 text-white focus:border-brand-gold outline-none">
+                                <option value="2030 MZ세대 중심">2030 MZ세대 중심 (신입~대리)</option>
+                                <option value="3040 핵심인재 중심">3040 핵심인재 중심 (과장~부장)</option>
+                                <option value="전 연령대 고루 분포">전 연령대 고루 분포</option>
+                                <option value="임원 및 고위직 중심">임원 및 고위직 중심</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm text-gray-400 mb-2">현재 가장 큰 HR 고민</label>
+                            <select id="hrConcern"
+                                class="w-full bg-black/40 border border-white/10 rounded-lg px-4 py-3 text-white focus:border-brand-gold outline-none">
+                                <option value="젊은 직원의 잦은 퇴사 (이직 방지)">젊은 직원의 잦은 퇴사 (이직 방지)</option>
+                                <option value="경직된 조직문화 활성화">경직된 조직문화 활성화</option>
+                                <option value="핵심 인력의 심리적 안정">핵심 인력의 심리적 안정</option>
+                                <option value="차별화된 프리미엄 복지 도입">차별화된 프리미엄 복지 도입</option>
+                            </select>
+                        </div>
+                        <button type="submit" id="analyzeBtn"
+                            class="w-full bg-gradient-to-r from-brand-main to-purple-600 hover:from-brand-gold hover:to-yellow-600 text-white font-bold py-4 rounded-xl transition-all duration-300 transform hover:-translate-y-1 shadow-lg mt-4 flex justify-center items-center gap-2 group">
+                            <span>AI 무료 진단하기</span>
+                            <i class="fas fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
+                        </button>
+                    </form>
+                </div>
+
+                <!-- 우측: AI 분석 결과 표시 영역 -->
+                <div
+                    class="lg:col-span-3 bg-brand-dark border border-brand-gold/30 p-8 lg:p-10 rounded-2xl reveal delay-100 relative min-h-[400px] flex flex-col justify-center shadow-2xl shadow-purple-900/20">
+
+                    <!-- 결과창 상단 장식선 -->
+                    <div
+                        class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-brand-gold to-transparent opacity-50">
+                    </div>
+
+                    <!-- 상태: 초기 화면 -->
+                    <div id="ai-initial" class="text-center opacity-70">
+                        <div class="text-6xl text-white/5 mb-4"><i class="fas fa-robot"></i></div>
+                        <p class="text-gray-400 text-lg"><span class="lg:hidden">상단</span><span
+                                class="hidden lg:inline"></span>좌측</span> 정보를 입력하시면<br>Purples AI가 맞춤형 전략을 수립합니다.</p>
+                    </div>
+
+                    <!-- 상태: AI 분석 중 로딩 화면 -->
+                    <div id="ai-loading" class="hidden text-center">
+                        <div class="inline-block relative w-20 h-20 mb-6">
+                            <div class="absolute inset-0 border-4 border-brand-gold/20 rounded-full"></div>
+                            <div
+                                class="absolute inset-0 border-4 border-brand-gold rounded-full border-t-transparent animate-spin">
+                            </div>
+                            <i
+                                class="fas fa-brain absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-brand-gold/80 text-2xl animate-pulse"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-2">AI가 귀사의 데이터를 분석 중입니다...</h3>
+                        <p class="text-gray-400 text-sm animate-pulse">최적의 복지 솔루션 조합(Mix) 설계 중</p>
+                    </div>
+
+                    <!-- 상태: AI 분석 결과 표시 화면 -->
+                    <div id="ai-result" class="hidden w-full h-full">
+                        <div class="flex justify-between items-start mb-6 border-b border-white/10 pb-4">
+                            <div>
+                                <h3 class="text-2xl font-serif font-bold text-white"><span
+                                        class="text-brand-gold">Solution</span> Report</h3>
+                                <p class="text-sm text-gray-500 mt-1" id="result-meta">Analysis by Purples AI</p>
+                            </div>
+                            <button onclick="copyToClipboard()"
+                                class="text-gray-400 hover:text-white text-sm flex items-center gap-2 border border-white/20 px-3 py-1 rounded hover:bg-white/10 transition">
+                                <i class="far fa-copy"></i> 복사하기
+                            </button>
+                        </div>
+
+                        <!-- 결과 텍스트 표시 영역 -->
+                        <div id="ai-content"
+                            class="ai-result text-gray-300 text-sm leading-relaxed overflow-y-auto max-h-[500px] pr-2 custom-scrollbar">
+                            <!-- Purples AI output will go here -->
+                        </div>
+
+                        <!-- 결과창 내 상담 신청 버튼(CTA) -->
+                        <div class="mt-8 pt-6 border-t border-white/10 text-center">
+                            <p class="text-gray-400 text-sm mb-4">이 제안이 마음에 드시나요?</p>
+                            <button onclick="document.getElementById('contact').scrollIntoView()"
+                                class="bg-white/10 hover:bg-white/20 text-white px-6 py-2 rounded-full text-sm transition border border-white/20">
+                                정식 제휴 상담 신청하기
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 그룹 소개 섹션 (아이덴티티) -->
+    <section id="about" class="py-24 bg-brand-dark relative border-t border-white/5">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                <div class="reveal">
+                    <span class="text-brand-gold font-serif italic text-xl mb-4 block">About Purples Group</span>
+                    <h3 class="text-3xl lg:text-5xl font-serif font-bold text-white leading-snug mb-8">
+                        결혼, 그 이상의 가치를 만드는<br>
+                        <span class="text-gray-500">Total Life Care Platform</span>
+                    </h3>
+                    <div class="space-y-8 text-gray-400 leading-relaxed font-light">
+                        <p>
+                            2001년, 국내 최초의 유학파·전문직 중심 결혼정보회사로 출범한 퍼플스는
+                            단순한 만남의 주선을 넘어, 대한민국 상류층의 혼맥 문화를 선도해왔습니다.
+                        </p>
+                        <p>
+                            이제 <span class="text-brand-gold font-bold">[퍼플스-디노블-언니의인맥]</span>으로 이어지는
+                            생애주기별 맞춤형 브랜드 라인업을 통해,
+                            2030 세대의 가벼운 소셜 네트워킹부터 VIP 가문의 성혼까지 아우르는
+                            국내 유일의 통합 라이프스타일 플랫폼으로 도약합니다.
+                        </p>
+                    </div>
+
+                    <div class="mt-12 grid grid-cols-1 sm:grid-cols-3 gap-8 border-t border-gray-800 pt-8">
+                        <div class="text-center sm:text-left">
+                            <div class="text-3xl font-display font-bold text-brand-gold mb-1">24<span
+                                    class="text-sm ml-1 text-gray-500">년</span></div>
+                            <div class="text-xs text-gray-500 uppercase tracking-widest">Since 2001</div>
+                        </div>
+                        <div class="text-center sm:text-left">
+                            <div class="text-3xl font-display font-bold text-brand-gold mb-1">No.1<span
+                                    class="text-sm ml-1 text-gray-500">Class</span></div>
+                            <div class="text-xs text-gray-500 uppercase tracking-widest">압도적 회원 수준</div>
+                        </div>
+                        <div class="text-center sm:text-left">
+                            <div class="text-3xl font-display font-bold text-brand-gold mb-1">500<span
+                                    class="text-sm ml-1 text-gray-500">+</span></div>
+                            <div class="text-xs text-gray-500 uppercase tracking-widest">제휴 기업/단체</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="relative reveal delay-200">
+                    <div class="grid grid-cols-2 gap-4">
+                        <img src="https://www.purples.co.kr/images/party/effect/2024/10.jpg" alt="Luxury Event"
+                            class="w-full h-80 object-cover rounded-sm opacity-80 hover:opacity-100 transition duration-500">
+                        <img src="https://www.purples.co.kr/rw_images/main/section08/bg_portrait.webp"
+                            alt="Office Culture"
+                            class="w-full h-80 object-cover rounded-sm mt-12 opacity-80 hover:opacity-100 transition duration-500">
+                    </div>
+                    <div class="absolute -top-4 -right-4 w-24 h-24 border-t-2 border-r-2 border-brand-gold opacity-50">
+                    </div>
+                    <div
+                        class="absolute -bottom-4 -left-4 w-24 h-24 border-b-2 border-l-2 border-brand-gold opacity-50">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 전략적 가치 섹션 -->
+    <section id="why" class="py-24 bg-gradient-to-b from-brand-dark to-[#150824]">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8 text-center">
+            <span class="text-brand-gold font-serif italic text-lg mb-4 block reveal">Strategic Value</span>
+            <h2 class="text-3xl lg:text-4xl font-bold text-white mb-16 reveal">
+                왜 지금, 기업이 <br class="md:hidden">'결혼 복지'에 주목할까요?
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div
+                    class="group bg-white/5 p-10 hover:bg-brand-gold/10 transition duration-500 border border-white/5 hover:border-brand-gold/30 reveal">
+                    <div class="mb-6 text-brand-gold text-4xl group-hover:scale-110 transition duration-500"><i
+                            class="fas fa-shield-alt"></i></div>
+                    <h3 class="text-xl font-serif font-bold text-white mb-4">핵심 인재 리스크 관리</h3>
+                    <p class="text-gray-400 font-light leading-relaxed">"가정이 안정되어야 업무 몰입도가 높아집니다." 결혼이라는 심리적 안정 장치를
+                        통해
+                        핵심 인재의 이직률을 낮춥니다.</p>
+                </div>
+                <div
+                    class="group bg-white/5 p-10 hover:bg-brand-gold/10 transition duration-500 border border-white/5 hover:border-brand-gold/30 reveal delay-100">
+                    <div class="mb-6 text-brand-gold text-4xl group-hover:scale-110 transition duration-500"><i
+                            class="fas fa-bolt"></i></div>
+                    <h3 class="text-xl font-serif font-bold text-white mb-4">조직 문화 활력 (Vitality)</h3>
+                    <p class="text-gray-400 font-light leading-relaxed">"MZ세대가 원하는 복지는 다릅니다." 트렌디한 소셜 네트워킹과 이색 파티를
+                        통해 조직
+                        문화에 활력을 불어넣습니다.</p>
+                </div>
+                <div
+                    class="group bg-white/5 p-10 hover:bg-brand-gold/10 transition duration-500 border border-white/5 hover:border-brand-gold/30 reveal delay-200">
+                    <div class="mb-6 text-brand-gold text-4xl group-hover:scale-110 transition duration-500"><i
+                            class="fas fa-award"></i></div>
+                    <h3 class="text-xl font-serif font-bold text-white mb-4">기업 브랜딩 (GWP)</h3>
+                    <p class="text-gray-400 font-light leading-relaxed">"결혼까지 챙겨주는 좋은 회사." 가족친화기업 인증 및 GWP(일하기 좋은
+                        직장)
+                        평가에 긍정적인 효과를 창출합니다.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 솔루션 섹션 (3가지 라인업) -->
+    <section id="solutions" class="py-24 bg-brand-light text-gray-800">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <span class="text-brand-main font-serif italic text-lg mb-4 block reveal">Our Solutions</span>
+                <h2 class="text-3xl lg:text-4xl font-serif font-bold text-gray-900 mb-6 reveal">
+                    임직원 생애주기 맞춤형<br>3-Track Lineup
+                </h2>
+            </div>
+            <div
+                class="flex justify-start md:justify-center mb-12 border-b border-gray-300 reveal overflow-x-auto no-scrollbar scroll-smooth">
+                <div class="flex flex-nowrap min-w-max">
+                    <button onclick="switchTab('vitality')" id="tab-vitality"
+                        class="px-6 md:px-8 py-4 text-base md:text-lg font-serif font-bold text-brand-main border-b-2 border-brand-main transition-all duration-300 whitespace-nowrap">Option
+                        A. 활력 (Vitality)</button>
+                    <button onclick="switchTab('stability')" id="tab-stability"
+                        class="px-6 md:px-8 py-4 text-base md:text-lg font-serif text-gray-400 border-b-2 border-transparent hover:text-brand-main transition-all duration-300 whitespace-nowrap">Option
+                        B. 안정 (Stability)</button>
+                    <button onclick="switchTab('prestige')" id="tab-prestige"
+                        class="px-6 md:px-8 py-4 text-base md:text-lg font-serif text-gray-400 border-b-2 border-transparent hover:text-brand-main transition-all duration-300 whitespace-nowrap">Option
+                        C. 품격 (Prestige)</button>
+                </div>
+            </div>
+            <div class="relative min-h-[500px]">
+                <div id="content-vitality"
+                    class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center transition-opacity duration-500">
+                    <div class="order-2 lg:order-1">
+                        <div
+                            class="inline-block bg-emerald-100 text-emerald-800 text-xs font-bold px-3 py-1 mb-4 rounded-full">
+                            For 2030 MZ Employees</div>
+                        <div class="mb-4">
+                            <img src="https://cdn.imweb.me/thumbnail/20251204/1ee716eb79d8f.png" alt="언니의인맥"
+                                class="h-12 w-auto">
+                        </div>
+
+                        <p class="text-gray-600 mb-6 text-lg leading-relaxed">"지루한 소개팅은 그만, 취미로 통하는 자연스러운
+                            만남"<br>신입사원 및
+                            대리급 직원을 위한 트렌디한 소셜 네트워킹 플랫폼입니다.</p>
+                        <a href="https://sisterinmac.com/" target="_blank"
+                            class="inline-flex items-center text-emerald-600 font-medium hover:underline gap-2 group">
+                            <span>공식 홈페이지 바로가기 (sisterinmac.com)</span>
+                            <i
+                                class="fas fa-external-link-alt text-xs group-hover:translate-x-1 transition-transform"></i>
+                        </a>
+                    </div>
+                    <div class="order-1 lg:order-2 relative">
+                        <div class="absolute inset-0 bg-emerald-200 transform translate-x-4 translate-y-4"></div>
+                        <img src="./solution_vitality.png" alt="언니의인맥 지표" class="relative w-full shadow-xl">
+                    </div>
+                </div>
+                <div id="content-stability"
+                    class="hidden grid-cols-1 lg:grid-cols-2 gap-12 items-center transition-opacity duration-500">
+                    <div class="order-2 lg:order-1">
+                        <div
+                            class="inline-block bg-brand-gold/10 text-brand-gold text-xs font-bold px-3 py-1 mb-4 rounded-full border border-brand-gold/20">
+                            For 3040 Core Talent</div>
+                        <div class="mb-4">
+                            <img src="https://www.dnoble.co.kr/images/renew/main/dnoble-logo_221024.png" alt="디노블"
+                                class="h-12 w-auto">
+                        </div>
+
+                        <p class="text-gray-600 mb-6 text-lg leading-relaxed">"결혼을 전제로 한 진중하고 품격 있는 만남"<br>조직의 허리인
+                            과장~부장급 핵심 인재의 생활 안정을 지원합니다.</p>
+                        <a href="https://www.dnoble.co.kr/" target="_blank"
+                            class="inline-flex items-center text-brand-gold font-medium hover:underline gap-2 group">
+                            <span>공식 홈페이지 바로가기 (www.dnoble.co.kr)</span>
+                            <i
+                                class="fas fa-external-link-alt text-xs group-hover:translate-x-1 transition-transform"></i>
+                        </a>
+                    </div>
+                    <div class="order-1 lg:order-2 relative">
+                        <div class="absolute inset-0 bg-brand-gold/20 transform translate-x-4 translate-y-4"></div>
+                        <img src="https://www.dnoble.co.kr/images/renew/dnoble-main-visual_new.jpg"
+                            alt="Serious Meeting" class="relative w-full shadow-xl">
+                    </div>
+                </div>
+                <div id="content-prestige"
+                    class="hidden grid-cols-1 lg:grid-cols-2 gap-12 items-center transition-opacity duration-500">
+                    <div class="order-2 lg:order-1">
+                        <div
+                            class="inline-block bg-purple-100 text-brand-main text-xs font-bold px-3 py-1 mb-4 rounded-full">
+                            For VVIP Executives</div>
+                        <div class="mb-4">
+                            <h2 class="text-3xl font-display font-bold text-brand-main tracking-widest">PURPLES</h2>
+                        </div>
+
+                        <p class="text-gray-600 mb-6 text-lg leading-relaxed">"대한민국 0.1%를 위한 하이엔드 성혼 컨시어지" <br>임원 및
+                            CEO
+                            자녀의 가업 승계와 혼사를 책임지는 노블레스 서비스입니다.</p>
+                        <a href="https://www.purples.co.kr/" target="_blank"
+                            class="inline-flex items-center text-brand-main font-medium hover:underline gap-2 group">
+                            <span>공식 홈페이지 바로가기 (www.purples.co.kr)</span>
+                            <i
+                                class="fas fa-external-link-alt text-xs group-hover:translate-x-1 transition-transform"></i>
+                        </a>
+                    </div>
+                    <div class="order-1 lg:order-2 relative">
+                        <div class="absolute inset-0 bg-brand-main/20 transform translate-x-4 translate-y-4"></div>
+                        <img src="./solution_prestige.png" alt="퍼플스 브랜드 비주얼" class="relative w-full shadow-xl">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 제휴 혜택 안내 섹션 -->
+    <section class="py-24 bg-brand-dark text-white border-t border-white/5">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-16">
+                <div class="reveal">
+                    <h2 class="text-4xl lg:text-5xl font-serif font-bold mb-8 leading-tight">도입 비용 <span
+                            class="text-brand-gold">0원</span>.<br>혜택은 그 이상입니다.</h2>
+                    <p class="text-gray-400 text-lg mb-10 leading-relaxed">기업은 예산 부담 없이 최고의 복지를 도입하고,<br>임직원은 가입비
+                        할인과
+                        프리미엄 제휴 혜택을 누립니다.</p>
+                    <a href="#contact"
+                        class="inline-block border-b border-brand-gold text-brand-gold pb-1 hover:text-white hover:border-white transition">제휴
+                        문의 바로가기 <i class="fas fa-arrow-right ml-2"></i></a>
+                </div>
+                <div class="space-y-8 reveal delay-100">
+                    <div class="flex items-start">
+                        <div
+                            class="w-12 h-12 rounded-full bg-brand-gold/20 flex items-center justify-center text-brand-gold text-xl mr-6 flex-shrink-0">
+                            1</div>
+                        <div>
+                            <h4 class="text-xl font-bold text-white mb-2">기업 부담 비용 Zero</h4>
+                            <p class="text-gray-400 font-light">초기 구축비, 연회비가 없으며 사내 홍보물 디자인까지 무상 지원합니다.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start">
+                        <div
+                            class="w-12 h-12 rounded-full bg-brand-gold/20 flex items-center justify-center text-brand-gold text-xl mr-6 flex-shrink-0">
+                            2</div>
+                        <div>
+                            <h4 class="text-xl font-bold text-white mb-2">임직원 최대 25% 할인</h4>
+                            <p class="text-gray-400 font-light">제휴 기업 임직원 전용 할인 코드와 만남 횟수 추가 혜택을 제공합니다.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 상담 및 제안 신청 양식 섹션 -->
+    <section id="contact" class="py-24 bg-[#150824] relative overflow-hidden">
+        <div
+            class="absolute top-0 right-0 w-96 h-96 bg-brand-main opacity-20 blur-[100px] rounded-full pointer-events-none">
+        </div>
+        <div class="max-w-4xl mx-auto px-6 lg:px-8 relative z-10">
+            <div class="text-center mb-16 reveal">
+                <span class="text-brand-gold font-serif italic text-lg mb-2 block">Contact Us</span>
+                <h2 class="text-3xl lg:text-4xl font-bold text-white">맞춤형 복지 제안서 신청</h2>
+                <p class="text-gray-400 mt-4">문의를 남겨주시면 기업 제휴 담당 이사가 24시간 내에 직접 연락드립니다.</p>
+            </div>
+            <div class="bg-white/5 backdrop-blur-lg border border-white/10 p-8 lg:p-12 rounded-2xl reveal delay-100">
+                <form id="b2bForm" onsubmit="handleSubmit(event)">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                        <div class="space-y-2"><label class="text-sm font-medium text-gray-400">회사명</label>
+                            <input type="text" id="contact_company" required
+                                class="w-full bg-black/20 border border-white/10 rounded-lg px-4 py-3 text-white focus:border-brand-gold focus:ring-1 focus:ring-brand-gold outline-none">
+                        </div>
+                        <div class="space-y-2"><label class="text-sm font-medium text-gray-400">담당자명 / 직급</label>
+                            <input type="text" id="contact_name" required
+                                class="w-full bg-black/20 border border-white/10 rounded-lg px-4 py-3 text-white focus:border-brand-gold focus:ring-1 focus:ring-brand-gold outline-none">
+                        </div>
+                        <div class="space-y-2"><label class="text-sm font-medium text-gray-400">연락처</label>
+                            <input type="tel" id="contact_tel" required
+                                class="w-full bg-black/20 border border-white/10 rounded-lg px-4 py-3 text-white focus:border-brand-gold focus:ring-1 focus:ring-brand-gold outline-none">
+                        </div>
+                        <div class="space-y-2"><label class="text-sm font-medium text-gray-400">이메일</label>
+                            <input type="email" id="contact_email" required
+                                class="w-full bg-black/20 border border-white/10 rounded-lg px-4 py-3 text-white focus:border-brand-gold focus:ring-1 focus:ring-brand-gold outline-none">
+                        </div>
+                    </div>
+                    <div class="mb-8">
+                        <label class="block text-sm font-medium text-gray-400 mb-4">관심 솔루션</label>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <label
+                                class="flex items-center p-4 bg-white/5 border border-white/10 rounded-lg cursor-pointer hover:bg-white/10">
+                                <input type="checkbox" name="interest" value="MZ세대"
+                                    class="w-5 h-5 accent-brand-gold rounded border-gray-500">
+                                <span class="ml-3 text-gray-300">MZ세대 (언니의인맥)</span>
+                            </label>
+                            <label
+                                class="flex items-center p-4 bg-white/5 border border-white/10 rounded-lg cursor-pointer hover:bg-white/10">
+                                <input type="checkbox" name="interest" value="핵심인재"
+                                    class="w-5 h-5 accent-brand-gold rounded border-gray-500">
+                                <span class="ml-3 text-gray-300">핵심인재 (디노블)</span>
+                            </label>
+                            <label
+                                class="flex items-center p-4 bg-white/5 border border-white/10 rounded-lg cursor-pointer hover:bg-white/10">
+                                <input type="checkbox" name="interest" value="임원/자녀"
+                                    class="w-5 h-5 accent-brand-gold rounded border-gray-500">
+                                <span class="ml-3 text-gray-300">임원/자녀 (퍼플스)</span>
+                            </label>
+                            <label
+                                class="flex items-center p-4 bg-white/5 border border-white/10 rounded-lg cursor-pointer hover:bg-white/10">
+                                <input type="checkbox" name="interest" value="통합제안"
+                                    class="w-5 h-5 accent-brand-gold rounded border-gray-500" checked>
+                                <span class="ml-3 text-gray-300">통합 제안 요청</span>
+                            </label>
+                        </div>
+                    </div>
+                    <button type="submit"
+                        class="w-full bg-gradient-to-r from-brand-gold to-yellow-600 text-white font-bold text-lg py-4 rounded-lg hover:shadow-lg transition transform hover:-translate-y-1">제안서
+                        다운로드 및 상담 신청</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- 푸터 영역 -->
+    <!-- 푸터 영역 -->
+    <footer class="bg-black text-gray-400 py-16 border-t border-white/10">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8">
+            <!-- 푸터 상단: 로고 및 주요 연락처 -->
+            <div class="flex flex-col md:flex-row justify-between items-center mb-12 border-b border-white/5 pb-12">
+                <div class="mb-8 md:mb-0">
+                    <h2 class="text-2xl font-display font-bold text-white tracking-widest">
+                        PURPLES <span class="text-brand-gold text-xs block mt-1 tracking-[0.3em]">GROUP</span>
+                    </h2>
+                </div>
+                <div class="flex flex-col md:flex-row gap-8 md:gap-16 text-center md:text-right">
+                    <div>
+                        <p class="text-white text-[10px] uppercase tracking-widest mb-2 opacity-50">Corporate Contact
+                        </p>
+                        <p class="text-xl font-bold text-brand-gold">02-548-6050</p>
+                    </div>
+                    <div>
+                        <p class="text-white text-[10px] uppercase tracking-widest mb-2 opacity-50">E-mail Inquiry</p>
+                        <p class="text-xl font-bold text-white hover:text-brand-gold transition duration-300">
+                            b2b@purples.co.kr</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 푸터 하단: 상세 지사 및 사업자 정보 -->
+            <div class="grid grid-cols-1 gap-6 opacity-60">
+                <div class="text-[11px] md:text-[12px] leading-relaxed space-y-4 break-keep">
+                    <p class="tracking-tighter word-break-all">
+                        <span class="text-white font-bold mr-2 block md:inline mb-1 md:mb-0">전국지사 안내</span>
+                        서울본사 : 서울시 강남구 학동로 521 (청담동 72-1) 선진빌딩 1F / 경기지사 : 경기도 수원시 팔달구 권광로 181 (인계동 1113-12) 씨네파크 6층
+                        603-1호 / 부산지사 : 부산시 해운대구 센텀남대로 50 (우동 1519) 센텀임페리얼타워빌딩 9층 901-1호 / 대구지사 : 대구시 중구 중앙대로 359(남산동
+                        925-5) 반월메디컬타워 12층 / 대전지사 : 대전시 서구 대덕대로 219 (둔산동 1034) 갤러리아백화점 타임월드 별관 4층 / 광주지사 : 광주시 서구 죽봉대로
+                        80, 무등산타워 2층 204호
+                    </p>
+                    <p class="tracking-tighter font-light word-break-all">
+                        퍼플스(주) 대표 : 김현중 사업자 / 등록번호 : 211-87-21023 / 개인정보관리 책임자 : 장명환 대표번호 : 1588-3934 / 결혼중개업 신고번호 :
+                        서울-강남-국내-08-0024 / 국제결혼중개업 등록번호 : 제 서울-강남-국제-18-0001 호 / 통신판매업 신고번호 : 제 2012-서울강남-02940 호 /
+                        전화권유판매업 신고번호 : 제 2013-서울강남-00040 호
+                    </p>
+                    <div
+                        class="pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-[10px] text-gray-600 uppercase tracking-widest font-light border-t border-white/5">
+                        <p class="text-center md:text-left">COPYRIGHT (C) PURPLES ALL RIGHT RESERVED</p>
+                        <p class="text-center md:text-right">&copy; 2026 Purples Group. Noblesse Oblige & Corporate
+                            Value.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- 자바스크립트 로직 -->
+    <script>
+        // --- [설정] SheetDB 연동 (인증 오류 없는 방식) ---
+        const sheetdbURL = "https://sheetdb.io/api/v1/o3lkbxpsksrfl";
+
+        async function saveDataToSheet(data) {
+            if (!sheetdbURL || sheetdbURL.includes("YOUR_SHEETDB")) return;
+            try {
+                await fetch(sheetdbURL, {
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        data: [
+                            {
+                                "일시": new Date().toLocaleString(),
+                                "구분": data.type,
+                                "회사명": data.company,
+                                "담당자": data.name || "-",
+                                "연락처": data.tel || "-",
+                                "이메일": data.email || "-",
+                                "연령대": data.age || "-",
+                                "고민사항": data.concern || "-",
+                                "선택솔루션": data.solutions || "-"
+                            }
+                        ]
+                    })
+                });
+            } catch (error) {
+                console.error("SheetDB Error:", error);
+            }
+        }
+
+        function reveal() {
+            var reveals = document.querySelectorAll(".reveal");
+            var windowHeight = window.innerHeight;
+            var viewCenter = windowHeight / 2;
+
+            for (var i = 0; i < reveals.length; i++) {
+                var rect = reveals[i].getBoundingClientRect();
+                var elementTop = rect.top;
+                var elementBottom = rect.bottom;
+                var elementCenter = (elementTop + elementBottom) / 2;
+
+                // 1. Reveal: 화면 하단에 걸치면 나타남
+                if (elementTop < windowHeight - 100) {
+                    reveals[i].classList.add("active");
+                }
+
+                // 2. Focus: 화면 중앙부(가운데 40% 영역)에 오면 하이라이트 효과
+                var focusRange = windowHeight * 0.2; // 중앙 기준 위아래 20%씩
+                if (Math.abs(elementCenter - viewCenter) < focusRange) {
+                    reveals[i].classList.add("focused");
+                } else {
+                    reveals[i].classList.remove("focused");
+                }
+            }
+        }
+        window.addEventListener("scroll", reveal);
+        reveal();
+
+        window.addEventListener('scroll', function () {
+            const header = document.getElementById('header');
+            if (window.scrollY > 50) {
+                header.classList.add('bg-brand-dark/95', 'backdrop-blur-md', 'shadow-lg', 'py-4');
+                header.classList.remove('py-6');
+            } else {
+                header.classList.remove('bg-brand-dark/95', 'backdrop-blur-md', 'shadow-lg', 'py-4');
+                header.classList.add('py-6');
+            }
+        });
+
+        function switchTab(tabId) {
+            ['vitality', 'stability', 'prestige'].forEach(id => {
+                document.getElementById('content-' + id).classList.add('hidden', 'grid');
+                document.getElementById('content-' + id).classList.remove('grid');
+                const btn = document.getElementById('tab-' + id);
+                btn.classList.remove('text-brand-main', 'border-brand-main', 'font-bold');
+                btn.classList.add('text-gray-400', 'border-transparent');
+            });
+            document.getElementById('content-' + tabId).classList.remove('hidden');
+            document.getElementById('content-' + tabId).classList.add('grid');
+            const activeBtn = document.getElementById('tab-' + tabId);
+            activeBtn.classList.remove('text-gray-400', 'border-transparent');
+            activeBtn.classList.add('text-brand-main', 'border-brand-main', 'font-bold');
+        }
+
+        function handleSubmit(event) {
+            event.preventDefault();
+            const data = {
+                type: 'B2B_LEAD',
+                company: document.getElementById('contact_company').value,
+                name: document.getElementById('contact_name').value,
+                tel: document.getElementById('contact_tel').value,
+                email: document.getElementById('contact_email').value,
+                solutions: Array.from(document.querySelectorAll('input[name="interest"]:checked')).map(el => el.value).join(', ')
+            };
+            const btn = event.target.querySelector('button[type="submit"]');
+            btn.innerText = "전송 중...";
+            btn.disabled = true;
+            saveDataToSheet(data);
+            setTimeout(() => {
+                alert("성공적으로 접수되었습니다.\n담당 이사가 확인 후 연락드리겠습니다.");
+                event.target.reset();
+                btn.innerText = "제안서 다운로드 및 상담 신청";
+                btn.disabled = false;
+            }, 1000);
+        }
+
+        async function handleAIConsulting(event) {
+            event.preventDefault();
+            const companyName = document.getElementById('companyName').value;
+            const mainAge = document.getElementById('mainAge').value;
+            const hrConcern = document.getElementById('hrConcern').value;
+            if (!companyName) { alert("회사명을 입력해주세요."); return; }
+            document.getElementById('ai-initial').classList.add('hidden');
+            document.getElementById('ai-loading').classList.remove('hidden');
+            document.getElementById('ai-result').classList.add('hidden');
+            saveDataToSheet({ type: 'AI_CONSULTING', company: companyName, age: mainAge, concern: hrConcern });
+
+            await new Promise(r => setTimeout(r, 1500));
+
+            const reportMatrix = {
+                '2030 MZ세대 중심': {
+                    '젊은 직원의 잦은 퇴사 (이직 방지)': { title: "MZ 리텐션 특화: 'Work-Life Connect' 전략", mix: "언니의인맥 90% + 이벤트 지원 10%", desc: "젊은 인재들을 위한 자발적 참여형 소셜 복지로 소속감을 높입니다.", effect: "퇴사율 약 20% 감소 기대" },
+                    '경직된 조직문화 활성화': { title: "MZ 맞춤 조직 유연화: 'Social Wave' 리포트", mix: "언니의인맥 100%", desc: "수직적인 구조를 깨는 '취향 기반의 만남'으로 시너지를 만듭니다.", effect: "사내 커뮤니케이션 만족도 35% 향상" },
+                    '핵심 인력의 심리적 안정': { title: "영 탤런트 케어: 'Daily Harmony' 솔루션", mix: "언니의인맥 60% + 정서지원 40%", desc: "과중한 업무 속 소홀해진 일상을 케어하여 번아웃을 예방합니다.", effect: "정서적 안정지수 상승" },
+                    '차별화된 프리미엄 복지 도입': { title: "MZ 선망 복지: 'Unique Experience' 제안", mix: "언니의인맥 70% + 디노블 30%", desc: "타사에는 없는 특별한 소셜 네트워킹 경험을 제공합니다.", effect: "채용 브랜딩 강화 효과" }
+                },
+                '3040 핵심인재 중심': {
+                    '젊은 직원의 잦은 퇴사 (이직 방지)': { title: "허리층 안착 전략: 'Family Foundation' 리포트", mix: "디노블 80% + 가사지원 제휴 20%", desc: "결혼을 통한 생활 안정이 장기 근속의 가장 강력한 동기가 됩니다.", effect: "3040 핵심인재 근속연수 연장" },
+                    '경직된 조직문화 활성화': { title: "리더십 멘탈 케어: 'Core Stability' 솔루션", mix: "디노블 50% + 퍼플스 파티 50%", desc: "관리자급 임직원의 네트워킹 욕구를 충족시키고 품격 있는 문화를 만듭니다.", effect: "조직 내 심리적 유대감 40% 강화" },
+                    '핵심 인력의 심리적 안정': { title: "핵심인재 맞춤형: 'Noble Stability' 전략", mix: "디노블 100% (매니저 1:1 전담)", desc: "검증된 신원을 바탕으로 한 진지한 만남으로 삶의 만족도를 높입니다.", effect: "업무 몰입도 및 삶의 질 지표 개선" },
+                    '차별화된 프리미엄 복지 도입': { title: "상류층 복지 시스템: 'High-End Benefit'", mix: "디노블 60% + 퍼플스 컨시어지 40%", desc: "귀사의 위상에 걸맞은 국내 최고 수준의 결혼 복지를 선언합니다.", effect: "임직원 자부심 최고도 달성" }
+                },
+                '전 연령대 고루 분포': {
+                    '젊은 직원의 잦은 퇴사 (이직 방지)': { title: "전공정 케어: 'Life Cycle Care' 통합안", mix: "언니의인맥 40% + 디노블 40% + 그룹 이벤트 20%", desc: "연령별 맞춤 솔루션으로 모든 세대가 만족하는 복지를 구현합니다.", effect: "전사적 이직률 15% 개선 기대" },
+                    '경직된 조직문화 활성화': { title: "세대 통합: 'Inter-Generation Connect'", mix: "전 브랜드 통합 혜택 패키지", desc: "결혼이라는 공통의 관심사를 통해 세대 간 장벽을 허뭅니다.", effect: "조직 결속력 및 문화 지수 상승" },
+                    '핵심 인력의 심리적 안정': { title: "패밀리 케어: 'Foundation of Mind' 전략", mix: "디노블 70% + 심리 상담 제휴 30%", desc: "임직원의 가장 사적인 고민(결혼/가정)을 회사가 함께 해결합니다.", effect: "애사심 및 심리적 안전감 증대" },
+                    '차별화된 프리미엄 복지 도입': { title: "퍼플스 그룹 통합 솔루션: 'The Purples Mix'", mix: "전 브랜드 1:1:1 최적 비율 조합", desc: "국내 유일의 3단계 맞춤형 복지로 압도적 복지 경쟁력을 확보합니다.", effect: "대외 기업 평판 및 브랜드 가치 상승" }
+                },
+                '임원 및 고위직 중심': {
+                    '젊은 직원의 잦은 퇴사 (이직 방지)': { title: "가업 및 자녀 케어: 'Succession & Marriage'", mix: "퍼플스 100% (VVIP 전담 직계 케어)", desc: "임원 자녀의 성혼은 단순한 결혼을 넘어 기업의 미래를 안정시킵니다.", effect: "핵심 리더십의 충성도 극대화" },
+                    '경직된 조직문화 활성화': { title: "노블레스 오블리주: 'Elite Social Mix'", mix: "퍼플스 정기 파티 초대권 위주", desc: "품격 있는 사교의 장을 통해 고위직 간의 유연한 소통을 도모합니다.", effect: "상향적 조직 문화 변화 유도" },
+                    '핵심 인력의 심리적 안정': { title: "프레스티지 안정: 'Executive Legacy'", mix: "퍼플스 80% + 자산관리 제휴 20%", desc: "VVIP 전문 커플매니저가 임원가족의 대소사를 은밀하고 품격 있게 관리합니다.", effect: "최고 경영진 리스크 관리 효과" },
+                    '차별화된 프리미엄 복지 도입': { title: "대한민국 0.1% 복지: 'Only Purples'", mix: "퍼플스 블랙 라벨 100%", desc: "오직 퍼플스에서만 가능한 프리미엄 성혼 컨시어지를 제공합니다.", effect: "기업의 사회적 위상 제고" }
+                }
+            };
+
+            const selectedReport = reportMatrix[mainAge][hrConcern];
+            document.getElementById('ai-content').innerHTML = `
+                <div class="mb-4">
+                    <h4 class="text-brand-gold font-bold text-lg mb-2"><i class="fas fa-file-alt mr-2"></i> ${selectedReport.title}</h4>
+                    <p class="text-white bg-white/10 p-3 rounded border-l-4 border-brand-gold"><strong>추천 솔루션 믹스:</strong> ${selectedReport.mix}</p>
+                </div>
+                <div class="space-y-4">
+                    <p><strong>전략적 제언:</strong><br>${selectedReport.desc}</p>
+                    <p class="text-brand-ai font-medium"><strong>도입 시 예상 효과:</strong><br>${selectedReport.effect}</p>
+                    <div class="bg-black/30 p-4 rounded text-xs text-gray-400">
+                        <p>* 위 리포트는 입력하신 데이터를 바탕으로 퍼플스 그룹의 B2B 데이터베이스와 Purples AI가 가공한 시뮬레이션 결과입니다.</p>
+                    </div>
+                </div>
+            `;
+            document.getElementById('ai-loading').classList.add('hidden');
+            document.getElementById('ai-result').classList.remove('hidden');
+        }
+
+        function copyToClipboard() {
+            const content = document.getElementById('ai-content').innerText;
+            navigator.clipboard.writeText(content);
+            alert("리포트 내용이 복사되었습니다.");
+        }
+    </script>
+</body>
+
+</html>

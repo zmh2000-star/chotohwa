@@ -1,0 +1,1007 @@
+<!DOCTYPE html>
+<html lang="ko" class="scroll-smooth">
+
+<head>
+    <!-- Google Tag Manager -->
+    <script>(function (w, d, s, l, i) {
+            w[l] = w[l] || []; w[l].push({
+                'gtm.start':
+                    new Date().getTime(), event: 'gtm.js'
+            }); var f = d.getElementsByTagName(s)[0],
+                j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+                    'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-W83KRT2H');</script>
+    <!-- End Google Tag Manager -->
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PURPLES NEXUS 2026 | No.1 B2B Life Platform</title>
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2220%22 fill=%22%23000000%22/><text x=%2250%22 y=%2272%22 font-family=%22serif%22 font-size=%2270%22 font-weight=%22bold%22 fill=%22%23D4AF37%22 text-anchor=%22middle%22>P</text></svg>">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;600;900&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Pretendard:wght@100;300;400;500;700;900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'dark-bg': '#0A0A0B',
+                        'dark-card': '#161618',
+                        'dark-border': '#262629',
+                        'brand-purple': '#6366F1',
+                        'brand-gold': '#D4AF37',
+                        'brand-gold-muted': '#B8860B',
+                    },
+                    fontFamily: {
+                        serif: ['"Playfair Display"', '"Noto Serif KR"', 'serif'],
+                        sans: ['"Pretendard"', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #0A0A0B;
+            color: #F8FAFC;
+            font-family: 'Pretendard', sans-serif;
+            overflow-x: hidden;
+            word-break: keep-all;
+        }
+
+        .bento-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-auto-rows: 200px;
+            gap: 1.5rem;
+        }
+
+        .bento-card {
+            background: #161618;
+            border: 1px solid #262629;
+            border-radius: 2rem;
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .bento-card:hover {
+            border-color: #D4AF37;
+            box-shadow: 0 0 30px rgba(212, 175, 55, 0.1);
+            transform: translateY(-5px);
+        }
+
+        .glass-nav {
+            background: rgba(10, 10, 11, 0.8);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, #F8FAFC 0%, #D4AF37 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .purple-glow {
+            box-shadow: 0 0 50px -10px rgba(99, 102, 241, 0.3);
+        }
+
+        .gold-glow {
+            box-shadow: 0 0 50px -10px rgba(212, 175, 55, 0.2);
+        }
+
+        .marquee-inner {
+            display: flex;
+            width: max-content;
+            animation: marquee 40s linear infinite;
+        }
+
+        @keyframes marquee {
+            0% {
+                transform: translateX(0);
+            }
+
+            100% {
+                transform: translateX(-50%);
+            }
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .tab-btn.active {
+            background: #D4AF37;
+            color: #000;
+        }
+
+        @media (max-width: 1024px) {
+            .bento-grid {
+                grid-template-columns: repeat(2, 1fr);
+                grid-auto-rows: 180px;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .bento-grid {
+                grid-template-columns: 1fr;
+                grid-auto-rows: auto;
+            }
+        }
+    </style>
+</head>
+
+<body class="selection:bg-brand-gold selection:text-black">
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-[100] glass-nav transition-all duration-300">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="#"
+                class="text-xl md:text-2xl font-serif font-black tracking-widest text-[#F8FAFC] flex items-center gap-2">
+                PURPLES <span class="bg-brand-gold text-black px-2 py-0.5 text-[10px] font-bold rounded">NEXUS</span>
+            </a>
+            <div class="hidden md:flex gap-10 text-[10px] font-bold tracking-[0.2em] text-gray-500 uppercase">
+                <a href="#about" class="hover:text-brand-gold transition-colors">Mission</a>
+                <a href="#brand" class="hover:text-brand-gold transition-colors">Brands</a>
+                <a href="#value" class="hover:text-brand-gold transition-colors">Value</a>
+                <a href="#partnership" class="hover:text-brand-gold transition-colors">Partnership</a>
+            </div>
+            <a href="#inquiry"
+                class="px-6 py-2 bg-white text-black text-[10px] font-black tracking-[0.2em] hover:bg-brand-gold transition-all rounded-full">
+                JOIN NOW
+            </a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="about" class="relative min-h-screen pt-32 pb-20 flex flex-col justify-center overflow-hidden">
+        <div class="container mx-auto px-6 z-10">
+            <div class="max-w-5xl">
+                <h6 class="text-brand-gold font-black tracking-[0.4em] text-[10px] mb-8 uppercase reveal">2026
+                    Integrated B2B Strategy</h6>
+                <h1 class="text-5xl md:text-8xl font-black mb-10 leading-[1.05] tracking-tight reveal">
+                    기업 복지의 새로운 기준,<br>
+                    <span class="gradient-text">The Purples Nexus</span>
+                </h1>
+                <p class="text-gray-400 text-lg md:text-2xl font-light mb-12 leading-relaxed max-w-2xl reveal">
+                    비용 0원, 도입 즉시 임직원 650만 원 상당의 혜택.<br>
+                    대한민국 480대 기업이 선택한 독보적인 프리미엄 라이프 플랫폼입니다.
+                </p>
+            </div>
+
+            <!-- Bento Layout Intro -->
+            <div class="bento-grid mt-12">
+                <!-- Large Video Card -->
+                <div class="bento-card col-span-2 row-span-2 p-0 group">
+                    <video src="https://www.purples.co.kr/rw_videos/main/section02/background.mp4"
+                        class="w-full h-full object-cover opacity-60 group-hover:opacity-100 transition-opacity"
+                        autoplay muted loop playsinline></video>
+                    <div
+                        class="absolute inset-0 bg-gradient-to-t from-dark-bg via-transparent to-transparent pointer-events-none">
+                    </div>
+                    <div class="absolute bottom-10 left-10">
+                        <h4 class="text-2xl font-black mb-2">No.1 Prestige Match</h4>
+                        <p class="text-gray-400 text-sm">Since 2001, Korea's First VVIP Matching</p>
+                    </div>
+                </div>
+
+                <!-- Stats Card 1 -->
+                <div class="bento-card flex flex-col justify-end purple-glow">
+                    <p class="text-brand-purple text-4xl md:text-5xl font-black mb-2"><span class="counter"
+                            data-target="1430">0</span>억</p>
+                    <p class="text-xs text-gray-400 font-bold tracking-widest uppercase">성혼 가치 추산</p>
+                </div>
+
+                <!-- Stats Card 2 -->
+                <div class="bento-card flex flex-col justify-end gold-glow">
+                    <p class="text-brand-gold text-4xl md:text-5xl font-black mb-2"><span class="counter"
+                            data-target="8500">0</span>+</p>
+                    <p class="text-xs text-gray-400 font-bold tracking-widest uppercase">누적 제휴 상담기업</p>
+                </div>
+
+                <!-- Link Card -->
+                <div
+                    class="bento-card col-span-1 flex flex-col justify-between hover:bg-brand-gold hover:text-black group">
+                    <i
+                        class="fas fa-arrow-up-right-from-square text-2xl self-end transition-all group-hover:rotate-45"></i>
+                    <div>
+                        <h5 class="text-lg font-black mb-1">통합 제안서</h5>
+                        <p class="text-xs opacity-60">2026 B2B Plan PDF</p>
+                    </div>
+                </div>
+
+                <!-- Small Info Card -->
+                <div class="bento-card flex flex-col justify-center text-center">
+                    <div class="text-3xl font-black text-white mb-1">98.4%</div>
+                    <div class="text-[9px] text-gray-500 font-bold uppercase tracking-widest">Client Satisfaction</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section: 4 Core Services -->
+    <section class="py-32 bg-[#0F0F10]">
+        <div class="container mx-auto px-6">
+            <div class="mb-20 reveal">
+                <h2 class="text-4xl md:text-6xl font-black mb-6">4-Core Services</h2>
+                <p class="text-gray-500 text-lg md:text-xl font-light">일할 맛 나는 일상을 위해 퍼플스는 네 가지를 고민합니다.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                <!-- Service 1 -->
+                <div class="bento-card md:row-span-2 flex flex-col justify-between group">
+                    <div
+                        class="w-16 h-16 bg-blue-500/10 text-blue-500 flex items-center justify-center rounded-2xl text-2xl mb-8 group-hover:scale-110 transition-transform">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div>
+                        <h4 class="text-2xl font-black mb-4">고급 사교 케어</h4>
+                        <p class="text-gray-500 text-sm leading-relaxed font-light">
+                            상호 신뢰가 기반인 프라이빗 파티와 네트워킹을 통해 임직원의 사회적 만족도를 극대화합니다.
+                        </p>
+                    </div>
+                </div>
+                <!-- Service 2 -->
+                <div class="bento-card flex flex-col justify-between group">
+                    <div
+                        class="w-12 h-12 bg-indigo-500/10 text-indigo-500 flex items-center justify-center rounded-xl text-xl mb-6 group-hover:scale-110 transition-transform">
+                        <i class="fas fa-gem"></i>
+                    </div>
+                    <div>
+                        <h4 class="text-xl font-black mb-2">VIP 매칭</h4>
+                        <p class="text-gray-500 text-xs font-light">엘리트 그룹을 위한 정교한 매칭 시스템 지원</p>
+                    </div>
+                </div>
+                <!-- Service 3 -->
+                <div class="bento-card flex flex-col justify-between group">
+                    <div
+                        class="w-12 h-12 bg-amber-500/10 text-amber-500 flex items-center justify-center rounded-xl text-xl mb-6 group-hover:scale-110 transition-transform">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                    <div>
+                        <h4 class="text-xl font-black mb-2">전용 복지 SaaS</h4>
+                        <p class="text-gray-500 text-xs font-light">임직원 전용 디지털 복지 플랫폼 제공</p>
+                    </div>
+                </div>
+                <!-- Service 4 -->
+                <div class="bento-card md:row-span-2 flex flex-col justify-between group">
+                    <div
+                        class="w-16 h-16 bg-rose-500/10 text-rose-500 flex items-center justify-center rounded-2xl text-2xl mb-8 group-hover:scale-110 transition-transform">
+                        <i class="fas fa-handshake"></i>
+                    </div>
+                    <div>
+                        <h4 class="text-2xl font-black mb-4">인사 전략 파트너</h4>
+                        <p class="text-gray-500 text-sm leading-relaxed font-light">
+                            가정의 안정을 통한 이직률 감소 및 기업 충성도 향상을 위한 데이터 컨설팅을 수행합니다.
+                        </p>
+                    </div>
+                </div>
+                <!-- Helper Content for Grid -->
+                <div class="bento-card col-span-2 flex items-center gap-8 bg-brand-gold/5 border-brand-gold/20">
+                    <div class="text-brand-gold text-5xl font-black">480+</div>
+                    <p class="text-sm font-light text-gray-400">대한민국 주요 대기업 및 공공기관 제휴 상담 완료</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section: 5-Track Solution Portfolio -->
+    <section id="brand" class="py-32 relative overflow-hidden bg-dark-bg">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-24 reveal">
+                <h6 class="text-brand-gold font-black tracking-[0.4em] text-[10px] mb-4 uppercase">Unlimited Portfolio
+                </h6>
+                <h2 class="text-4xl md:text-6xl font-black tracking-tighter">최적의 브랜드 조합으로<br>기업 문화를 완성합니다</h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-6 gap-6">
+                <!-- Brand Nav (Desktop Sidebar Style) -->
+                <div class="md:col-span-2 flex flex-col gap-4 reveal">
+                    <button onclick="switchBrand('p')"
+                        class="brand-tab bento-card flex items-center justify-between active group border-brand-gold/50 bg-brand-gold/10">
+                        <span class="font-bold tracking-widest text-sm text-brand-gold">THE PRESTIGE : PURPLES</span>
+                        <i class="fas fa-chevron-right text-xs group-hover:translate-x-1 transition-transform"></i>
+                    </button>
+                    <button onclick="switchBrand('d')"
+                        class="brand-tab bento-card flex items-center justify-between group">
+                        <span
+                            class="font-bold tracking-widest text-sm text-gray-400 group-hover:text-white transition-colors">FOR
+                            ELITES : D.NOBLE</span>
+                        <i
+                            class="fas fa-chevron-right text-xs group-hover:translate-x-1 transition-transform text-gray-700"></i>
+                    </button>
+                    <button onclick="switchBrand('u')"
+                        class="brand-tab bento-card flex items-center justify-between group">
+                        <span
+                            class="font-bold tracking-widest text-sm text-gray-400 group-hover:text-white transition-colors">SOCIAL
+                            : UNNIE</span>
+                        <i
+                            class="fas fa-chevron-right text-xs group-hover:translate-x-1 transition-transform text-gray-700"></i>
+                    </button>
+                    <button onclick="switchBrand('a')"
+                        class="brand-tab bento-card flex items-center justify-between group">
+                        <span
+                            class="font-bold tracking-widest text-sm text-gray-400 group-hover:text-white transition-colors">CONNECTION
+                            : AUNT</span>
+                        <i
+                            class="fas fa-chevron-right text-xs group-hover:translate-x-1 transition-transform text-gray-700"></i>
+                    </button>
+                    <button onclick="switchBrand('l')"
+                        class="brand-tab bento-card flex items-center justify-between group">
+                        <span
+                            class="font-bold tracking-widest text-sm text-gray-400 group-hover:text-white transition-colors">NEW
+                            START : LE MARRY</span>
+                        <i
+                            class="fas fa-chevron-right text-xs group-hover:translate-x-1 transition-transform text-gray-700"></i>
+                    </button>
+                </div>
+
+                <!-- Brand Detail Display -->
+                <div class="md:col-span-4 bento-card p-0 overflow-hidden reveal delay-100 flex flex-col md:flex-row">
+                    <div class="md:w-1/2 p-10 md:p-14 flex flex-col justify-center">
+                        <span id="brand-overline"
+                            class="text-brand-gold font-serif text-xs tracking-[0.4em] block mb-4 uppercase">THE
+                            PRESTIGE</span>
+                        <h3 id="brand-title" class="text-3xl md:text-5xl font-black mb-8 leading-tight">PURPLES</h3>
+                        <p id="brand-desc" class="text-gray-400 font-light leading-loose mb-10 text-sm md:text-base">
+                            대한민국 최초, 최대 규모의 상류층 결혼정보회사. 재벌가, 명문가, 전문직 등 VVIP 성혼 노하우를 바탕으로 기업의 리더십 그룹에게 걸맞은 최상위 매칭 서비스를
+                            제공합니다.
+                        </p>
+                        <div id="brand-tags" class="flex flex-wrap gap-2 mb-10">
+                            <span
+                                class="px-3 py-1.5 bg-brand-gold/10 text-brand-gold text-[10px] font-black rounded-lg">
+                                <i class="fas fa-check mr-1.5 opacity-50"></i> 철저한 신원 인증 시스템
+                            </span>
+                            <span class="px-3 py-1.5 bg-white/5 text-gray-400 text-[10px] font-black rounded-lg">
+                                <i class="fas fa-check mr-1.5 opacity-50"></i> 베테랑 커플매니저 & 매칭팀 관리
+                            </span>
+                        </div>
+                        <a id="brand-link" href="https://www.purples.co.kr/" target="_blank"
+                            class="inline-flex items-center gap-3 text-sm font-black text-brand-gold group">
+                            LEARN MORE <i
+                                class="fas fa-external-link-alt text-[10px] transition-transform group-hover:scale-110"></i>
+                        </a>
+                    </div>
+                    <div
+                        class="md:w-1/2 aspect-square md:aspect-auto bg-black flex items-center justify-center overflow-hidden">
+                        <video id="brand-video" src="https://movie.purples.co.kr/2024_party_bg.mp4"
+                            class="w-full h-full object-cover opacity-70" muted loop playsinline></video>
+                        <img id="brand-img" src="" class="hidden w-full h-full object-cover">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section: Value Conversion Infographic -->
+    <section id="value" class="py-32 bg-dark-bg relative overflow-hidden">
+        <div
+            class="absolute top-0 left-1/2 -translate-x-1/2 w-full h-px bg-gradient-to-r from-transparent via-brand-gold/30 to-transparent">
+        </div>
+        <div class="container mx-auto px-6">
+            <div class="max-w-4xl mx-auto text-center mb-24 reveal">
+                <h2 class="text-4xl md:text-6xl font-black mb-10 leading-tight">가입비는 단순한 비용이 아닌,<br><span
+                        class="text-brand-gold uppercase">Opportunity Cost</span>입니다.</h2>
+                <p class="text-gray-500 text-lg font-light">600만 원의 가입비는 제휴 혜택을 통해 650만 원 이상의 실질적 가치로 전환됩니다.</p>
+            </div>
+
+            <div class="bento-grid max-w-6xl mx-auto">
+                <!-- Main Infographic Card -->
+                <div
+                    class="bento-card col-span-2 row-span-2 flex flex-col items-center justify-center text-center p-12 bg-dark-card border-brand-gold/20">
+                    <div
+                        class="w-24 h-24 bg-brand-gold/10 rounded-full flex items-center justify-center mb-8 border border-brand-gold/30">
+                        <i class="fas fa-exchange-alt text-brand-gold text-3xl"></i>
+                    </div>
+                    <div class="space-y-4">
+                        <p class="text-gray-500 text-sm font-bold tracking-widest uppercase">Initial Cost</p>
+                        <h4 class="text-5xl font-black text-white decoration-brand-gold/50 line-through">₩6,000,000</h4>
+                        <i class="fas fa-chevron-down text-brand-gold animate-bounce py-4"></i>
+                        <p class="text-brand-gold text-sm font-bold tracking-widest uppercase">Total Value Benefit</p>
+                        <h4 class="text-6xl md:text-7xl font-black text-brand-gold">₩6,500,000<span
+                                class="text-2xl ml-2 tracking-tighter text-white">+α</span></h4>
+                    </div>
+                </div>
+
+                <!-- Benefit Cards Grid -->
+                <div class="bento-card flex flex-col justify-between group overflow-visible">
+                    <div
+                        class="absolute -top-4 -right-4 w-12 h-12 bg-brand-gold text-black rounded-full flex items-center justify-center font-black text-xs shadow-xl rotate-12 group-hover:rotate-0 transition-transform">
+                        100만</div>
+                    <i class="fas fa-ring text-4xl text-brand-gold mb-6"></i>
+                    <div>
+                        <h5 class="font-black text-white mb-1">Wedding Essentials</h5>
+                        <p class="text-[10px] text-gray-500 uppercase font-bold tracking-widest">예복 & 드레스 할인</p>
+                    </div>
+                </div>
+                <div class="bento-card flex flex-col justify-between group overflow-visible delay-100">
+                    <div
+                        class="absolute -top-4 -right-4 w-12 h-12 bg-white text-black rounded-full flex items-center justify-center font-black text-xs shadow-xl -rotate-12 group-hover:rotate-0 transition-transform">
+                        100만</div>
+                    <i class="fas fa-camera text-4xl text-gray-400 mb-6"></i>
+                    <div>
+                        <h5 class="font-black text-white mb-1">Visual Arts</h5>
+                        <p class="text-[10px] text-gray-500 uppercase font-bold tracking-widest">스튜디오 촬영권</p>
+                    </div>
+                </div>
+                <div class="bento-card col-span-2 flex items-center p-12 overflow-visible group">
+                    <div class="w-1/2">
+                        <i class="fas fa-plane-departure text-5xl text-brand-purple mb-8"></i>
+                        <h5 class="text-3xl font-black text-white mb-2">Honeymoon</h5>
+                        <p class="text-xs text-gray-500 font-light">프리미엄 신혼여행 패키지 및 항공 바우처</p>
+                    </div>
+                    <div class="w-1/2 text-right">
+                        <div class="text-5xl font-black text-brand-purple mb-2">200만</div>
+                        <span
+                            class="text-[10px] text-brand-purple font-bold tracking-widest uppercase bg-brand-purple/10 px-3 py-1 rounded-full">Member
+                            Special</span>
+                    </div>
+                </div>
+                <div class="bento-card flex flex-col justify-between group overflow-visible delay-200">
+                    <div
+                        class="absolute -top-4 -right-4 w-12 h-12 bg-brand-purple text-white rounded-full flex items-center justify-center font-black text-xs shadow-xl rotate-6 group-hover:rotate-0 transition-transform">
+                        150만</div>
+                    <i class="fas fa-spa text-4xl text-brand-purple mb-6"></i>
+                    <div>
+                        <h5 class="font-black text-white mb-1">Beauty & Care</h5>
+                        <p class="text-[10px] text-gray-500 uppercase font-bold tracking-widest">뷰티/피부과 케어</p>
+                    </div>
+                </div>
+                <div class="bento-card flex flex-col justify-between group overflow-visible delay-300">
+                    <div
+                        class="absolute -top-4 -right-4 w-12 h-12 bg-gray-700 text-white rounded-full flex items-center justify-center font-black text-xs shadow-xl -rotate-6 group-hover:rotate-0 transition-transform">
+                        100만</div>
+                    <i class="fas fa-utensils text-4xl text-gray-400 mb-6"></i>
+                    <div>
+                        <h5 class="font-black text-white mb-1">Lifestyle</h5>
+                        <p class="text-[10px] text-gray-500 uppercase font-bold tracking-widest">럭셔리 다이닝 & 문화</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section: Special Care & Impact -->
+    <section class="py-32 bg-[#0F0F10] relative">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 mb-20 items-end reveal">
+                <div>
+                    <h2 class="text-4xl md:text-6xl font-black mb-6">Partnership Impact</h2>
+                    <p class="text-gray-500 text-lg font-light leading-relaxed">이미 수많은 기업들이 퍼플스와 함께하며 임직원의 삶을 혁신하고 있습니다.
+                    </p>
+                </div>
+                <!-- History Timeline in Bento Card -->
+                <div class="bento-card bg-dark-card/50 overflow-visible p-8 border-brand-purple/20">
+                    <div class="flex flex-col gap-6">
+                        <div class="flex gap-4 border-l-2 border-brand-purple/30 pl-6 relative">
+                            <div class="absolute -left-[5px] top-0 w-2 h-2 rounded-full bg-brand-purple"></div>
+                            <span class="text-[10px] font-black text-brand-purple uppercase tracking-[0.2em]">2024 -
+                                Present</span>
+                            <p class="text-xs text-gray-400">종합 B2B 라이프 케어 플랫폼 도약</p>
+                        </div>
+                        <div class="flex gap-4 border-l-2 border-gray-800 pl-6 relative">
+                            <div class="absolute -left-[5px] top-0 w-2 h-2 rounded-full bg-gray-700"></div>
+                            <span class="text-[10px] font-black text-gray-500 uppercase tracking-[0.2em]">2018 -
+                                2023</span>
+                            <p class="text-xs text-gray-400">국내 480대 기업 제휴 네트워크 달성</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Client Logo Marquee -->
+            <div class="marquee-wrapper mb-32 reveal overflow-hidden opacity-30">
+                <div class="marquee-inner flex gap-20">
+                    <div class="flex items-center gap-20 shrink-0">
+                        <img src="./images/DA/SAMSUNG.png" class="h-8 md:h-12 w-auto grayscale invert">
+                        <img src="./images/DA/HYUNDAI.avif" class="h-8 md:h-12 w-auto grayscale invert">
+                        <img src="./images/DA/SK.png" class="h-8 md:h-12 w-auto grayscale invert">
+                        <img src="./images/DA/LG.png" class="h-8 md:h-12 w-auto grayscale invert">
+                        <img src="./images/DA/LOTTE.png" class="h-8 md:h-12 w-auto grayscale invert">
+                        <img src="./images/DA/POSCO.jpg" class="h-8 md:h-12 w-auto grayscale invert">
+                    </div>
+                </div>
+            </div>
+
+            <div class="mb-12 reveal">
+                <h3 class="text-2xl md:text-4xl font-black mb-10">제휴사 특별 전담 케어</h3>
+                <div class="grid grid-cols-2 md:grid-cols-5 gap-4">
+                    <div class="bento-card p-6 flex flex-col items-center text-center group">
+                        <i
+                            class="fas fa-user-tie text-2xl text-brand-gold mb-4 transition-transform group-hover:scale-125"></i>
+                        <h5 class="text-xs font-black">전담 매니저 배정</h5>
+                    </div>
+                    <div class="bento-card p-6 flex flex-col items-center text-center group">
+                        <i
+                            class="fas fa-percentage text-2xl text-brand-purple mb-4 transition-transform group-hover:scale-125"></i>
+                        <h5 class="text-xs font-black">임직원 특별 우대</h5>
+                    </div>
+                    <div class="bento-card p-6 flex flex-col items-center text-center group">
+                        <i
+                            class="fas fa-glass-cheers text-2xl text-brand-gold mb-4 transition-transform group-hover:scale-125"></i>
+                        <h5 class="text-xs font-black">프라이빗 파티 초대</h5>
+                    </div>
+                    <div class="bento-card p-6 flex flex-col items-center text-center group">
+                        <i
+                            class="fas fa-gift text-2xl text-brand-purple mb-4 transition-transform group-hover:scale-125"></i>
+                        <h5 class="text-xs font-black">바우처 상시 제공</h5>
+                    </div>
+                    <div class="bento-card p-6 flex flex-col items-center text-center group">
+                        <i
+                            class="fas fa-ad text-2xl text-brand-gold mb-4 transition-transform group-hover:scale-125"></i>
+                        <h5 class="text-xs font-black">공동 마케팅 제안</h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section: Partnership Strategy & Process -->
+    <section id="partnership" class="py-32 bg-dark-bg">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-20">
+                <div class="reveal">
+                    <h2 class="text-4xl md:text-5xl font-black mb-10 leading-tight">Strategic<br><span
+                            class="text-brand-gold">Partnership</span></h2>
+                    <div class="space-y-6">
+                        <div class="bento-card border-brand-purple/20 bg-brand-purple/5">
+                            <h4 class="text-xl font-black mb-4 flex items-center gap-3">
+                                <span
+                                    class="w-8 h-8 rounded-full bg-brand-purple flex items-center justify-center text-xs">A</span>
+                                스폰서형 파트너십
+                            </h4>
+                            <p class="text-gray-400 text-sm leading-relaxed">
+                                오프라인 파티 참가자들에게 제휴사의 제품/서비스를 체험, 할인 등의 혜택으로 제공하여 소비력을 갖춘 가망 고객을 확보합니다.
+                            </p>
+                        </div>
+                        <div class="bento-card border-brand-gold/20 bg-brand-gold/5">
+                            <h4 class="text-xl font-black mb-4 flex items-center gap-3">
+                                <span
+                                    class="w-8 h-8 rounded-full bg-brand-gold text-black flex items-center justify-center text-xs">B</span>
+                                복지 형태 제공형
+                            </h4>
+                            <p class="text-gray-400 text-sm leading-relaxed">
+                                퍼플스의 다양한 서비스를 제휴사 임직원에게 직접적인 복지 혜택으로 제공하여 조직의 소속감과 만족도를 향상시킵니다.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="reveal delay-200">
+                    <h5 class="text-[10px] font-black tracking-[0.4em] text-gray-500 uppercase mb-10">Successive Process
+                    </h5>
+                    <div class="space-y-4">
+                        <div
+                            class="flex items-center gap-6 p-6 rounded-[2rem] border border-dark-border group hover:border-brand-gold transition-colors">
+                            <span class="text-2xl font-black text-gray-700 group-hover:text-brand-gold">01</span>
+                            <div>
+                                <h6 class="font-bold text-white">조건 조율 및 검토</h6>
+                                <p class="text-[10px] text-gray-500 font-light">상호 니즈 파악 및 제휴 가능성 타진</p>
+                            </div>
+                        </div>
+                        <div
+                            class="flex items-center gap-6 p-6 rounded-[2rem] border border-dark-border group hover:border-brand-gold transition-colors">
+                            <span class="text-2xl font-black text-gray-700 group-hover:text-brand-gold">02</span>
+                            <div>
+                                <h6 class="font-bold text-white">MOU 혹은 구두합의</h6>
+                                <p class="text-[10px] text-gray-500 font-light">전략적 제휴 계약 체결 및 일정 확정</p>
+                            </div>
+                        </div>
+                        <div
+                            class="flex items-center gap-6 p-6 rounded-[2rem] border border-dark-border group hover:border-brand-gold transition-colors">
+                            <span class="text-2xl font-black text-gray-700 group-hover:text-brand-gold">03</span>
+                            <div>
+                                <h6 class="font-bold text-white">채널 홍보 및 진행</h6>
+                                <p class="text-[10px] text-gray-500 font-light">온/오프라인 전용 페이지 및 이벤트 운영</p>
+                            </div>
+                        </div>
+                        <div
+                            class="flex items-center gap-6 p-6 rounded-[2rem] border border-dark-border group hover:border-brand-gold transition-colors">
+                            <span class="text-2xl font-black text-gray-700 group-hover:text-brand-gold">04</span>
+                            <div>
+                                <h6 class="font-bold text-white">피드백 및 리워드 점검</h6>
+                                <p class="text-[10px] text-gray-500 font-light">성과 분석 및 차기 단계 로드맵 설정</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section: Two-Track Strategy Logic (Enhanced) -->
+    <section class="py-32 bg-[#0A0A0B] relative">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-20 reveal">
+                <h6 class="text-brand-purple font-black tracking-[0.4em] text-[10px] mb-4 uppercase">Sales Logic</h6>
+                <h2 class="text-3xl md:text-5xl font-black">Two-Track Approach</h2>
+                <p class="text-gray-500 mt-4 font-light">부서별 니즈에 맞춘 이원화 설득 솔루션으로 도입 성공률을 높입니다.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+                <div class="bento-card border-l-4 border-l-brand-purple bg-brand-purple/5 group">
+                    <div class="flex items-center gap-4 mb-8">
+                        <div
+                            class="w-12 h-12 bg-brand-purple/20 rounded-2xl flex items-center justify-center text-brand-purple">
+                            <i class="fas fa-user-shield"></i></div>
+                        <h4 class="text-2xl font-black">인사 / 총무팀</h4>
+                    </div>
+                    <ul class="space-y-4 text-sm text-gray-400 font-light">
+                        <li class="flex items-start gap-3"><i
+                                class="fas fa-check text-brand-purple mt-1 text-[10px]"></i> 핵심 인재 유치 및 이직률 감소를 통한 조직
+                            안정성 확보</li>
+                        <li class="flex items-start gap-3"><i
+                                class="fas fa-check text-brand-purple mt-1 text-[10px]"></i> 철저한 신원 인증 기반의 안전한 사내 복지 시스템
+                            구축</li>
+                        <li class="flex items-start gap-3"><i
+                                class="fas fa-check text-brand-purple mt-1 text-[10px]"></i> 데이터 기반의 복지 ROI 분석 및 리포트 제공
+                        </li>
+                    </ul>
+                </div>
+                <div class="bento-card border-l-4 border-l-brand-gold bg-brand-gold/5 group">
+                    <div class="flex items-center gap-4 mb-8">
+                        <div
+                            class="w-12 h-12 bg-brand-gold/20 rounded-2xl flex items-center justify-center text-brand-gold">
+                            <i class="fas fa-rocket"></i></div>
+                        <h4 class="text-2xl font-black">조직문화 / 마케팅팀</h4>
+                    </div>
+                    <ul class="space-y-4 text-sm text-gray-400 font-light">
+                        <li class="flex items-start gap-3"><i class="fas fa-check text-brand-gold mt-1 text-[10px]"></i>
+                            MZ세대가 열광하는 트렌디한 네트워킹 및 GWP 문화 선도</li>
+                        <li class="flex items-start gap-3"><i class="fas fa-check text-brand-gold mt-1 text-[10px]"></i>
+                            브랜드 콜라보레이션 및 공동 홍보를 통한 대외 이미지 제고</li>
+                        <li class="flex items-start gap-3"><i class="fas fa-check text-brand-gold mt-1 text-[10px]"></i>
+                            임직원 프라이빗 파티를 통한 활기찬 기업 조직력 강화</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section: Testimonials -->
+    <section class="py-32 bg-[#0F0F10] overflow-hidden">
+        <div class="container mx-auto px-6 mb-20 reveal">
+            <h2 class="text-4xl md:text-5xl font-black">Voice of Success</h2>
+        </div>
+        <div class="marquee-wrapper reveal delay-100">
+            <div class="marquee-inner flex gap-8 pb-10">
+                <div class="flex gap-8 shrink-0">
+                    <div class="bento-card w-[400px] bg-dark-card border-none">
+                        <div class="flex items-center gap-4 mb-6">
+                            <div
+                                class="w-12 h-12 rounded-full bg-brand-purple/20 flex items-center justify-center text-brand-purple text-xl">
+                                <i class="fas fa-quote-left"></i>
+                            </div>
+                            <div>
+                                <p class="text-xs font-black text-white">A사 인사담당자 수석연구원</p>
+                                <p class="text-[9px] text-gray-500 uppercase">IT Giant</p>
+                            </div>
+                        </div>
+                        <p class="text-sm text-gray-400 font-light leading-relaxed">"정적인 복지에 한계를 느꼈을 때 퍼플스를 만났습니다. 단순한
+                            매칭 선물을 넘어 임직원들이 진정으로 만족하는 '네트워크'를 선물하게 되어 사내 평판이 매우 좋아졌습니다."</p>
+                    </div>
+                    <div class="bento-card w-[400px] bg-dark-card border-none">
+                        <div class="flex items-center gap-4 mb-6">
+                            <div
+                                class="w-12 h-12 rounded-full bg-brand-gold/20 flex items-center justify-center text-brand-gold text-xl">
+                                <i class="fas fa-quote-left"></i>
+                            </div>
+                            <div>
+                                <p class="text-xs font-black text-white">B공사 전략기획 실장</p>
+                                <p class="text-[9px] text-gray-500 uppercase">Public Strategy</p>
+                            </div>
+                        </div>
+                        <p class="text-sm text-gray-400 font-light leading-relaxed">"신원 인증의 철저함이 가장 마음에 들었습니다. 우리 임직원들이
+                            안심하고 서비스를 이용할 수 있다는 점이 퍼플스를 10년 넘게 선택하고 있는 이유입니다."</p>
+                    </div>
+                </div>
+                <!-- Duo for loop -->
+                <div class="flex gap-8 shrink-0">
+                    <div class="bento-card w-[400px] bg-dark-card border-none">
+                        <div class="flex items-center gap-4 mb-6">
+                            <div
+                                class="w-12 h-12 rounded-full bg-brand-purple/20 flex items-center justify-center text-brand-purple text-xl">
+                                <i class="fas fa-quote-left"></i>
+                            </div>
+                            <div>
+                                <p class="text-xs font-black text-white">A사 인사담당자 수석연구원</p>
+                                <p class="text-[9px] text-gray-500 uppercase">IT Giant</p>
+                            </div>
+                        </div>
+                        <p class="text-sm text-gray-400 font-light leading-relaxed">"정적인 복지에 한계를 느꼈을 때 퍼플스를 만났습니다. 단순한
+                            매칭 선분을 넘어 임직원들이 진정으로 만족하는 '네트워크'를 선물하게 되어 사내 평판이 매우 좋아졌습니다."</p>
+                    </div>
+                    <div class="bento-card w-[400px] bg-dark-card border-none">
+                        <div class="flex items-center gap-4 mb-6">
+                            <div
+                                class="w-12 h-12 rounded-full bg-brand-gold/20 flex items-center justify-center text-brand-gold text-xl">
+                                <i class="fas fa-quote-left"></i>
+                            </div>
+                            <div>
+                                <p class="text-xs font-black text-white">B공사 전략기획 실장</p>
+                                <p class="text-[9px] text-gray-500 uppercase">Public Strategy</p>
+                            </div>
+                        </div>
+                        <p class="text-sm text-gray-400 font-light leading-relaxed">"신원 인증의 철저함이 가장 마음에 들었습니다. 우리 임직원들이
+                            안심하고 서비스를 이용할 수 있다는 점이 퍼플스를 10년 넘게 선택하고 있는 이유입니다."</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section: Final CTA & Inquiry -->
+    <section id="inquiry" class="py-32 bg-dark-bg relative overflow-hidden">
+        <div class="container mx-auto px-6 max-w-6xl">
+            <div
+                class="bento-card p-12 md:p-20 bg-gradient-to-br from-dark-card to-[#0A0A0B] border-brand-gold/20 flex flex-col lg:flex-row items-center gap-16 relative overflow-hidden">
+                <div class="absolute top-0 right-0 p-10 opacity-[0.05] pointer-events-none">
+                    <i class="fas fa-paper-plane text-[300px] text-brand-gold rotate-12"></i>
+                </div>
+
+                <div class="w-full lg:w-1/2 reveal">
+                    <h2 class="text-4xl md:text-6xl font-black mb-10 leading-tight">넥서스와 함께 기업의<br><span
+                            class="text-brand-gold">미래</span>를 설계하십시오.</h2>
+                    <p class="text-gray-400 text-lg font-light leading-relaxed mb-12">
+                        성장하는 기업의 필수 전략, 퍼플스 B2B 솔루션.<br>지금 바로 귀사만을 위한 맞춤형 컨설팅을 시작해 보세요.
+                    </p>
+                    <div class="flex items-center gap-6">
+                        <div
+                            class="w-14 h-14 rounded-full bg-brand-gold flex items-center justify-center text-black text-xl">
+                            <i class="fas fa-headset"></i>
+                        </div>
+                        <div>
+                            <p class="text-xs font-bold text-gray-500 uppercase tracking-widest">B2B Direct Line</p>
+                            <p class="text-2xl font-black text-white">1588-3934</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="w-full lg:w-1/2 reveal delay-200">
+                    <form id="b2bForm" onsubmit="handleSubmit(event)" class="space-y-6">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <input type="text" id="contact_company" required
+                                class="w-full bg-white/5 border border-dark-border rounded-2xl p-4 outline-none focus:border-brand-gold transition-colors font-light text-sm text-white"
+                                placeholder="회사명">
+                            <input type="text" id="contact_name" required
+                                class="w-full bg-white/5 border border-dark-border rounded-2xl p-4 outline-none focus:border-brand-gold transition-colors font-light text-sm text-white"
+                                placeholder="담당자 성함">
+                        </div>
+                        <input type="tel" id="contact_tel" required
+                            class="w-full bg-white/5 border border-dark-border rounded-2xl p-4 outline-none focus:border-brand-gold transition-colors font-light text-sm text-white"
+                            placeholder="연락처">
+                        <textarea id="contact_memo"
+                            class="w-full bg-white/5 border border-dark-border rounded-2xl p-4 outline-none focus:border-brand-gold transition-colors font-light text-sm text-white resize-none"
+                            rows="4" placeholder="문의 사항 혹은 직무/관심 분야"></textarea>
+                        <button type="submit" id="submitBtn"
+                            class="w-full py-5 bg-brand-gold text-black font-black tracking-[0.2em] rounded-2xl hover:bg-white transition-all transform hover:-translate-y-1 shadow-2xl shadow-brand-gold/10">
+                            상담 신청하기
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-20 bg-dark-bg border-t border-white/5">
+        <div class="container mx-auto px-6 text-center">
+            <h5 class="text-xl font-serif font-black tracking-widest mb-10 text-white uppercase">PURPLES <span
+                    class="text-brand-gold">NEXUS</span></h5>
+            <div
+                class="flex flex-wrap justify-center gap-x-8 gap-y-4 text-[10px] text-gray-600 font-bold uppercase tracking-widest mb-12">
+                <span>(주)퍼플스</span>
+                <span>대표 김한승</span>
+                <span>강남 청담본사</span>
+                <span>Tel 1588-3934</span>
+            </div>
+            <p class="text-[9px] text-gray-700 tracking-[0.3em] font-medium uppercase">COPYRIGHT © 2026 PURPLES GROUP.
+                ALL RIGHTS RESERVED.</p>
+        </div>
+    </footer>
+
+
+
+    <!-- Custom Footer Script Base -->
+    <script>
+        // GSAP Scroll Animations
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Brand Data & Switch Logic
+        const brandData = {
+            p: {
+                overline: "THE PRESTIGE",
+                title: "PURPLES",
+                desc: "대한민국 최초, 최대 규모의 상류층 결혼정보회사. 재벌가, 명문가, 전문직 등 VVIP 성혼 노하우를 바탕으로 기업의 리더십 그룹에게 걸맞은 최상위 매칭 서비스를 제공합니다.",
+                type: "video",
+                src: "https://movie.purples.co.kr/2024_party_bg.mp4",
+                tags: ["철저한 신원 인증 시스템", "베메랑 커플매니저 & 매칭팀 관리"],
+                link: "https://www.purples.co.kr/"
+            },
+            d: {
+                overline: "FOR ELITES",
+                title: "D.NOBLE",
+                desc: "전문직과 대기업 인재를 위한 정교한 매칭 플랫폼. 비슷한 라이프스타일과 가치관을 공유하는 엘리트 그룹 간의 만남을 주선하여, 기업의 핵심 인재들의 안정을 돕습니다.",
+                type: "video",
+                src: "https://www.purples.co.kr/images/trinity/pc_trinity_visual_ver2.mp4",
+                tags: ["로펌 및 병원 제휴 네트워크", "체계적인 매칭 알고리즘 기반"],
+                link: "https://www.dnoble.co.kr/"
+            },
+            u: {
+                overline: "SOCIAL & CASUAL",
+                title: "UNNIE'S NETWORK",
+                desc: "MZ세대를 위한 트렌디한 소셜 네트워킹 서비스. 자연스러운 만남과 파티 문화를 선호하는 젊은 임직원들에게 새로운 활력과 즐거운 관계 형성의 기회를 선물합니다.",
+                type: "image",
+                src: "./images/sister.png",
+                tags: ["부담 없는 캐주얼 미팅 & 파티", "검증된 회원 기반의 안전한 소셜링"],
+                link: "https://sisterinmac.com/"
+            },
+            a: {
+                overline: "CONNECTION",
+                title: "AUNT'S NETWORK",
+                desc: "재혼보다는 연애 먼저, 경험이 만든 인연의 가치. 돌싱들을 위한 진정성 있는 연애와 관계의 가치를 실현하며, 새로운 시작을 꿈꾸는 임직원들에게 따뜻한 동행이 되어줍니다.",
+                type: "image",
+                src: "./images/auntinmac.png",
+                tags: ["철저한 프라이버시 보호 및 신원 인증", "공감과 소통 중심의 맞춤형 매칭"],
+                link: "https://www.auntinmac.com/"
+            },
+            l: {
+                overline: "NEW START",
+                title: "LE MARRY",
+                desc: "다시 시작하는 설렘, 두 번째 행복을 위한 동행. 재혼 및 만혼을 희망하는 임직원들을 위한 전문 컨설팅으로, 안정적인 가업 승계 및 가정의 완성을 함께 설계합니다.",
+                type: "image",
+                src: "./images/solution_newstart.png",
+                tags: ["재혼 전문 베테랑 성혼 전문가 배정", "자산, 직업 등 정밀 데이터 기반 매칭"],
+                link: "https://www.lemarry.co.kr/"
+            }
+        };
+
+        function switchBrand(id) {
+            // Update Active Tab
+            document.querySelectorAll('.brand-tab').forEach(btn => {
+                btn.classList.remove('active', 'border-brand-gold/50', 'bg-brand-gold/10');
+                btn.querySelector('span').classList.replace('text-brand-gold', 'text-gray-400');
+                btn.querySelector('span').classList.add('text-gray-400');
+            });
+
+            const activeBtn = event.currentTarget;
+            activeBtn.classList.add('active', 'border-brand-gold/50', 'bg-brand-gold/10');
+            const span = activeBtn.querySelector('span');
+            span.classList.remove('text-gray-400');
+            span.classList.add('text-brand-gold');
+
+            const content = brandData[id];
+            const videoEl = document.getElementById('brand-video');
+            const imgEl = document.getElementById('brand-img');
+
+            // Fade Out
+            gsap.to(['#brand-title', '#brand-desc', '#brand-overline', '#brand-tags', '#brand-video', '#brand-img'], {
+                opacity: 0,
+                x: -10,
+                duration: 0.3,
+                onComplete: () => {
+                    // Update Content
+                    document.getElementById('brand-overline').innerText = content.overline;
+                    document.getElementById('brand-title').innerText = content.title;
+                    document.getElementById('brand-desc').innerText = content.desc;
+                    document.getElementById('brand-link').href = content.link;
+
+                    document.getElementById('brand-tags').innerHTML = content.tags.map((tag, i) => `
+                        <span class="px-3 py-1.5 ${i === 0 ? 'bg-brand-gold/10 text-brand-gold' : 'bg-white/5 text-gray-400'} text-[10px] font-black rounded-lg">
+                            <i class="fas fa-check mr-1.5 opacity-50"></i> ${tag}
+                        </span>
+                    `).join('');
+
+                    if (content.type === 'video') {
+                        videoEl.classList.remove('hidden');
+                        imgEl.classList.add('hidden');
+                        videoEl.src = content.src;
+                        videoEl.play().catch(() => { });
+                    } else {
+                        videoEl.classList.add('hidden');
+                        imgEl.classList.remove('hidden');
+                        imgEl.src = content.src;
+                    }
+
+                    // Fade In
+                    gsap.to(['#brand-title', '#brand-desc', '#brand-overline', '#brand-tags', '#brand-video', '#brand-img'], {
+                        opacity: 1,
+                        x: 0,
+                        duration: 0.5,
+                        stagger: 0.05
+                    });
+                }
+            });
+        }
+
+
+        document.querySelectorAll('.reveal').forEach((el) => {
+            gsap.to(el, {
+                scrollTrigger: {
+                    trigger: el,
+                    start: "top 85%",
+                    toggleActions: "play none none none"
+                },
+                opacity: 1,
+                y: 0,
+                duration: 1,
+                ease: "power3.out"
+            });
+        });
+
+        // Counter Animation
+        const counterObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const target = +entry.target.getAttribute('data-target');
+                    const duration = 2000;
+                    const step = target / (duration / 16);
+                    let current = 0;
+                    const update = () => {
+                        current += step;
+                        if (current < target) {
+                            entry.target.innerText = Math.ceil(current).toLocaleString();
+                            requestAnimationFrame(update);
+                        } else {
+                            entry.target.innerText = target.toLocaleString();
+                        }
+                    };
+                    update();
+                    counterObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.5 });
+        // Supabase Integration
+        const SUPABASE_URL = "https://yhmazwpnhzmnrrvyaqbx.supabase.co";
+        const SUPABASE_KEY = "sb_publishable_7Z-Waa8V6exEHPTqgvbPaQ_QtxIRNFG";
+        const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+        async function handleSubmit(event) {
+            event.preventDefault();
+            const btn = document.getElementById('submitBtn');
+            const originalText = btn.innerText;
+            const data = {
+                company: document.getElementById('contact_company').value,
+                name: document.getElementById('contact_name').value,
+                tel: document.getElementById('contact_tel').value,
+                memo: document.getElementById('contact_memo').value
+            };
+
+            btn.innerText = "Processing...";
+            btn.disabled = true;
+
+            try {
+                const { error } = await _supabase.from('leads').insert([{
+                    type: 'B2B_NEXUS_2026',
+                    company_name: data.company,
+                    contact_name: data.name,
+                    tel: data.tel,
+                    memo: `[Bento Plan] ${data.memo} [Ref: ${document.referrer || 'Direct'}]`
+                }]);
+                if (error) throw error;
+                alert("성공적으로 접수되었습니다. 담당 전문가가 곧 연락드리겠습니다.");
+                event.target.reset();
+            } catch (err) {
+                console.error(err);
+                alert("처리 중 잠시 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.");
+            } finally {
+                btn.innerText = originalText;
+                btn.disabled = false;
+            }
+        }
+
+        document.querySelectorAll('.counter').forEach(c => counterObserver.observe(c));
+
+    </script>
+</body>
+
+</html>

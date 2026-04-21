@@ -1,0 +1,315 @@
+/* ============================================
+   애니메이션 & 전환 효과
+   초토화 포트폴리오 2026
+   ============================================ */
+
+/* ─── 스크롤 등장 애니메이션 ─── */
+/* GSAP가 직접 opacity/transform을 제어하므로 CSS에서는 초기 상태만 설정 */
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  /* transition 제거 — GSAP가 제어 */
+}
+
+.reveal--left {
+  opacity: 0;
+  transform: translateX(-40px);
+}
+
+.reveal--right {
+  opacity: 0;
+  transform: translateX(40px);
+}
+
+.reveal--scale {
+  opacity: 0;
+  transform: scale(0.9);
+}
+
+/* GSAP 미로드 시 폴백 — JS에서 이 클래스를 추가 */
+.reveal--visible {
+  opacity: 1 !important;
+  transform: none !important;
+}
+
+/* 순차 지연 (GSAP가 없을 때 CSS 폴백용) */
+.reveal--visible.reveal--delay-1 { transition-delay: 0.1s; }
+.reveal--visible.reveal--delay-2 { transition-delay: 0.2s; }
+.reveal--visible.reveal--delay-3 { transition-delay: 0.3s; }
+.reveal--visible.reveal--delay-4 { transition-delay: 0.4s; }
+.reveal--visible.reveal--delay-5 { transition-delay: 0.5s; }
+.reveal--visible.reveal--delay-6 { transition-delay: 0.6s; }
+
+/* ─── 키프레임 애니메이션 ─── */
+
+/* 페이드인 */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* 슬라이드 업 */
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 글리치 텍스트 */
+@keyframes glitch {
+  0%, 100% {
+    transform: translate(0);
+    text-shadow: none;
+  }
+  20% {
+    transform: translate(-2px, 2px);
+    text-shadow: 2px -2px var(--fire-red), -2px 2px var(--accent-blue);
+  }
+  40% {
+    transform: translate(2px, -2px);
+    text-shadow: -2px 2px var(--fire-red), 2px -2px var(--accent-blue);
+  }
+  60% {
+    transform: translate(-1px, 1px);
+    text-shadow: 1px -1px var(--fire-orange), -1px 1px var(--accent-blue);
+  }
+  80% {
+    transform: translate(1px, -1px);
+    text-shadow: -1px 1px var(--fire-orange), 1px -1px var(--accent-blue);
+  }
+}
+
+/* 펄스 글로우 */
+@keyframes pulseGlow {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(255, 51, 51, 0.2);
+  }
+  50% {
+    box-shadow: 0 0 40px rgba(255, 51, 51, 0.4), 0 0 60px rgba(255, 51, 51, 0.2);
+  }
+}
+
+/* 텍스트 글로우 */
+@keyframes textGlow {
+  0%, 100% {
+    text-shadow: 0 0 10px rgba(255, 51, 51, 0.3);
+  }
+  50% {
+    text-shadow: 0 0 20px rgba(255, 51, 51, 0.5), 0 0 40px rgba(255, 51, 51, 0.3);
+  }
+}
+
+/* 플로팅 */
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-10px); }
+}
+
+/* 스크롤 유도 바운스 */
+@keyframes scrollBounce {
+  0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+  40%  { transform: translateY(-10px); }
+  60%  { transform: translateY(-5px); }
+}
+
+/* 타이핑 커서 */
+@keyframes blink {
+  0%, 50% { border-color: var(--fire-red); }
+  51%, 100% { border-color: transparent; }
+}
+
+/* 회전 */
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* 카운트업 강조 */
+@keyframes countPop {
+  0%   { transform: scale(1); }
+  50%  { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
+
+/* ─── 유틸리티 애니메이션 클래스 ─── */
+.anim-fade-in {
+  animation: fadeIn var(--duration-slow) var(--ease-out) forwards;
+}
+
+.anim-slide-up {
+  animation: slideUp var(--duration-slow) var(--ease-out) forwards;
+}
+
+.anim-glitch {
+  animation: glitch 3s infinite;
+}
+
+.anim-glitch:hover {
+  animation: glitch 0.3s infinite;
+}
+
+.anim-pulse-glow {
+  animation: pulseGlow 2s infinite;
+}
+
+.anim-text-glow {
+  animation: textGlow 2s infinite;
+}
+
+.anim-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+.anim-scroll-bounce {
+  animation: scrollBounce 2s infinite;
+}
+
+.anim-blink {
+  animation: blink 1s step-end infinite;
+}
+
+/* ─── 로딩 화면 (고도화) ─── */
+.loader {
+  position: fixed;
+  inset: 0;
+  background: var(--bg-primary);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-xl);
+  z-index: 10000;
+  transition: opacity 0.6s var(--ease-out), visibility 0.6s;
+}
+
+.loader--hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.loader__text {
+  font-family: var(--font-heading-en);
+  font-size: var(--fs-h2);
+  font-weight: var(--fw-black);
+  background: var(--fire-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: var(--ls-wider);
+}
+
+.loader__progress {
+  width: 120px;
+  height: 2px;
+  background: var(--bg-secondary);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+  position: relative;
+}
+
+.loader__progress-bar {
+  height: 100%;
+  background: var(--fire-gradient);
+  border-radius: var(--radius-full);
+  width: 0%;
+  animation: loaderFill 1.2s var(--ease-smooth) forwards;
+}
+
+.loader__count {
+  font-family: var(--font-mono);
+  font-size: var(--fs-caption);
+  color: var(--text-dim);
+  letter-spacing: var(--ls-wider);
+}
+
+@keyframes loaderFill {
+  0% { width: 0%; }
+  60% { width: 70%; }
+  100% { width: 100%; }
+}
+
+/* ─── 커스텀 커서 ─── */
+.cursor {
+  position: fixed;
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--fire-red);
+  border-radius: var(--radius-full);
+  pointer-events: none;
+  z-index: var(--z-cursor);
+  transition: width 0.2s, height 0.2s, border-color 0.2s, transform 0.2s;
+  transform: translate(-50%, -50%);
+  mix-blend-mode: difference;
+}
+
+.cursor--hover {
+  width: 50px;
+  height: 50px;
+  border-color: var(--fire-orange);
+  background: rgba(255, 51, 51, 0.1);
+}
+
+.cursor__trail {
+  position: fixed;
+  width: 6px;
+  height: 6px;
+  background: var(--fire-red);
+  border-radius: var(--radius-full);
+  pointer-events: none;
+  z-index: var(--z-cursor);
+  transform: translate(-50%, -50%);
+  opacity: 0.5;
+  transition: opacity 0.5s;
+}
+
+/* ─── 마우스 따라다니는 그래디언트 배경 ─── */
+.glow-bg {
+  position: fixed;
+  width: 400px;
+  height: 400px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 51, 51, 0.08) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+  transform: translate(-50%, -50%);
+  transition: transform 0.5s var(--ease-smooth);
+}
+
+/* ─── 섹션 전환 오버레이 ─── */
+.section-transition {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 200px;
+  background: linear-gradient(to bottom, transparent, var(--bg-primary));
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* ─── 로고 교차 애니메이션 ─── */
+@keyframes logoSwapOut {
+  0%, 42% { opacity: 1; transform: translateY(0px) rotateX(0deg); pointer-events: auto; }
+  48%, 92% { opacity: 0; transform: translateY(-10px) rotateX(90deg); pointer-events: none; }
+  100% { opacity: 1; transform: translateY(0px) rotateX(0deg); pointer-events: auto; }
+}
+
+@keyframes logoSwapIn {
+  0%, 42% { opacity: 0; transform: translateY(10px) rotateX(-90deg); pointer-events: none; }
+  48%, 92% { opacity: 1; transform: translateY(0px) rotateX(0deg); pointer-events: auto; }
+  100% { opacity: 0; transform: translateY(10px) rotateX(-90deg); pointer-events: none; }
+}
+
+.logo-ko-flip {
+  animation: logoSwapOut 10s cubic-bezier(0.25, 1, 0.5, 1) infinite;
+}
+
+.logo-en-flip {
+  animation: logoSwapIn 10s cubic-bezier(0.25, 1, 0.5, 1) infinite;
+}

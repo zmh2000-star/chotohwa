@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Purples Group: Elegance Reimagined</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Outfit:wght@100..900&family=Noto+Sans+KR:wght@100..900&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2E0854;
+            --accent: #D4AF37;
+            --accent-soft: rgba(212, 175, 55, 0.4);
+            --bg-dark: #0a0a0c;
+            --text-gold: #E5E4E2;
+            --transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: white;
+            font-family: 'Outfit', 'Noto Sans KR', sans-serif;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .serif {
+            font-family: 'Playfair Display', serif;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-dark);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--accent);
+            border-radius: 10px;
+        }
+
+        /* Loader */
+        #loader {
+            position: fixed;
+            inset: 0;
+            z-index: 999;
+            background: #000;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .loader-shutter {
+            position: absolute;
+            width: 100%;
+            height: 50%;
+            background: var(--primary);
+            transition: transform 1s cubic-bezier(1, 0, 0, 1);
+        }
+
+        .loader-shutter.top {
+            top: 0;
+        }
+
+        .loader-shutter.bottom {
+            bottom: 0;
+        }
+
+        .loader-text {
+            color: var(--accent);
+            font-size: 3rem;
+            letter-spacing: 0.5rem;
+            z-index: 10;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        /* Hero */
+        #hero {
+            height: 100vh;
+            position: relative;
+            background-image: url('./v3_hero.png');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 0 20px;
+        }
+
+        #hero::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to bottom, rgba(10, 10, 12, 0.4), rgba(10, 10, 12, 0.9));
+            z-index: 1;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-title {
+            font-size: clamp(3rem, 10vw, 8rem);
+            line-height: 1;
+            margin-bottom: 2rem;
+            background: linear-gradient(to right, #fff, var(--accent), #fff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            opacity: 0;
+            transform: translateY(40px);
+        }
+
+        .hero-sub {
+            font-size: 1.25rem;
+            letter-spacing: 0.3rem;
+            color: var(--accent);
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+            opacity: 0;
+        }
+
+        /* Sections */
+        .section-v3 {
+            padding: 10rem 5%;
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        /* Heritage Timeline V3 */
+        .chronicle-item {
+            display: flex;
+            gap: 4rem;
+            margin-bottom: 15rem;
+            opacity: 0;
+            transform: translateY(50px);
+        }
+
+        .chronicle-year {
+            font-size: 6rem;
+            font-weight: 800;
+            line-height: 1;
+            color: rgba(212, 175, 55, 0.1);
+            position: relative;
+        }
+
+        .chronicle-year::after {
+            content: attr(data-year);
+            position: absolute;
+            left: 0;
+            top: 0;
+            color: var(--accent);
+            height: 0;
+            overflow: hidden;
+            transition: height 1s ease;
+        }
+
+        .chronicle-item.active .chronicle-year::after {
+            height: 100%;
+        }
+
+        /* Affiliate Cards V3 */
+        .card-v3 {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 3rem;
+            border-radius: 20px;
+            transition: var(--transition);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            height: 500px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+        }
+
+        .card-v3:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: var(--accent-soft);
+            transform: scale(1.02) translateY(-10px);
+        }
+
+        .card-v3-img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.3;
+            transition: var(--transition);
+            z-index: 0;
+        }
+
+        .card-v3:hover .card-v3-img {
+            opacity: 0.6;
+            transform: scale(1.1);
+        }
+
+        .card-content-v3 {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Vision Section V3 */
+        #horizon {
+            background-image: url('./v3_vision.png');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            position: relative;
+        }
+
+        #horizon::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: rgba(10, 10, 12, 0.7);
+        }
+
+        /* Nav */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 2rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            mix-blend-mode: difference;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            letter-spacing: 0.3rem;
+            color: white;
+        }
+    </style>
+</head>
+
+<body class="overflow-hidden">
+
+    <div id="loader">
+        <div class="loader-shutter top"></div>
+        <div class="loader-shutter bottom"></div>
+        <div class="loader-text serif">PURPLES</div>
+        <div class="absolute bottom-10 left-1/2 -translate-x-1/2 text-xs tracking-widest text-white/50">EST. 2001</div>
+    </div>
+
+    <nav>
+        <div class="logo serif">PURPLES GROUP</div>
+        <div class="hidden md:flex gap-10 text-xs tracking-[0.2em] font-light">
+            <a href="#hero" class="hover:text-[#D4AF37] transition-colors">ZENITH</a>
+            <a href="#chronicle" class="hover:text-[#D4AF37] transition-colors">CHRONICLE</a>
+            <a href="#pillars" class="hover:text-[#D4AF37] transition-colors">PILLARS</a>
+            <a href="#horizon" class="hover:text-[#D4AF37] transition-colors">HORIZON</a>
+        </div>
+    </nav>
+
+    <!-- Section 1: Hero -->
+    <section id="hero">
+        <div class="hero-content">
+            <div class="hero-sub font-light">Noblesse Oblige</div>
+            <h1 class="hero-title serif font-bold italic">The Zenith of Prestige</h1>
+            <p class="max-w-xl mx-auto text-gray-400 font-light leading-relaxed mb-10 opacity-0 hero-p">
+                대한민국 상위 1%를 위한 성혼의 기술, 24년의 헤리티지가 증명하는 가장 완벽한 연결의 실루엣.
+                시간을 초월한 가치는 오직 퍼플스에서 시작됩니다.
+            </p>
+            <div class="hero-btn opacity-0 transform translate-y-10 inline-block">
+                <a href="#"
+                    class="px-10 py-4 border border-[#D4AF37] text-[#D4AF37] text-xs tracking-widest hover:bg-[#D4AF37] hover:text-black transition-all">DISCOVER
+                    LEGACY</a>
+            </div>
+        </div>
+        <div class="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-4 opacity-30">
+            <div class="w-px h-20 bg-gradient-to-b from-white to-transparent"></div>
+        </div>
+    </section>
+
+    <!-- Section 2: Chronicle -->
+    <section id="chronicle" class="section-v3 bg-zinc-950">
+        <div class="max-w-6xl mx-auto w-full">
+            <div class="mb-32">
+                <span class="text-[#D4AF37] text-xs tracking-[0.3em] font-light">OUR JOURNEY</span>
+                <h2 class="text-5xl md:text-7xl serif mt-4 italic font-bold">The Chronicle</h2>
+            </div>
+
+            <div class="space-y-40">
+                <div class="chronicle-item" data-year="2001">
+                    <div class="chronicle-year serif" data-year="2001">2001</div>
+                    <div class="pt-10">
+                        <h3 class="text-3xl font-bold mb-4">Origin of Noblesse</h3>
+                        <p class="text-gray-400 font-light leading-relaxed max-w-md">국내 최초의 상류층 결혼정보회사 설립. 정통 노블레스 매칭의
+                            시대를 열었습니다.</p>
+                    </div>
+                </div>
+
+                <div class="chronicle-item flex-row-reverse text-right" data-year="2012">
+                    <div class="chronicle-year serif" data-year="2012">2012</div>
+                    <div class="pt-10">
+                        <h3 class="text-3xl font-bold mb-4">The Landmark</h3>
+                        <p class="text-gray-400 font-light leading-relaxed max-w-md ml-auto">청담동 본사의 랜드마크화와 함께 프리미엄
+                            네트워크를 전국으로 확장하였습니다.</p>
+                    </div>
+                </div>
+
+                <div class="chronicle-item" data-year="2021">
+                    <div class="chronicle-year serif" data-year="2021">2021</div>
+                    <div class="pt-10">
+                        <h3 class="text-3xl font-bold mb-4">Golden Record</h3>
+                        <p class="text-gray-400 font-light leading-relaxed max-w-md">성혼 데이터 15,000건 돌파. 신뢰와 실적이 증명하는 압도적
+                            1위의 위상.</p>
+                    </div>
+                </div>
+
+                <div class="chronicle-item flex-row-reverse text-right" data-year="2026">
+                    <div class="chronicle-year serif" data-year="2026">2026</div>
+                    <div class="pt-10">
+                        <h3 class="text-3xl font-bold mb-4">The Future Path</h3>
+                        <p class="text-gray-400 font-light leading-relaxed max-w-md ml-auto">AI 기반 맞춤형 라이프케어 플랫폼으로 인연의
+                            패러다임을 혁신합니다.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 3: Pillars -->
+    <section id="pillars" class="section-v3 bg-black">
+        <div class="max-w-7xl mx-auto w-full">
+            <div class="text-center mb-24">
+                <span class="text-[#D4AF37] text-xs tracking-[0.3em] font-light">OUR PORTFOLIO</span>
+                <h2 class="text-5xl md:text-7xl serif mt-4 italic font-bold">The Pillars</h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="card-v3">
+                    <img src="./card_purples.png" alt="Purples" class="card-v3-img">
+                    <div class="card-content-v3">
+                        <h3 class="text-3xl font-bold text-[#D4AF37] serif mb-2">PURPLES</h3>
+                        <p class="text-sm font-light text-gray-400 mb-6">Royal Heritage</p>
+                        <p class="text-gray-200">정통 상류층 성혼의 정점, 오직 1%를 위한 서비스.</p>
+                    </div>
+                </div>
+                <div class="card-v3">
+                    <img src="./card_dnoble.png" alt="D.Noble" class="card-v3-img">
+                    <div class="card-content-v3">
+                        <h3 class="text-3xl font-bold text-blue-400 serif mb-2">D.NOBLE</h3>
+                        <p class="text-sm font-light text-gray-400 mb-6">Elite Connection</p>
+                        <p class="text-gray-200">전문직 및 엘리트 계층을 위한 스마트한 네트워킹.</p>
+                    </div>
+                </div>
+                <div class="card-v3">
+                    <img src="./card_unni.png" alt="Unni" class="card-v3-img">
+                    <div class="card-content-v3">
+                        <h3 class="text-3xl font-bold text-pink-400 serif mb-2">Unni's Net</h3>
+                        <p class="text-sm font-light text-gray-400 mb-6">MZ Trendy</p>
+                        <p class="text-gray-200">MZ세대의 감성과 트렌드를 반영한 밀착 인맥 케어.</p>
+                    </div>
+                </div>
+                <div class="card-v3">
+                    <img src="./card_aunt.png" alt="Aunt" class="card-v3-img">
+                    <div class="card-content-v3">
+                        <h3 class="text-3xl font-bold text-orange-400 serif mb-2">Aunt's Match</h3>
+                        <p class="text-sm font-light text-gray-400 mb-6">Stable Harmony</p>
+                        <p class="text-gray-200">경험과 노하우로 빚어내는 삶의 두 번째 인연.</p>
+                    </div>
+                </div>
+                <div class="card-v3 lg:col-span-2">
+                    <img src="./card_kpremium.png" alt="K-Premium" class="card-v3-img">
+                    <div class="card-content-v3">
+                        <h3 class="text-3xl font-bold text-yellow-500 serif mb-2">K-Premium</h3>
+                        <p class="text-sm font-light text-gray-400 mb-6">Cultural Vanguard</p>
+                        <p class="text-gray-200">대한민국의 프리미엄 가치를 선도하는 브랜드 진흥 핵심 연구 기관.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 4: Horizon -->
+    <section id="horizon" class="section-v3 bg-zinc-950">
+        <div class="relative z-10 max-w-4xl mx-auto text-center">
+            <h2 class="text-6xl md:text-9xl serif italic font-bold mb-10 text-white">The Horizon</h2>
+            <div class="w-40 h-px bg-[#D4AF37] mx-auto mb-16"></div>
+            <p class="text-2xl md:text-4xl font-light leading-relaxed text-gray-100 mb-12">
+                퍼플스 그룹은 단순한 중개를 넘어,<br>
+                <span class="text-[#D4AF37] font-normal italic serif">Elite Life-Cycle</span>의 동반자가 됩니다.
+            </p>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-10 mt-20">
+                <div class="p-8 border border-white/10 backdrop-blur-md rounded-lg">
+                    <div class="text-4xl text-[#D4AF37] mb-4 serif italic">AI</div>
+                    <div class="text-lg font-bold">Deep Match</div>
+                </div>
+                <div class="p-8 border border-white/10 backdrop-blur-md rounded-lg">
+                    <div class="text-4xl text-[#D4AF37] mb-4 serif italic">VIP</div>
+                    <div class="text-lg font-bold">Private Lobby</div>
+                </div>
+                <div class="p-8 border border-white/10 backdrop-blur-md rounded-lg">
+                    <div class="text-4xl text-[#D4AF37] mb-4 serif italic">GL</div>
+                    <div class="text-lg font-bold">Global Link</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="py-20 bg-black px-10 border-t border-white/5">
+        <div class="flex flex-col md:flex-row justify-between items-center gap-10">
+            <div class="text-2xl serif font-bold tracking-tighter">PURPLES GROUP</div>
+            <div class="flex gap-10 text-xs text-gray-500 tracking-widest uppercase">
+                <a>Inquiry</a>
+                <a>Partnership</a>
+                <a>Recruit</a>
+                <a>Privacy</a>
+            </div>
+            <div class="text-[10px] text-gray-700 uppercase tracking-widest">
+                © 2026 Purples Heritage. All Rights Reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Advanced Loader
+        window.addEventListener('load', () => {
+            const tl = gsap.timeline();
+
+            tl.to('.loader-text', { opacity: 1, y: 0, duration: 1.2, ease: "power4.out" })
+                .to('.loader-shutter.top', { yPercent: -100, duration: 1.5, ease: "expo.inOut" }, "+=0.5")
+                .to('.loader-shutter.bottom', { yPercent: 100, duration: 1.5, ease: "expo.inOut" }, "<")
+                .to('.loader-text', { opacity: 0, scale: 1.5, duration: 1, ease: "power4.in" }, "<")
+                .to('#loader', { display: 'none' })
+                .from('body', { overflow: 'hidden' }, 0)
+                .call(initAnimations);
+        });
+
+        function initAnimations() {
+            document.body.classList.remove('overflow-hidden');
+
+            // Hero Entrance
+            gsap.to('.hero-sub', { opacity: 1, duration: 1.5, ease: "power2.out", delay: 0.2 });
+            gsap.to('.hero-title', { opacity: 1, y: 0, duration: 2, ease: "power4.out", delay: 0.5 });
+            gsap.to('.hero-p', { opacity: 1, duration: 1.5, ease: "power2.out", delay: 1 });
+            gsap.to('.hero-btn', { opacity: 1, y: 0, duration: 1.5, ease: "power4.out", delay: 1.2 });
+
+            // Chronicle Animations
+            gsap.utils.toArray('.chronicle-item').forEach(item => {
+                gsap.to(item, {
+                    scrollTrigger: {
+                        trigger: item,
+                        start: "top 80%",
+                        toggleClass: "active",
+                        onEnter: () => gsap.to(item, { opacity: 1, y: 0, duration: 1.5, ease: "power3.out" })
+                    }
+                });
+            });
+
+            // Pillars Animations
+            gsap.from('.card-v3', {
+                scrollTrigger: {
+                    trigger: '#pillars',
+                    start: "top 60%"
+                },
+                y: 100,
+                opacity: 0,
+                duration: 1.5,
+                stagger: 0.2,
+                ease: "power4.out"
+            });
+
+            // Horizon Entrance
+            gsap.from('#horizon .z-10 > *', {
+                scrollTrigger: {
+                    trigger: '#horizon',
+                    start: "top 60%"
+                },
+                y: 50,
+                opacity: 0,
+                duration: 1.2,
+                stagger: 0.3,
+                ease: "power3.out"
+            });
+        }
+
+        // Mouse Parallax for Cards
+        document.querySelectorAll('.card-v3').forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                const xc = rect.width / 2;
+                const yc = rect.height / 2;
+                const dx = x - xc;
+                const dy = y - yc;
+
+                gsap.to(card, {
+                    rotationY: dx / 20,
+                    rotationX: -dy / 20,
+                    duration: 0.5,
+                    ease: "power2.out"
+                });
+
+                gsap.to(card.querySelector('.card-v3-img'), {
+                    x: dx / 10,
+                    y: dy / 10,
+                    duration: 0.5,
+                    ease: "power2.out"
+                });
+            });
+
+            card.addEventListener('mouseleave', () => {
+                gsap.to(card, { rotationY: 0, rotationX: 0, duration: 1, ease: "elastic.out(1, 0.3)" });
+                gsap.to(card.querySelector('.card-v3-img'), { x: 0, y: 0, duration: 1, ease: "power2.out" });
+            });
+        });
+    </script>
+</body>
+
+</html>

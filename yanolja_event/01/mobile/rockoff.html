@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>CreateJS export from rockoff</title>
+
+<script src="http://code.createjs.com/easeljs-0.5.0.min.js"></script>
+<script src="http://code.createjs.com/tweenjs-0.3.0.min.js"></script>
+<script src="http://code.createjs.com/movieclip-0.5.0.min.js"></script>
+<script src="http://code.createjs.com/preloadjs-0.2.0.min.js"></script>
+<script src="rockoff.js"></script>
+
+<script>
+var canvas, stage, exportRoot;
+
+function init() {
+	canvas = document.getElementById("canvas");
+	images = images||{};
+
+	var manifest = [
+		{src:"images/Background.jpg", id:"Background"},
+		{src:"images/cursor.png", id:"cursor"},
+		{src:"images/flash0ai.png", id:"flash0ai"},
+		{src:"images/food.jpg", id:"food"},
+		{src:"images/Layer1.jpg", id:"Layer1"},
+		{src:"images/Layer2.jpg", id:"Layer2"},
+		{src:"images/Layer3.jpg", id:"Layer3"},
+		{src:"images/Layer4.jpg", id:"Layer4"},
+		{src:"images/NewPatternSwatch2.png", id:"NewPatternSwatch2"},
+		{src:"images/대박이벤트메인.jpg", id:"대박이벤트메인"},
+		{src:"images/대박이벤트메인_손o.jpg", id:"대박이벤트메인_손o"}
+	];
+
+	var loader = new createjs.PreloadJS(false);
+	loader.onFileLoad = handleFileLoad;
+	loader.onComplete = handleComplete;
+	loader.loadManifest(manifest);
+}
+
+function handleFileLoad(o) {
+	if (o.type == "image") { images[o.id] = o.result; }
+}
+
+function handleComplete() {
+	exportRoot = new lib.rockoff();
+
+	stage = new createjs.Stage(canvas);
+	stage.addChild(exportRoot);
+	stage.update();
+
+	createjs.Ticker.setFPS(30);
+	createjs.Ticker.addListener(stage);
+}
+</script>
+<style type="text/css">
+body {
+	margin-left: 0px;
+	margin-top: 0px;
+	margin-right: 0px;
+	margin-bottom: 0px;
+}
+</style>
+</head>
+
+<body onload="init();" style="background-color:#ffffff">
+	<div>
+	<canvas id="canvas" width="982" height="888" style="background-color:#ffffff"></canvas>
+    </div>
+    <div>
+    <img src="mobilemiddle.jpg" alt="middle" width="982" height="2122" usemap="#Map">
+    <map name="Map">
+      <area shape="rect" coords="226,2023,756,2119" href="http://www.secretoperation.co.kr/big1/bigevent1.html" target="_blank">
+    </map>
+    </div>
+    
+</body>
+</html>

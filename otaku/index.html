@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>퍼플스 오타쿠클럽 발대식</title>
+    <!-- Google Fonts: 레트로 & 고딕 -->
+    <link href="https://fonts.googleapis.com/css2?family=Gothic+A1:wght@400;900&family=Press+Start+2P&display=swap"
+        rel="stylesheet">
+    <!-- Matter.js CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.19.0/matter.min.js"></script>
+    <style>
+        /* 기본 스타일 및 초기화 */
+        * {
+            box-sizing: border-box;
+            user-select: none;
+            /* 드래그 시 텍스트 선택 방지 */
+        }
+
+        body,
+        html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            /* 스크롤 방지 (물리 엔진 영역) */
+            background-color: #3D4128;
+            /* 어두운 올리브 그린 */
+            font-family: 'Gothic A1', sans-serif;
+            color: #fff;
+        }
+
+        /* 배경 노이즈 효과 */
+        .noise-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.15;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+
+        /* 물리 엔진과 동기화될 요소들의 공통 클래스 */
+        .physics-body {
+            position: absolute;
+            top: 0;
+            left: 0;
+            transform-origin: center center;
+            will-change: transform;
+            z-index: 10;
+        }
+
+        /* 1. 상단 타이틀 (Hero) - 물리 적용 대상 아님, 고정 레이어 (혹은 천천히 떨어지게 할 수도 있음, 여기선 고정 또는 배경) */
+        /* 요구사항: 메인 타이틀, 슬로건. 물리 요소로 만들어서 떨어뜨리는게 더 재미있을 듯. */
+
+        .title-box {
+            background: #000;
+            border: 4px solid #DFFF00;
+            /* 네온 옐로우 */
+            color: #DFFF00;
+            padding: 20px;
+            text-align: center;
+            font-family: 'Gothic A1', sans-serif;
+            font-weight: 900;
+            box-shadow: 10px 10px 0px rgba(0, 0, 0, 0.5);
+            /* 텍스트 줄바꿈 방지 */
+            white-space: nowrap;
+        }
+
+        .title-main {
+            font-size: 3rem;
+            margin-bottom: 10px;
+            text-shadow: 4px 4px 0px #FF4500;
+            /* 오렌지색 그림자 */
+        }
+
+        .title-sub {
+            font-size: 1.2rem;
+            color: #fff;
+        }
+
+        /* 2. 4대천왕 카드 */
+        .card {
+            width: 200px;
+            /* 적절한 크기 설정 */
+            border: 4px solid #FF4500;
+            /* 오렌지 테두리 */
+            background: #fff;
+            padding: 5px;
+            box-shadow: 5px 5px 0px #000;
+        }
+
+        .card img {
+            width: 100%;
+            height: auto;
+            display: block;
+            pointer-events: none;
+            /* 이미지 드래그 방지 */
+        }
+
+        /* 3. 정보 섹션 (Floating Blocks) */
+        .info-box {
+            background: #1a1a1a;
+            border: 2px solid #DFFF00;
+            color: #DFFF00;
+            padding: 15px;
+            font-size: 1rem;
+            width: 250px;
+            text-align: center;
+            font-family: 'Press Start 2P', cursive;
+            /* 픽셀 폰트 느낌 */
+            line-height: 1.5;
+            box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.5);
+        }
+
+        /* 4. 하단 CTA 버튼 */
+        .cta-btn {
+            background: #FF4500;
+            /* 오렌지 */
+            color: #fff;
+            border: 4px solid #000;
+            padding: 20px 40px;
+            font-size: 1.5rem;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 8px 8px 0px #DFFF00;
+            /* 네온 옐로우 그림자 */
+            font-family: 'Gothic A1', sans-serif;
+        }
+
+        .cta-btn:hover {
+            background: #ff6a00;
+        }
+
+        /* 모바일 대응 */
+        @media (max-width: 768px) {
+            .title-main {
+                font-size: 2rem;
+            }
+
+            .card {
+                width: 150px;
+            }
+
+            .info-box {
+                width: 200px;
+                font-size: 0.8rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="noise-overlay"></div>
+
+    <!-- 물리 엔진이 렌더링될 컨테이너 (디버그용 Canvas가 여기에 붙음) -->
+    <!-- 실제 요소들은 body에 직접 추가됨 -->
+
+    <script>
+        // Matter.js 모듈 별칭
+        const Engine = Matter.Engine,
+            Render = Matter.Render,
+            Runner = Matter.Runner,
+            Bodies = Matter.Bodies,
+            Composite = Matter.Composite,
+            Mouse = Matter.Mouse,
+            MouseConstraint = Matter.MouseConstraint,
+            Events = Matter.Events,
+            Body = Matter.Body,
+            Vector = Matter.Vector;
+
+        // 1. 엔진 생성 및 중력 설정 (무중력 상태로 변경)
+        const engine = Engine.create();
+        engine.world.gravity.y = 0; // 중력 제거 (둥둥 떠다니게)
+        engine.world.gravity.x = 0;
+
+        // 2. 렌더러 생성
+        const render = Render.create({
+            element: document.body,
+            engine: engine,
+            options: {
+                width: window.innerWidth,
+                height: window.innerHeight,
+                wireframes: false,
+                background: 'transparent'
+            }
+        });
+
+        // 3. DOM 요소 - 물리 바디 매핑 관리자
+        const domBodies = [];
+
+        // 헬퍼: DOM 요소를 만들고 물리 바디와 연결하는 함수
+        function createDomBody(x, y, width, htmlContent, className, options = {}) {
+            const el = document.createElement('div');
+            el.className = `physics-body ${className}`;
+            el.innerHTML = htmlContent;
+            el.style.width = width + 'px';
+            document.body.appendChild(el);
+
+            const rect = el.getBoundingClientRect();
+
+            // 물리 바디 생성
+            const body = Bodies.rectangle(x, y, rect.width, rect.height, {
+                restitution: 0.9, // 탄성 높임 (잘 튕기게)
+                friction: 0.0,    // 마찰 제거
+                frictionAir: 0.02, // 공기 저항 약간 (너무 빠르지 않게)
+                density: 0.001,
+                chamfer: { radius: 10 },
+                ...options
+            });
+
+            // 초기 무작위 속도 부여
+            Body.setVelocity(body, {
+                x: (Math.random() - 0.5) * 5,
+                y: (Math.random() - 0.5) * 5
+            });
+
+            domBodies.push({ body: body, element: el });
+            Composite.add(engine.world, body);
+            return body;
+        }
+
+        // 4. 요소 생성 및 배치
+        const screenW = window.innerWidth;
+        const screenH = window.innerHeight;
+
+        // (1) 메인 타이틀
+        createDomBody(screenW / 2, screenH / 3, 500,
+            `<div class="title-main">퍼플스 오타쿠클럽 발대식</div>
+         <div class="title-sub">덕질은 혼자보다 같이 할 때 더 즐겁다!</div>`,
+            'title-box'
+        );
+
+        // (2) 4대천왕 카드 + 새로운 포스터 추가
+        const images = ['char1.png', 'char2.jpg', 'char3.jpg', 'char4.jpg', 'new_poster.jpg'];
+        images.forEach((src) => {
+            const xStr = Math.random() * (screenW - 200) + 100;
+            const yStr = Math.random() * (screenH - 200) + 100;
+            createDomBody(xStr, yStr, 200, `<img src="./assets/${src}" alt="오타쿠 이미지">`, 'card');
+        });
+
+        // (3) 정보 섹션 (Floating Blocks)
+        const infos = [
+            "일시: 26년 01월 28일 (수)<br>오후 6시 30분",
+            "장소: 본사 회의실",
+            "대상: 애니·서브컬처<br>덕질에 관심 있는 누구나!",
+            "특이사항: 준비기간 촉박!<br>발대식 때 프리스타일 설명!"
+        ];
+        infos.forEach((text) => {
+            const xStr = Math.random() * (screenW - 250) + 100;
+            const yStr = Math.random() * (screenH - 100) + 50;
+            createDomBody(xStr, yStr, 250, text, 'info-box');
+        });
+
+        // (3.5) 벽 생성 (화면 밖으로 나가지 않게 가둠)
+        const wallThick = 100;
+        const wallOptions = {
+            isStatic: true,
+            render: { visible: false },
+            restitution: 1.0, // 벽은 완벽하게 튕겨내도록
+            friction: 0
+        };
+
+        // 화면 테두리에 벽 배치
+        const walls = [
+            Bodies.rectangle(screenW / 2, -wallThick / 2, screenW, wallThick, wallOptions), // 위
+            Bodies.rectangle(screenW / 2, screenH + wallThick / 2, screenW, wallThick, wallOptions), // 아래
+            Bodies.rectangle(-wallThick / 2, screenH / 2, wallThick, screenH, wallOptions), // 왼쪽
+            Bodies.rectangle(screenW + wallThick / 2, screenH / 2, wallThick, screenH, wallOptions) // 오른쪽
+        ];
+        Composite.add(engine.world, walls);
+
+        // 5. CTA 버튼 Add
+        const ctaBody = createDomBody(screenW / 2, screenH / 2, 300, "선착순 10명! 광기에 합류하기<br><span style='font-size:0.8rem'>(심사과정 별도 진행 예정)</span>", 'cta-btn');
+
+        // 마우스 추적
+        const mouseParams = Mouse.create(render.canvas);
+
+        // 버튼 회피 및 둥둥 떠다니기 로직
+        Events.on(engine, 'beforeUpdate', function () {
+            const mousePos = mouseParams.position;
+            const btnPos = ctaBody.position;
+            const dist = Vector.magnitude(Vector.sub(mousePos, btnPos));
+
+            // 1. 회피 로직
+            if (dist < 200) {
+                const forceDir = Vector.normalise(Vector.sub(btnPos, mousePos));
+                const forceMag = 0.05;
+                Body.applyForce(ctaBody, btnPos, Vector.mult(forceDir, forceMag));
+            }
+
+            // 2. 모든 요소 둥둥 떠다니게 하기 (약간의 랜덤 힘 적용)
+            domBodies.forEach(item => {
+                // 속도가 너무 줄어들면 다시 움직이게 자극
+                if (item.body.speed < 0.5) {
+                    Body.applyForce(item.body, item.body.position, {
+                        x: (Math.random() - 0.5) * 0.002,
+                        y: (Math.random() - 0.5) * 0.002
+                    });
+                }
+                // 혹은 지속적인 아주 미세한 난류(turbulence) 적용
+                Body.applyForce(item.body, item.body.position, {
+                    x: (Math.random() - 0.5) * 0.0005,
+                    y: (Math.random() - 0.5) * 0.0005
+                });
+            });
+        });
+
+        // 6. 엔진 루프 - DOM 동기화
+        Events.on(engine, 'afterUpdate', function () {
+            domBodies.forEach((item) => {
+                const body = item.body;
+                const el = item.element;
+                const x = body.position.x;
+                const y = body.position.y;
+                const angle = body.angle;
+
+                el.style.transform = `translate(${x - el.offsetWidth / 2}px, ${y - el.offsetHeight / 2}px) rotate(${angle}rad)`;
+            });
+        });
+
+        // 7. 마우스 인터랙션
+        const mouseConstraint = MouseConstraint.create(engine, {
+            mouse: mouseParams,
+            constraint: {
+                stiffness: 0.2,
+                render: { visible: false }
+            }
+        });
+        Composite.add(engine.world, mouseConstraint);
+
+        // 스크롤 방지
+        mouseParams.element.removeEventListener("mousewheel", mouseParams.mousewheel);
+        mouseParams.element.removeEventListener("DOMMouseScroll", mouseParams.mousewheel);
+
+        // 실행
+        Render.run(render);
+        Runner.run(Runner.create(), engine);
+
+        // 리사이즈 대응
+        window.addEventListener('resize', () => {
+            // 벽 위치 재조정 필요 (간단히 새로고침)
+            location.reload();
+        });
+
+    </script>
+</body>
+
+</html>

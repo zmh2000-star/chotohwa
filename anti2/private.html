@@ -1,0 +1,846 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PURPLES PRIVATE BENEFIT | 퍼플스 프라이빗 혜택관</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Outfit:wght@100..900&family=Noto+Sans+KR:wght@100..900&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2E0854;
+            /* Deep Purple */
+            --accent: #D4AF37;
+            /* Royal Gold */
+            --bg-dark: #0a0a0c;
+            --text-gold: #E5E4E2;
+            --glass: rgba(255, 255, 255, 0.03);
+            --transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: white;
+            font-family: 'Outfit', 'Noto Sans KR', sans-serif;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .serif {
+            font-family: 'Playfair Display', serif;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-dark);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--accent);
+        }
+
+        /* Loader */
+        #loader {
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            background: #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .loader-content {
+            text-align: center;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        /* Hero Section */
+        #hero {
+            height: 100vh;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .hero-bg {
+            position: absolute;
+            inset: 0;
+            background-image: url('./hero_bg.png');
+            background-size: cover;
+            background-position: center;
+            transform: scale(1.1);
+            filter: brightness(0.6);
+        }
+
+        .hero-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to bottom, transparent 40%, var(--bg-dark) 95%);
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 100;
+            text-align: center;
+            max-width: 900px;
+            padding: 0 20px;
+        }
+
+        .hero-title {
+            font-size: clamp(2.5rem, 8vw, 6.5rem);
+            line-height: 1.1;
+            margin-bottom: 2rem;
+            background: linear-gradient(to right, #fff, var(--accent), #fff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 800;
+        }
+
+        /* Bento Grid Benefits */
+        .benefit-grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 24px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .benefit-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 30px;
+            overflow: hidden;
+            position: relative;
+            transition: var(--transition);
+            backdrop-filter: blur(15px);
+            min-height: 400px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .benefit-card:hover {
+            border-color: var(--accent);
+            transform: translateY(-15px);
+            background: rgba(255, 255, 255, 0.05);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
+        }
+
+        .card-img-wrapper {
+            position: relative;
+            width: 100%;
+            height: 280px;
+            overflow: hidden;
+        }
+
+        .card-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.8;
+            transition: var(--transition);
+        }
+
+        .benefit-card:hover .card-img {
+            opacity: 1;
+            transform: scale(1.1);
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 2.5rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 2000;
+            transition: all 0.5s ease;
+        }
+
+        nav.scrolled {
+            background: rgba(10, 10, 12, 0.95);
+            backdrop-filter: blur(20px);
+            padding: 1.2rem 5%;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.1);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            letter-spacing: 0.3em;
+            color: #fff;
+            text-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
+        }
+
+        .nav-links a {
+            position: relative;
+            padding-bottom: 5px;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: var(--accent);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* Guide Steps */
+        .step-item {
+            position: relative;
+            padding-left: 7rem;
+            margin-bottom: 5rem;
+            min-height: 120px;
+        }
+
+        .step-num {
+            position: absolute;
+            left: 0;
+            top: -5px;
+            font-size: 5rem;
+            font-weight: 900;
+            background: linear-gradient(to bottom, var(--accent), transparent);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            line-height: 1;
+            font-family: 'Playfair Display', serif;
+            opacity: 0.5;
+        }
+
+        .guide-title {
+            line-height: 1.1;
+            letter-spacing: -0.02em;
+        }
+
+        /* Heritage Section */
+        #heritage {
+            padding: 10rem 0;
+            background: linear-gradient(to bottom, var(--bg-dark), #101012);
+        }
+
+        .heritage-card {
+            background: var(--glass);
+            border: 1px solid rgba(212, 175, 55, 0.1);
+            padding: 3rem;
+            border-radius: 20px;
+            transition: var(--transition);
+        }
+
+        .heritage-card:hover {
+            border-color: var(--accent);
+            background: rgba(212, 175, 55, 0.05);
+        }
+
+        /* Logo Cloud / Network */
+        .logo-track {
+            display: flex;
+            width: calc(250px * 10);
+            animation: scroll 40s linear infinite;
+        }
+
+        @keyframes scroll {
+            0% {
+                transform: translateX(0);
+            }
+
+            100% {
+                transform: translateX(calc(-250px * 5));
+            }
+        }
+
+        .logo-item {
+            width: 250px;
+            height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            filter: grayscale(1) brightness(2);
+            opacity: 0.3;
+            transition: var(--transition);
+        }
+
+        .logo-item:hover {
+            filter: grayscale(0) brightness(1);
+            opacity: 1;
+        }
+
+        /* Monthly Curation */
+        .curation-banner {
+            height: 600px;
+            border-radius: 40px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .curation-content {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to right, rgba(0, 0, 0, 0.8), transparent);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 0 10%;
+        }
+
+        /* Essential Reveal State - Fallback to visible if JS fails */
+        .reveal {
+            opacity: 1;
+            transform: none;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .benefit-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .step-item {
+                padding-left: 0;
+                padding-top: 4rem;
+            }
+
+            .step-num {
+                font-size: 3.5rem;
+                top: 0;
+            }
+
+            .hero-title {
+                font-size: 3rem;
+            }
+        }
+    </style>
+</head>
+
+<body class="bg-[#0a0a0c]">
+
+    <div id="loader">
+        <div class="loader-content">
+            <h2 class="serif italic text-[120px] text-[#D4AF37] mb-4 leading-none">PURPLES GROUP</h2>
+            <p class="text-[10px] tracking-[0.5em] text-white/50 uppercase">Private Benefit Hall</p>
+        </div>
+    </div>
+
+    <nav id="navbar">
+        <div class="logo serif">PURPLES GROUP</div>
+        <div class="hidden md:flex gap-10 text-[11px] tracking-[0.25em] font-light uppercase nav-links">
+            <a href="#hero" class="hover:text-[#D4AF37] transition-colors">Intro</a>
+            <a href="#heritage" class="hover:text-[#D4AF37] transition-colors">Heritage</a>
+            <a href="#benefits" class="hover:text-[#D4AF37] transition-colors">Exclusive</a>
+            <a href="#network" class="hover:text-[#D4AF37] transition-colors">Network</a>
+            <a href="#guide" class="hover:text-[#D4AF37] transition-colors">Guide</a>
+            <a href="#contact" class="hover:text-[#D4AF37] border-b border-[#D4AF37] pb-1">Apply</a>
+        </div>
+    </nav>
+
+    <!-- Section 1: Hero -->
+    <section id="hero" class="min-h-screen">
+        <div class="hero-bg"></div>
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <span
+                class="inline-block px-6 py-2 border border-[#D4AF37]/50 rounded-full text-[11px] tracking-[0.4em] text-[#D4AF37] mb-8 uppercase backdrop-blur-sm">Exclusive
+                For Members</span>
+            <h1 class="hero-title serif italic font-bold">The Prestige Heritage <br>of Purples Group</h1>
+            <p class="text-gray-300 font-light leading-relaxed mb-12 max-w-2xl mx-auto text-base md:text-lg">
+                20년 이상의 전통과 전문성으로 대한민국 상위 0.1%의 풍요로운 삶을 선도합니다.<br>
+                퍼플스 그룹만의 강력한 브랜드 파워와 네트워크로 제안하는 통합 프리미엄 솔루션을 경험하십시오.
+            </p>
+            <div class="flex justify-center gap-8">
+                <a href="#benefits"
+                    class="px-12 py-4 bg-[#D4AF37] text-black text-[12px] tracking-[0.2em] font-bold hover:bg-white hover:scale-105 transition-all duration-500 rounded-sm">DISCOVER
+                    BENEFITS</a>
+            </div>
+        </div>
+
+    </section>
+
+    <!-- Section 1.5: Heritage -->
+    <section id="heritage" class="py-40 px-5">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-20 items-center">
+                <div class="space-y-8">
+                    <span class="text-[#D4AF37] text-xs tracking-[0.5em] uppercase block font-bold">The Legacy</span>
+                    <h2 class="text-5xl md:text-7xl serif italic font-bold leading-tight">20 Years of <br>Excellence
+                    </h2>
+                    <p class="text-gray-400 text-lg font-light leading-relaxed max-w-lg">
+                        퍼플스 그룹은 지난 20여 년간 대한민국 상위 0.1%의 특별한 인연과 삶의 가치를 창조해 왔습니다.
+                        단순한 만남을 넘어 성혼, 그리고 그 이상의 고귀한 라이프스타일을 제안합니다.
+                    </p>
+                    <div class="flex gap-12 pt-10">
+                        <div>
+                            <div class="text-4xl serif text-[#D4AF37] font-bold mb-2">2001</div>
+                            <div class="text-[10px] tracking-[0.2em] text-gray-500 uppercase">Established</div>
+                        </div>
+                        <div>
+                            <div class="text-4xl serif text-[#D4AF37] font-bold mb-2">50k+</div>
+                            <div class="text-[10px] tracking-[0.2em] text-gray-500 uppercase">Members</div>
+                        </div>
+                        <div>
+                            <div class="text-4xl serif text-[#D4AF37] font-bold mb-2">100+</div>
+                            <div class="text-[10px] tracking-[0.2em] text-gray-500 uppercase">Partners</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="relative">
+                    <div class="heritage-card space-y-6">
+                        <div class="text-2xl serif italic text-[#D4AF37]">"Noble Marriage & Lifestyle"</div>
+                        <p class="text-gray-300 font-light leading-relaxed">
+                            우리는 단순한 정보의 연결이 아닌, 가치와 가치의 만남을 지향합니다.
+                            퍼플스 그룹의 헤리티지는 타협하지 않는 품격과 엄격한 검증 시스템에서 시작됩니다.
+                        </p>
+                        <div class="pt-4">
+                            <img src="./ceo_award.png"
+                                class="rounded-xl opacity-80 hover:opacity-100 transition-opacity duration-1000 object-cover object-top w-full h-64"
+                                alt="Heritage Award">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 2: Benefits Grid -->
+    <section id="benefits" class="py-40 px-5 bg-black min-h-screen">
+        <div class="max-w-7xl mx-auto mb-24 text-center">
+            <span class="text-[#D4AF37] text-xs tracking-[0.5em] uppercase mb-6 block font-bold">Premium
+                Categories</span>
+            <h2 class="text-5xl md:text-7xl serif italic font-bold mb-8">Exclusive Curation</h2>
+            <div class="w-24 h-[1px] bg-[#D4AF37] mx-auto"></div>
+        </div>
+
+        <div class="benefit-grid">
+            <!-- Hospitality -->
+            <div class="benefit-card col-span-12 md:col-span-8">
+                <div class="card-img-wrapper">
+                    <img src="./hero_bg.png" class="card-img" alt="Hospitality">
+                </div>
+                <div class="p-10">
+                    <h3 class="text-3xl font-bold mb-4 serif text-[#D4AF37]">Hospitality</h3>
+                    <p class="text-gray-400 text-base font-light leading-relaxed">국내외 특급 호텔/리조트 정회원 전용 프로모션 및 최상위 스위트
+                        패키지
+                        큐레이션</p>
+                </div>
+            </div>
+
+            <!-- Gourmet -->
+            <div class="benefit-card col-span-12 md:col-span-4">
+                <div class="card-img-wrapper">
+                    <img src="./category_bg.png" class="card-img" alt="Gourmet">
+                </div>
+                <div class="p-10">
+                    <h3 class="text-3xl font-bold mb-4 serif">Gourmet</h3>
+                    <p class="text-gray-400 text-base font-light leading-relaxed">미슐랭 스타 다이닝 예약, 프라이빗 맴버십 라운지 이용 혜택</p>
+                </div>
+            </div>
+
+            <!-- Wellness -->
+            <div class="benefit-card col-span-12 md:col-span-4">
+                <div class="card-img-wrapper h-60">
+                    <img src="./category_bg.png" class="card-img" alt="Wellness" style="object-position: center;">
+                </div>
+                <div class="p-10">
+                    <h3 class="text-3xl font-bold mb-4 serif">Wellness</h3>
+                    <p class="text-gray-400 text-base font-light">프라이빗 스파 투어, 1:1 토탈 웰니스 컨시어지 케어</p>
+                </div>
+            </div>
+
+            <!-- Medical -->
+            <div class="benefit-card col-span-12 md:col-span-4 group">
+                <div
+                    class="p-10 h-full flex flex-col justify-between bg-gradient-to-br from-[#1a1a1c] to-black relative overflow-hidden">
+                    <div class="absolute top-0 right-0 p-10 opacity-10 group-hover:opacity-20 transition-opacity">
+                        <svg width="120" height="120" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="0.5" class="text-[#D4AF37]">
+                            <path
+                                d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.505 4.045 3 5.5l7 7Z" />
+                        </svg>
+                    </div>
+                    <div class="relative z-10">
+                        <h3 class="text-3xl font-bold mb-4 serif text-[#D4AF37]">Medical</h3>
+                        <p class="text-gray-400 text-base font-light">VIP 건강검진 케어, 최상위 뷰티 & 안티에이징 솔루션 매칭</p>
+                    </div>
+                    <div class="text-[10px] tracking-[0.3em] text-[#D4AF37]/40 uppercase mt-10">Premium Health Care
+                    </div>
+                </div>
+            </div>
+
+            <!-- Leisure & Lifestyle -->
+            <div class="benefit-card col-span-12 md:col-span-4 group bg-[#D4AF37]/5 border-[#D4AF37]/10">
+                <div class="p-10 h-full flex flex-col justify-between relative overflow-hidden">
+                    <div
+                        class="absolute -bottom-10 -right-10 opacity-5 group-hover:scale-110 transition-transform duration-1000">
+                        <svg width="240" height="240" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="0.2" class="text-[#D4AF37]">
+                            <circle cx="12" cy="12" r="10" />
+                            <path
+                                d="M12 2v20M2 12h20M12 12l7.07-7.07M12 12l-7.07 7.07M12 12l7.07 7.07M12 12l-7.07-7.07" />
+                        </svg>
+                    </div>
+                    <div class="relative z-10">
+                        <h3 class="text-3xl font-bold mb-4 serif">Leisure & Art</h3>
+                        <p class="text-gray-400 text-base font-light">요트 투어, 프라이빗 제트기, 아트 갤러리 도슨트 투어 서비스</p>
+                    </div>
+                    <div class="text-[10px] tracking-[0.3em] text-[#D4AF37]/60 uppercase mt-10 font-bold">Beyond Luxury
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 2.8: Privilege Summary -->
+    <section id="privilege" class="py-40 bg-zinc-900/50 px-5 border-y border-white/5">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+                <div
+                    class="text-center p-12 border border-white/5 rounded-3xl bg-black/40 backdrop-blur-md group hover:border-[#D4AF37]/30 transition-all duration-700">
+                    <div class="text-5xl md:text-6xl font-bold text-[#D4AF37] mb-4 serif italic counter" data-val="98">0
+                    </div>
+                    <div
+                        class="text-[10px] tracking-[0.3em] text-gray-500 uppercase font-bold group-hover:text-gray-300 transition-colors">
+                        Expert Satisfaction (%)</div>
+                </div>
+                <div
+                    class="text-center p-12 border border-white/5 rounded-3xl bg-black/40 backdrop-blur-md group hover:border-[#D4AF37]/30 transition-all duration-700">
+                    <div class="text-5xl md:text-6xl font-bold text-[#D4AF37] mb-4 serif italic counter" data-val="24">0
+                    </div>
+                    <div
+                        class="text-[10px] tracking-[0.3em] text-gray-500 uppercase font-bold group-hover:text-gray-300 transition-colors">
+                        Response Speed (h)</div>
+                </div>
+                <div
+                    class="text-center p-12 border border-white/5 rounded-3xl bg-black/40 backdrop-blur-md group hover:border-[#D4AF37]/30 transition-all duration-700">
+                    <div class="text-5xl md:text-6xl font-bold text-[#D4AF37] mb-4 serif italic counter" data-val="150">
+                        0</div>
+                    <div
+                        class="text-[10px] tracking-[0.3em] text-gray-500 uppercase font-bold group-hover:text-gray-300 transition-colors">
+                        Global Partners</div>
+                </div>
+                <div
+                    class="text-center p-12 border border-white/5 rounded-3xl bg-black/40 backdrop-blur-md group hover:border-[#D4AF37]/30 transition-all duration-700">
+                    <div class="text-5xl md:text-6xl font-bold text-[#D4AF37] mb-4 serif italic counter" data-val="20">0
+                    </div>
+                    <div
+                        class="text-[10px] tracking-[0.3em] text-gray-500 uppercase font-bold group-hover:text-gray-300 transition-colors">
+                        Years Heritage</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 2.5: Network -->
+    <section id="network" class="py-32 bg-[#050505] overflow-hidden border-y border-white/5">
+        <div class="max-w-7xl mx-auto px-5 mb-20 text-center">
+            <span class="text-[#D4AF37] text-xs tracking-[0.5em] uppercase mb-6 block font-bold">Global Alliance</span>
+            <h2 class="text-4xl md:text-5xl serif italic font-bold">Premium Partners</h2>
+        </div>
+        <div class="logo-track">
+            <!-- Simulated Partner Logos -->
+            <div class="logo-item text-xl font-bold serif">LUXURY HOTEL</div>
+            <div class="logo-item text-xl font-bold serif">PRIVATE BANK</div>
+            <div class="logo-item text-xl font-bold serif">ART GALLERY</div>
+            <div class="logo-item text-xl font-bold serif">YACHT CLUB</div>
+            <div class="logo-item text-xl font-bold serif">GOLF RESORT</div>
+            <!-- Duplicate for loop -->
+            <div class="logo-item text-xl font-bold serif">LUXURY HOTEL</div>
+            <div class="logo-item text-xl font-bold serif">PRIVATE BANK</div>
+            <div class="logo-item text-xl font-bold serif">ART GALLERY</div>
+            <div class="logo-item text-xl font-bold serif">YACHT CLUB</div>
+            <div class="logo-item text-xl font-bold serif">GOLF RESORT</div>
+        </div>
+    </section>
+
+    <!-- Section 2.7: Monthly Curation -->
+    <section id="curation" class="py-40 px-5 bg-black">
+        <div class="max-w-7xl mx-auto">
+            <div class="curation-banner">
+                <video id="curation-video" muted loop playsinline class="w-full h-full object-cover opacity-50">
+                    <source src="https://www.purples.co.kr/rw_videos/main/section02/background.mp4" type="video/mp4">
+                </video>
+                <div class="curation-content">
+                    <span class="text-[#D4AF37] text-xs tracking-[0.5em] uppercase mb-6 block font-bold">Monthly
+                        Invitation</span>
+                    <h2 class="text-4xl md:text-6xl serif italic font-bold mb-8 leading-tight">Private Yacht Party <br>&
+                        Champagne Night</h2>
+                    <p class="text-gray-300 text-lg font-light leading-relaxed max-w-xl mb-10">
+                        오직 퍼플스 블랙 레벨 회원만을 위한 선상 파티가 개최됩니다.
+                        한강의 야경과 함께하는 프라이빗한 순간에 당신을 초대합니다.
+                    </p>
+                    <a href="#"
+                        class="inline-block w-fit px-10 py-4 border border-[#D4AF37] text-[#D4AF37] text-[10px] tracking-[0.3em] font-bold hover:bg-[#D4AF37] hover:text-black transition-all">RESERVE
+                        NOW</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 3: Guide -->
+    <section id="guide" class="py-48 bg-zinc-950 px-5 min-h-screen flex items-center">
+        <div class="max-w-6xl mx-auto w-full">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-24 md:gap-40">
+                <div class="flex flex-col justify-center space-y-10">
+                    <div>
+                        <span class="text-[#D4AF37] text-[13px] tracking-[0.5em] uppercase mb-8 block font-bold">How to
+                            Start</span>
+                        <h2 class="guide-title text-6xl md:text-8xl serif italic font-bold mb-10 text-white">Experience
+                            <br class="hidden md:block">Process
+                        </h2>
+                        <div class="w-20 h-[2px] bg-[#D4AF37] mb-10"></div>
+                        <p class="text-gray-200 font-light leading-relaxed text-xl max-w-sm">
+                            퍼플스 프라이빗 혜택관은 정회원분들의 <br class="md:hidden">품격 있는 삶을 위해 철저한 검증과 <br class="md:hidden">차별화된
+                            파트너십으로 운영됩니다.
+                        </p>
+                    </div>
+                    <a href="#"
+                        class="inline-block w-fit px-14 py-6 border-2 border-white/10 text-[12px] tracking-[0.3em] font-bold hover:border-[#D4AF37] hover:text-[#D4AF37] transition-all duration-500 bg-white/5">
+                        VIEW FULL GUIDELINE
+                    </a>
+                </div>
+
+                <div class="flex flex-col justify-center space-y-20 py-10">
+                    <div class="step-item">
+                        <span class="step-num serif italic">01</span>
+                        <div class="relative z-10">
+                            <h3 class="text-3xl font-bold mb-5 text-[#D4AF37]">Benefit Inquiry</h3>
+                            <p class="text-gray-300 text-lg font-light leading-relaxed">원하시는 혜택 카데고리를 선택 후 <br>전담 컨시어지에
+                                문의를 접수합니다.</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <span class="step-num serif italic">02</span>
+                        <div class="relative z-10">
+                            <h3 class="text-3xl font-bold mb-5 text-white">Verification</h3>
+                            <p class="text-gray-300 text-lg font-light leading-relaxed">퍼플스 정회원 여부 및 이용 가능 등급을 <br>확인하는
+                                정교한 검증 과정을 거칩니다.</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <span class="step-num serif italic">03</span>
+                        <div class="relative z-10">
+                            <h3 class="text-3xl font-bold mb-5 text-white">Custom Matching</h3>
+                            <p class="text-gray-300 text-lg font-light leading-relaxed">제휴사와의 긴밀한 협의를 통해 <br>회원님께 최적화된
+                                혜택을 확정합니다.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 4: Contact/Footer -->
+    <section id="contact" class="py-60 text-center relative overflow-hidden bg-black min-h-screen flex items-center">
+        <div class="absolute inset-0 bg-[#D4AF37]/5 blur-[150px] opacity-30"></div>
+        <div class="relative z-10 max-w-5xl mx-auto px-5 w-full">
+            <span class="text-[#D4AF37] text-xs tracking-[0.5em] uppercase mb-10 block font-bold">Tailored For
+                You</span>
+            <h2 class="text-5xl md:text-9xl serif italic font-bold mb-14 leading-tight text-white">Private <br>Concierge
+            </h2>
+            <div class="w-32 h-[1px] bg-gradient-to-r from-transparent via-[#D4AF37] to-transparent mx-auto mb-16">
+            </div>
+            <p class="text-2xl md:text-3xl font-light text-gray-200 mb-20 leading-relaxed italic">
+                전담 컨시어지가 당신의 라이프스타일을 예술로 완성합니다.<br>
+                퍼플스만의 특별함을 지금 바로 경험하십시오.
+            </p>
+
+            <div class="flex flex-col items-center gap-10">
+                <div class="flex flex-col items-center gap-6 mb-10">
+                    <img src="./ceo_award.png"
+                        class="w-40 h-40 rounded-full border-2 border-[#D4AF37]/50 p-1 mb-4 object-cover object-top"
+                        alt="Concierge">
+                    <div class="text-white text-lg font-bold tracking-widest uppercase">Senior Concierge Team</div>
+                </div>
+
+                <a href="tel:1588-3934"
+                    class="group relative inline-block px-14 md:px-24 py-7 bg-white text-black font-bold text-[16px] md:text-[18px] tracking-[0.4em] overflow-hidden transition-all duration-700 hover:scale-105 active:scale-95">
+                    <span class="relative z-10">CONSULTING NOW</span>
+                    <div
+                        class="absolute inset-0 bg-[#D4AF37] translate-y-full group-hover:translate-y-0 transition-transform duration-500">
+                    </div>
+                </a>
+
+                <div class="flex flex-col items-center gap-6 text-gray-400">
+                    <div class="text-[20px] md:text-[24px] tracking-[0.2em] font-light text-[#D4AF37] serif italic">
+                        Call. 1588-3934
+                    </div>
+                    <div class="text-[11px] md:text-[13px] tracking-[0.5em] uppercase font-bold text-gray-600">
+                        Chungdam Head Office, Gangnam, Seoul
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="py-16 bg-black text-center border-t border-white/5">
+        <p class="text-[10px] text-gray-700 uppercase tracking-[0.6em]">© 2026 PURPLES GROUP HERITAGE. ALL RIGHTS
+            RESERVED.</p>
+    </footer>
+
+    <script>
+        gsap.registerPlugin(ScrollTrigger);
+
+        window.addEventListener('load', () => {
+            // Force scroll to top on reload to reset ScrollTrigger positions
+            if ('scrollRestoration' in history) {
+                history.scrollRestoration = 'manual';
+            }
+            window.scrollTo(0, 0);
+
+            // Preloader & Hero Entrance
+            const tl = gsap.timeline();
+            tl.to('.loader-content', { autoAlpha: 1, y: 0, duration: 0.8, ease: 'power2.out' })
+                .to('#loader', { autoAlpha: 0, duration: 1, ease: 'expo.inOut', delay: 0.5 })
+                .set('#loader', { display: 'none' })
+                .from('.hero-bg', { scale: 1.2, duration: 3, ease: 'power2.out' }, '-=0.5')
+                .from('.hero-content > *', { y: 30, autoAlpha: 0, stagger: 0.15, duration: 1.5, ease: 'power3.out' }, '-=2');
+
+            // Benefits Card Batch Reveal - More Robust than individual from
+            gsap.set('.benefit-card', { opacity: 0, y: 40 });
+            ScrollTrigger.batch('.benefit-card', {
+                start: 'top 90%',
+                onEnter: batch => gsap.to(batch, { opacity: 1, y: 0, stagger: 0.15, duration: 1, ease: 'power3.out', overwrite: true }),
+                once: true
+            });
+
+            // Guide Steps Reveal
+            gsap.set('.step-item', { opacity: 0, x: -30 });
+            ScrollTrigger.batch('.step-item', {
+                start: 'top 90%',
+                onEnter: batch => gsap.to(batch, { opacity: 1, x: 0, stagger: 0.2, duration: 1, ease: 'power3.out', overwrite: true }),
+                once: true
+            });
+
+            // Heritage Reveal
+            gsap.from('#heritage .space-y-8 > *', {
+                scrollTrigger: {
+                    trigger: '#heritage',
+                    start: 'top 80%',
+                },
+                y: 30,
+                autoAlpha: 0,
+                duration: 1,
+                stagger: 0.15,
+                ease: 'power3.out'
+            });
+
+            gsap.from('.heritage-card', {
+                scrollTrigger: {
+                    trigger: '#heritage',
+                    start: 'top 70%',
+                },
+                x: 50,
+                autoAlpha: 0,
+                duration: 1.5,
+                ease: 'power3.out'
+            });
+
+            // Curation Reveal
+            gsap.from('.curation-banner', {
+                scrollTrigger: {
+                    trigger: '#curation',
+                    start: 'top 80%',
+                },
+                scale: 0.95,
+                autoAlpha: 0,
+                duration: 1.5,
+                ease: 'power3.out'
+            });
+
+            // Video Playback Control
+            const curationVideo = document.getElementById('curation-video');
+            ScrollTrigger.create({
+                trigger: '#curation',
+                start: 'top 80%',
+                onEnter: () => curationVideo.play(),
+                onLeaveBack: () => curationVideo.pause()
+            });
+
+
+            // Privilege Summary Counter
+            const counters = document.querySelectorAll('.counter');
+            counters.forEach(counter => {
+                const target = +counter.getAttribute('data-val');
+                ScrollTrigger.create({
+                    trigger: '#privilege',
+                    start: 'top 80%',
+                    onEnter: () => {
+                        let count = 0;
+                        const updateCount = () => {
+                            const speed = target / 50;
+                            if (count < target) {
+                                count += speed;
+                                counter.innerText = Math.ceil(count);
+                                setTimeout(updateCount, 20);
+                            } else {
+                                counter.innerText = target;
+                            }
+                        };
+                        updateCount();
+                    },
+                    once: true
+                });
+            });
+
+            // Contact Reveal
+            gsap.from('#contact .z-10 > *', {
+                scrollTrigger: {
+                    trigger: '#contact',
+                    start: 'top 85%',
+                },
+                y: 30,
+                autoAlpha: 0,
+                duration: 1,
+                stagger: 0.15,
+                ease: 'power3.out'
+            });
+
+            // Refresh all triggers
+            ScrollTrigger.refresh();
+        });
+
+        // Navbar Interaction
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                nav.classList.add('scrolled');
+            } else {
+                nav.classList.remove('scrolled');
+            }
+        });
+
+        // Simple Parallax
+        gsap.to('.hero-bg', {
+            scrollTrigger: {
+                trigger: '#hero',
+                start: 'top top',
+                end: 'bottom top',
+                scrub: true
+            },
+            y: 200,
+            ease: 'none'
+        });
+    </script>
+</body>
+
+</html>

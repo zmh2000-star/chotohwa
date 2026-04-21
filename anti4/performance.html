@@ -1,0 +1,1539 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2026 기획본부 성과 아카이브</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://unpkg.com/@studio-freight/lenis@1.0.33/dist/lenis.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Pretendard:wght@100;300;400;700;900&display=swap');
+
+        :root {
+            --accent: #00ffcc;
+            --bg: #050505;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: #fff;
+            font-family: 'Pretendard', sans-serif;
+            overflow-x: hidden;
+            word-break: keep-all;
+        }
+
+        .glass {
+            background: rgba(255, 255, 255, 0.03);
+            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .section-padding {
+            padding: 8rem 10% 5rem 10%;
+        }
+
+        /* Navigation Styles */
+        nav {
+            background: rgba(5, 5, 5, 0.8);
+            -webkit-backdrop-filter: blur(15px);
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .nav-link {
+            position: relative;
+            color: #666;
+            transition: color 0.3s ease;
+        }
+
+        .nav-link.active {
+            color: #00ffcc;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #00ffcc;
+            transition: width 0.3s ease;
+        }
+
+        .nav-link.active::after {
+            width: 100%;
+        }
+
+        /* Vertical Progress Bar */
+        #vertical-progress-container {
+            position: fixed;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 4px;
+            height: 200px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 2px;
+            z-index: 100;
+        }
+
+        #vertical-progress-bar {
+            width: 100%;
+            height: 0%;
+            background: var(--accent);
+            border-radius: 2px;
+            box-shadow: 0 0 10px var(--accent);
+        }
+
+        /* Sticky Navigator */
+        .sticky-nav {
+            position: sticky;
+            top: 60px;
+            z-index: 40;
+            background: rgba(5, 5, 5, 0.9);
+            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        /* Creator Card Hover effect */
+        .creator-card {
+            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .creator-card .worker-content {
+            transition: opacity 0.4s ease, transform 0.4s ease;
+        }
+
+        .creator-card .creator-content {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+            background: rgba(0, 255, 204, 0.05);
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .creator-card:hover .worker-content {
+            opacity: 0;
+            transform: translateY(-20px);
+        }
+
+        .creator-card:hover .creator-content {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .neon-text {
+            color: var(--accent);
+            text-shadow: 0 0 10px rgba(0, 255, 204, 0.8), 0 0 20px rgba(0, 255, 204, 0.4);
+            font-weight: 900;
+        }
+
+        .data-stream {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+            opacity: 0.1;
+        }
+
+        /* System Team Specific Styles */
+        .grid-bg {
+            background-image:
+                linear-gradient(rgba(0, 255, 204, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 255, 204, 0.05) 1px, transparent 1px);
+            background-size: 30px 30px;
+        }
+
+        .security-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 10px;
+            color: #00ffcc;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .indicator-dot {
+            width: 8px;
+            height: 8px;
+            background: #00ffcc;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #00ffcc;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                opacity: 0.4;
+                transform: scale(0.8);
+            }
+
+            50% {
+                opacity: 1;
+                transform: scale(1.1);
+            }
+
+            100% {
+                opacity: 0.4;
+                transform: scale(0.8);
+            }
+        }
+
+        /* Noise Effect for Jung Seyoung Card */
+        .noise-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+
+        .noise-text {
+            transition: all 0.3s ease;
+        }
+
+        .creator-card:hover .noise-text.worker {
+            animation: noise-fade 0.4s forwards;
+        }
+
+        @keyframes noise-fade {
+            0% {
+                transform: translate(0);
+                opacity: 1;
+            }
+
+            20% {
+                transform: translate(-2px, 2px);
+                opacity: 0.8;
+                filter: blur(1px);
+            }
+
+            40% {
+                transform: translate(2px, -2px);
+                opacity: 0.6;
+                filter: blur(2px);
+            }
+
+            60% {
+                transform: translate(-4px, 1px);
+                opacity: 0.4;
+                filter: blur(3px);
+            }
+
+            80% {
+                transform: translate(4px, -1px);
+                opacity: 0.2;
+                filter: blur(4px);
+            }
+
+            100% {
+                transform: translate(0);
+                opacity: 0;
+                filter: blur(5px);
+            }
+        }
+
+        /* Retrospective Panel Styles */
+        #retro-panel {
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 100%;
+            max-width: 600px;
+            height: 100vh;
+            background: #ffffff;
+            color: #1a1a1a;
+            z-index: 1000;
+            transform: translateX(100%);
+            box-shadow: -10px 0 30px rgba(0, 0, 0, 0.15);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol";
+        }
+
+        #retro-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4);
+            -webkit-backdrop-filter: blur(8px);
+            backdrop-filter: blur(8px);
+            z-index: 999;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s ease;
+        }
+
+        #retro-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .notion-callout {
+            display: flex;
+            gap: 12px;
+            padding: 16px;
+            border-radius: 4px;
+            font-size: 14px;
+            line-height: 1.5;
+            margin-bottom: 1rem;
+        }
+
+        .callout-success {
+            background: rgba(34, 197, 94, 0.1);
+            color: #166534;
+        }
+
+        .callout-lesson {
+            background: rgba(245, 158, 11, 0.1);
+            color: #92400e;
+        }
+
+        .notion-tag {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 600;
+            background: #f1f1f1;
+            color: #666;
+            margin-bottom: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .stat-card {
+            border-left: 3px solid #00ffcc;
+            padding-left: 1.25rem;
+            padding-bottom: 4px;
+        }
+
+        .stat-value {
+            font-size: 2.25rem;
+            font-weight: 800;
+            line-height: 1.1;
+            color: #000;
+            letter-spacing: -0.02em;
+        }
+
+        .stat-label {
+            font-size: 11px;
+            color: #777;
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-top: 4px;
+        }
+
+        .retro-btn {
+            background: var(--accent);
+            color: #050505;
+            padding: 0.6rem 1.2rem;
+            border-radius: 99px;
+            font-size: 12px;
+            font-weight: 800;
+            margin-top: 1.5rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            display: inline-block;
+        }
+
+        .retro-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 15px var(--accent);
+        }
+
+        .raw-data-list {
+            font-size: 14px;
+            color: #222;
+            line-height: 1.7;
+        }
+
+        .raw-data-list li {
+            position: relative;
+            padding-left: 1.5rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .raw-data-list li::before {
+            content: '•';
+            position: absolute;
+            left: 0;
+            color: #cbd5e1;
+            font-weight: bold;
+        }
+
+        .close-retro {
+            position: absolute;
+            top: 24px;
+            right: 24px;
+            width: 32px;
+            height: 32px;
+            background: #f4f4f4;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 10;
+            transition: all 0.2s ease;
+        }
+
+        .close-retro:hover {
+            background: #e5e5e5;
+            transform: rotate(90deg);
+        }
+
+        #retro-next-container {
+            border: 1px solid #e2e8f0;
+            background: #f8fafc;
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-top: 1rem;
+        }
+
+        #retro-next {
+            color: #0f172a;
+            font-size: 1.125rem;
+            font-weight: 700;
+            line-height: 1.4;
+        }
+
+        .section-label {
+            font-size: 11px;
+            font-weight: 800;
+            color: #94a3b8;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 12px;
+            display: block;
+        }
+
+        /* Video Modal Styles */
+        #video-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            -webkit-backdrop-filter: blur(20px);
+            backdrop-filter: blur(20px);
+            z-index: 2000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.5s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #video-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .video-container {
+            width: 90%;
+            max-width: 1100px;
+            aspect-ratio: 16 / 9;
+            background: #000;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 0 50px rgba(0, 255, 204, 0.2);
+            position: relative;
+            transform: scale(0.95);
+            transition: transform 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        #video-overlay.active .video-container {
+            transform: scale(1);
+        }
+
+        .close-video {
+            position: absolute;
+            top: -40px;
+            right: 0;
+            color: #fff;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+            opacity: 0.6;
+        }
+
+        .close-video:hover {
+            color: var(--accent);
+            opacity: 1;
+        }
+
+        .video-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(0, 255, 204, 0.05);
+            border: 1px solid rgba(0, 255, 204, 0.1);
+            color: var(--accent);
+            padding: 10px 20px;
+            border-radius: 99px;
+            font-size: 11px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 2rem;
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+            cursor: pointer;
+        }
+
+        .video-btn:hover {
+            background: var(--accent);
+            color: #000;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0, 255, 204, 0.2);
+            border-color: var(--accent);
+        }
+
+        .video-btn svg {
+            transition: transform 0.3s ease;
+        }
+
+        .video-btn:hover svg {
+            transform: scale(1.2);
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- 0. Global Navigation / Progress -->
+    <div class="fixed top-0 left-0 w-full z-50">
+        <nav class="flex justify-center items-center py-4 gap-4 md:gap-8">
+            <a href="index.html" class="nav-link font-bold tracking-tighter text-sm uppercase">Vision</a>
+            <a href="performance.html"
+                class="nav-link active font-bold tracking-tighter text-sm uppercase">Performance</a>
+        </nav>
+    </div>
+
+    <!-- Vertical Progress Bar -->
+    <div id="vertical-progress-container">
+        <div id="vertical-progress-bar"></div>
+    </div>
+
+    <!-- 1. Hero Scene -->
+    <section class="h-[80vh] flex flex-col justify-center items-center text-center relative px-6 overflow-hidden">
+        <div class="data-stream" id="hero-data-stream"></div>
+        <div class="mb-4 opacity-0" id="hero-sub">THE ROAD TO CREATOR</div>
+        <h1 class="text-3xl md:text-7xl font-black leading-none mb-6 opacity-0" id="hero-title">
+            2025 RETROSPECTIVE<br>& 2026 <span class="text-[#00ffcc]">MILESTONE</span>
+        </h1>
+        <p class="text-zinc-500 max-w-xl opacity-0" id="hero-desc">
+            2025년의 축적된 성과를 발판 삼아,<br>진정한 실현자로 거듭나는 2026년의 이정표입니다.
+        </p>
+    </section>
+
+    <!-- 2. Team Quick Navigator (Sticky) -->
+    <div class="sticky-nav">
+        <div class="max-w-6xl mx-auto px-6 overflow-x-auto">
+            <div class="flex items-center py-4 gap-8 whitespace-nowrap scrollbar-hide">
+                <a href="#team-pr"
+                    class="text-xs font-bold text-zinc-500 hover:text-[#00ffcc] transition-colors">홍보마케팅</a>
+                <a href="#team-rose"
+                    class="text-xs font-bold text-zinc-500 hover:text-[#00ffcc] transition-colors">로즈앤듀크</a>
+                <a href="#team-ad"
+                    class="text-xs font-bold text-zinc-500 hover:text-[#00ffcc] transition-colors">광고기획</a>
+                <a href="#team-video"
+                    class="text-xs font-bold text-zinc-500 hover:text-[#00ffcc] transition-colors">영상기획</a>
+                <a href="#team-design"
+                    class="text-xs font-bold text-zinc-500 hover:text-[#00ffcc] transition-colors">웹디자인</a>
+                <a href="#team-dev"
+                    class="text-xs font-bold text-zinc-500 hover:text-[#00ffcc] transition-colors">시스템개발</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- 3. Team Detail Sections -->
+    <div class="max-w-7xl mx-auto px-6">
+
+        <!-- [Team 1] 홍보마케팅팀 -->
+        <section id="team-pr" class="section-padding border-b border-zinc-900 last:border-0 team-section">
+            <div class="flex flex-col md:flex-row gap-12 mb-20">
+                <div class="md:w-1/3 section-title-trigger">
+                    <span class="text-[#00ffcc] font-bold text-sm tracking-widest uppercase">Team 01</span>
+                    <h2 class="text-4xl font-black mt-2">홍보마케팅팀</h2>
+                    <button class="video-btn" onclick="openVideoModal('jLYpZ-n_VIg')">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M19.07 4.93C17.22 3.08 14.66 2 12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 9.34 20.92 6.78 19.07 4.93ZM10 16.5V7.5L16 12L10 16.5Z"
+                                fill="currentColor" />
+                        </svg>
+                        <span>로드맵 영상 보기</span>
+                    </button>
+                </div>
+                <div class="md:w-2/3 grid md:grid-cols-2 gap-10">
+                    <div>
+                        <h4 class="text-zinc-500 text-xs font-bold mb-4 uppercase">2025 Retrospective</h4>
+                        <p class="text-xl font-medium leading-relaxed">
+                            인적 쇄신 및 <span class="text-white">업무 자동화 툴 5종</span> 개발을 통한 운영 효율 30% 증대.
+                        </p>
+                    </div>
+                    <div>
+                        <h4 class="text-zinc-500 text-xs font-bold mb-4 uppercase">2026 Milestone</h4>
+                        <ul class="space-y-4">
+                            <li class="flex gap-4">
+                                <span class="bg-zinc-800 text-[10px] px-2 py-1 rounded h-fit">01월</span>
+                                <span class="text-zinc-400 text-sm">바이럴 지수 전국 1위 탈환 전략 수립</span>
+                            </li>
+                            <li class="flex gap-4">
+                                <span class="bg-zinc-800 text-[10px] px-2 py-1 rounded h-fit">02월</span>
+                                <span class="text-zinc-400 text-sm">B2B 제휴 성혼 DB 전환율 최적화</span>
+                            </li>
+                            <li class="flex gap-4">
+                                <span
+                                    class="bg-[#00ffcc] text-black text-[10px] px-2 py-1 rounded h-fit font-bold">03월</span>
+                                <span class="text-zinc-400 text-sm font-bold">시그니처 콘텐츠 기반 전환율 40% 돌파</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-6">
+                <!-- Cards for Team 1 (PR) -->
+                <div class="creator-card glass p-8 rounded-3xl h-64">
+                    <div class="worker-content">
+                        <span class="text-zinc-600 text-[10px] font-bold uppercase tracking-tight">Deputy General
+                            Manager</span>
+                        <h3 class="text-2xl font-bold mt-1 mb-4 text-zinc-300">이현규</h3>
+                        <p class="text-zinc-500 text-sm leading-relaxed">콘텐츠 기획 및 수동적인 시스템 관리</p>
+                    </div>
+                    <div class="creator-content">
+                        <p class="neon-text text-lg">시스템 리더십 확립 및 AI 기반 콘텐츠 생성 프로세스 고도화</p>
+                        <button class="retro-btn" onclick="openRetrospective('lee_hg')">View Retrospective</button>
+                    </div>
+                </div>
+                <div class="creator-card glass p-8 rounded-3xl h-64">
+                    <div class="worker-content">
+                        <span class="text-zinc-600 text-[10px] font-bold uppercase tracking-tight">Assistant
+                            Manager</span>
+                        <h3 class="text-2xl font-bold mt-1 mb-4 text-zinc-300">김민기</h3>
+                        <p class="text-zinc-500 text-sm leading-relaxed">부서간 업무 전달 및 단순 이벤트 보조</p>
+                    </div>
+                    <div class="creator-content">
+                        <p class="neon-text text-lg">타 부서 협업 프로세스 최적화 및 이벤트 기획 오너십 강화</p>
+                        <button class="retro-btn" onclick="openRetrospective('kim_mk')">View Retrospective</button>
+                    </div>
+                </div>
+                <div class="creator-card glass p-8 rounded-3xl h-64">
+                    <div class="worker-content">
+                        <span class="text-zinc-600 text-[10px] font-bold uppercase tracking-tight">Associate</span>
+                        <h3 class="text-2xl font-bold mt-1 mb-4 text-zinc-300">정혜림</h3>
+                        <p class="text-zinc-500 text-sm leading-relaxed">할당된 제휴 관리 및 브랜드 보조 업무</p>
+                    </div>
+                    <div class="creator-content">
+                        <p class="neon-text text-lg">디노블 브랜드 자산화 및 수익 중심의 B2B 제휴 모델 구축</p>
+                        <button class="retro-btn" onclick="openRetrospective('jung_hr')">View Retrospective</button>
+                    </div>
+                </div>
+                <div class="creator-card glass p-8 rounded-3xl h-64">
+                    <div class="worker-content">
+                        <span class="text-zinc-600 text-[10px] font-bold uppercase tracking-tight">Associate</span>
+                        <h3 class="text-2xl font-bold mt-1 mb-4 text-zinc-300">김지우</h3>
+                        <p class="text-zinc-500 text-sm leading-relaxed">기전된 콘텐츠 배포 및 타겟 모니터링</p>
+                    </div>
+                    <div class="creator-content">
+                        <p class="neon-text text-lg">브랜드 시그니처 콘텐츠 개발 및 전문직 타겟 마케팅 확장</p>
+                        <button class="retro-btn" onclick="openRetrospective('kim_jw')">View Retrospective</button>
+                    </div>
+                </div>
+                <div class="creator-card glass p-8 rounded-3xl h-64">
+                    <div class="worker-content">
+                        <span class="text-zinc-600 text-[10px] font-bold uppercase tracking-tight">Associate</span>
+                        <h3 class="text-2xl font-bold mt-1 mb-4 text-zinc-300">이종명</h3>
+                        <p class="text-zinc-500 text-sm leading-relaxed">전달받은 영상 업로드 및 댓글 관리</p>
+                    </div>
+                    <div class="creator-content">
+                        <p class="neon-text text-lg">유튜브 채널 혁신 및 영상 기반 마케팅 실행력 극대화</p>
+                        <button class="retro-btn" onclick="openRetrospective('lee_jm')">View Retrospective</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- [Team 2] 로즈앤듀크 마케팅팀(언니의인맥) -->
+        <section id="team-rose" class="section-padding border-b border-zinc-900 last:border-0 team-section">
+            <div class="flex flex-col md:flex-row gap-12 mb-20">
+                <div class="md:w-1/3 section-title-trigger">
+                    <span class="text-[#00ffcc] font-bold text-sm tracking-widest uppercase">Team 02</span>
+                    <h2 class="text-4xl font-black mt-2">로즈앤듀크<br><span
+                            class="text-sm font-light text-zinc-500">(언니의인맥)</span></h2>
+                    <button class="video-btn" onclick="openVideoModal('G_UxdEmZxV8')">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M19.07 4.93C17.22 3.08 14.66 2 12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 9.34 20.92 6.78 19.07 4.93ZM10 16.5V7.5L16 12L10 16.5Z"
+                                fill="currentColor" />
+                        </svg>
+                        <span>로드맵 영상 보기</span>
+                    </button>
+                </div>
+                <div class="md:w-2/3 grid md:grid-cols-2 gap-10">
+                    <div>
+                        <h4 class="text-zinc-500 text-xs font-bold mb-4 uppercase">2025 Retrospective</h4>
+                        <p class="text-xl font-medium leading-relaxed">
+                            데이터 트래킹 고도화를 통한 <span class="text-white">상담 결제율 70%</span> 달성 및 CRM 마케팅 도입.
+                        </p>
+                    </div>
+                    <div>
+                        <h4 class="text-zinc-500 text-xs font-bold mb-4 uppercase">2026 Milestone</h4>
+                        <ul class="space-y-4">
+                            <li class="flex gap-4">
+                                <span class="bg-zinc-800 text-[10px] px-2 py-1 rounded h-fit">01월</span>
+                                <span class="text-zinc-400 text-sm">'명예의 전당' 프로젝트 기획 및 검증</span>
+                            </li>
+                            <li class="flex gap-4">
+                                <span class="bg-zinc-800 text-[10px] px-2 py-1 rounded h-fit">02월</span>
+                                <span class="text-zinc-400 text-sm">통합 성과 지표(Blended ROAS) 체계 도입</span>
+                            </li>
+                            <li class="flex gap-4">
+                                <span
+                                    class="bg-[#00ffcc] text-black text-[10px] px-2 py-1 rounded h-fit font-bold">03월</span>
+                                <span class="text-zinc-400 text-sm font-bold">데이터 기반 고객 신뢰 시스템화 완료</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-6">
+                <!-- Creator Card -->
+                <div class="creator-card glass p-8 rounded-3xl h-64">
+                    <div class="worker-content">
+                        <span class="text-zinc-600 text-[10px] font-bold uppercase tracking-tight">Team Leader</span>
+                        <h3 class="text-2xl font-bold mt-1 mb-4 text-zinc-300">김인영</h3>
+                        <p class="text-zinc-500 text-sm leading-relaxed">기초 데이터 취합 및 단순 상담 지원 업무</p>
+                    </div>
+                    <div class="creator-content">
+                        <p class="neon-text text-lg">그로스 마케팅 내재화 및 데이터 중심의 브랜드 밸류에이션 증명</p>
+                        <button class="retro-btn" onclick="openRetrospective('kim_iy')">View Retrospective</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- [Team 3] 광고기획팀 -->
+        <section id="team-ad" class="section-padding border-b border-zinc-900 last:border-0 team-section">
+            <div class="flex flex-col md:flex-row gap-12 mb-20">
+                <div class="md:w-1/3 section-title-trigger">
+                    <span class="text-[#00ffcc] font-bold text-sm tracking-widest uppercase">Team 03</span>
+                    <h2 class="text-4xl font-black mt-2">광고기획팀</h2>
+                    <button class="video-btn" onclick="openVideoModal('o9TfjvvAJ4U')">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M19.07 4.93C17.22 3.08 14.66 2 12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 9.34 20.92 6.78 19.07 4.93ZM10 16.5V7.5L16 12L10 16.5Z"
+                                fill="currentColor" />
+                        </svg>
+                        <span>로드맵 영상 보기</span>
+                    </button>
+                </div>
+                <div class="md:w-2/3 grid md:grid-cols-2 gap-10">
+                    <div>
+                        <h4 class="text-zinc-500 text-xs font-bold mb-4 uppercase">2025 Retrospective</h4>
+                        <p class="text-xl font-medium leading-relaxed">
+                            네이버 SA 중심에서 Meta VA, YouTube 등 <span class="text-white">영상 퍼포먼스 채널</span>로의 성공적 확장.
+                        </p>
+                    </div>
+                    <div>
+                        <h4 class="text-zinc-500 text-xs font-bold mb-4 uppercase">2026 Milestone</h4>
+                        <ul class="space-y-4">
+                            <li class="flex gap-4">
+                                <span class="bg-zinc-800 text-[10px] px-2 py-1 rounded h-fit">01월</span>
+                                <span class="text-zinc-400 text-sm">기집행 매체 안정화</span>
+                            </li>
+                            <li class="flex gap-4">
+                                <span class="bg-zinc-800 text-[10px] px-2 py-1 rounded h-fit">02월</span>
+                                <span class="text-zinc-400 text-sm">NOSP ADVoost 및 TikTok 신규 매체 검증</span>
+                            </li>
+                            <li class="flex gap-4">
+                                <span
+                                    class="bg-[#00ffcc] text-black text-[10px] px-2 py-1 rounded h-fit font-bold">03월</span>
+                                <span class="text-zinc-400 text-sm font-bold">인플루언서 PPL 성과 측정</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-6">
+                <!-- Creator Card -->
+                <div class="creator-card glass p-8 rounded-3xl h-64">
+                    <div class="worker-content">
+                        <span class="text-zinc-600 text-[10px] font-bold uppercase tracking-tight">Team Leader</span>
+                        <h3 class="text-2xl font-bold mt-1 mb-4 text-zinc-300">서신일</h3>
+                        <p class="text-zinc-500 text-sm leading-relaxed">수행해오던 광고 채널 관리 및 성과 리포트 작성</p>
+                    </div>
+                    <div class="creator-content">
+                        <p class="neon-text text-lg">영상 자산 기반 하이엔드 퍼포먼스 구조 확립 및 자동화 리딩</p>
+                        <button class="retro-btn" onclick="openRetrospective('seo_si')">View Retrospective</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- [Team 4] 영상기획팀 -->
+        <section id="team-video" class="section-padding border-b border-zinc-900 last:border-0 team-section">
+            <div class="flex flex-col md:flex-row gap-12 mb-20">
+                <div class="md:w-1/3 section-title-trigger">
+                    <span class="text-[#00ffcc] font-bold text-sm tracking-widest uppercase">Team 04</span>
+                    <h2 class="text-4xl font-black mt-2">영상기획팀</h2>
+                    <button class="video-btn" onclick="openVideoModal('qOqXXpOR1Pw')">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M19.07 4.93C17.22 3.08 14.66 2 12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 9.34 20.92 6.78 19.07 4.93ZM10 16.5V7.5L16 12L10 16.5Z"
+                                fill="currentColor" />
+                        </svg>
+                        <span>로드맵 영상 보기</span>
+                    </button>
+                </div>
+                <div class="md:w-2/3 grid md:grid-cols-2 gap-10">
+                    <div>
+                        <h4 class="text-zinc-500 text-xs font-bold mb-4 uppercase">2025 Retrospective</h4>
+                        <p class="text-xl font-medium leading-relaxed">
+                            결정사 최초 웹드라마 <span class="text-white">'맞선은 처음이라'</span> 제작 및 콘텐츠 조회수 1만 회 돌파.
+                        </p>
+                    </div>
+                    <div>
+                        <h4 class="text-zinc-500 text-xs font-bold mb-4 uppercase">2026 Milestone</h4>
+                        <ul class="space-y-4">
+                            <li class="flex gap-4">
+                                <span class="bg-zinc-800 text-[10px] px-2 py-1 rounded h-fit">01월</span>
+                                <span class="text-zinc-400 text-sm">'살롱 인 퍼플스' 기획 및 수익화 모델 수립</span>
+                            </li>
+                            <li class="flex gap-4">
+                                <span class="bg-zinc-800 text-[10px] px-2 py-1 rounded h-fit">02월</span>
+                                <span class="text-zinc-400 text-sm">신규 웹드라마 프리 프로덕션 및 캐스팅</span>
+                            </li>
+                            <li class="flex gap-4">
+                                <span
+                                    class="bg-[#00ffcc] text-black text-[10px] px-2 py-1 rounded h-fit font-bold">03월</span>
+                                <span class="text-zinc-400 text-sm font-bold">제작 효율 고도화 및 콘텐츠 배급 전략 실행</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-6">
+                <!-- Creator Card -->
+                <div class="creator-card glass p-8 rounded-3xl h-64">
+                    <div class="worker-content">
+                        <span class="text-zinc-600 text-[10px] font-bold uppercase tracking-tight">Team Leader</span>
+                        <h3 class="text-2xl font-bold mt-1 mb-4 text-zinc-300">최정우</h3>
+                        <p class="text-zinc-500 text-sm leading-relaxed">단순 촬영 및 요청 기반 영상 편집</p>
+                    </div>
+                    <div class="creator-content">
+                        <p class="neon-text text-lg">기획-배급을 아우르는 '1인 영상 크리에이터' 기업형 모델 안착</p>
+                        <button class="retro-btn" onclick="openRetrospective('choi_jw')">View Retrospective</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- [Team 5] 디자인/웹디자인팀 -->
+        <section id="team-design" class="section-padding border-b border-zinc-900 last:border-0 team-section">
+            <div class="flex flex-col md:flex-row gap-12 mb-20">
+                <div class="md:w-1/3 section-title-trigger">
+                    <span class="text-[#00ffcc] font-bold text-sm tracking-widest uppercase">Team 05</span>
+                    <h2 class="text-4xl font-black mt-2">웹디자인팀</h2>
+                    <button class="video-btn" onclick="openVideoModal('P86BbJiE_FY')">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M19.07 4.93C17.22 3.08 14.66 2 12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 9.34 20.92 6.78 19.07 4.93ZM10 16.5V7.5L16 12L10 16.5Z"
+                                fill="currentColor" />
+                        </svg>
+                        <span>로드맵 영상 보기</span>
+                    </button>
+                </div>
+                <div class="md:w-2/3 grid md:grid-cols-2 gap-10">
+                    <div>
+                        <h4 class="text-zinc-500 text-xs font-bold mb-4 uppercase">2025 Retrospective</h4>
+                        <p class="text-xl font-medium leading-relaxed">
+                            3대 브랜드 메인 리뉴얼 완수 및 <span class="text-white">통합 디자인 가이드라인</span> 수립.
+                        </p>
+                    </div>
+                    <div>
+                        <h4 class="text-zinc-500 text-xs font-bold mb-4 uppercase">2026 Milestone</h4>
+                        <ul class="space-y-4">
+                            <li class="flex gap-4">
+                                <span class="bg-zinc-800 text-[10px] px-2 py-1 rounded h-fit">01월</span>
+                                <span class="text-zinc-400 text-sm">'선배의인맥' 컨셉 도출</span>
+                            </li>
+                            <li class="flex gap-4">
+                                <span class="bg-zinc-800 text-[10px] px-2 py-1 rounded h-fit">02월</span>
+                                <span class="text-zinc-400 text-sm">화면 디자인 진행</span>
+                            </li>
+                            <li class="flex gap-4">
+                                <span
+                                    class="bg-[#00ffcc] text-black text-[10px] px-2 py-1 rounded h-fit font-bold">03월</span>
+                                <span class="text-zinc-400 text-sm">퍼플스 서브 리뉴얼 및 신규 사이트 런칭</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-6">
+                <!-- Cards for Team 5 (Design) -->
+                <div class="creator-card glass p-8 rounded-3xl h-64">
+                    <div class="worker-content">
+                        <span class="text-zinc-600 text-[10px] font-bold uppercase tracking-tight">Team Leader</span>
+                        <h3 class="text-2xl font-bold mt-1 mb-4 text-zinc-300">정새한결</h3>
+                        <p class="text-zinc-500 text-sm leading-relaxed">요청 사항에 따른 건별 디자인 실행</p>
+                    </div>
+                    <div class="creator-content">
+                        <p class="neon-text text-lg">전사 비주얼 디렉팅 및 '선배의인맥' 디자인 시스템 총괄</p>
+                        <button class="retro-btn" onclick="openRetrospective('jung_sh')">View Retrospective</button>
+                    </div>
+                </div>
+                <div class="creator-card glass p-8 rounded-3xl h-64">
+                    <div class="worker-content">
+                        <span class="text-zinc-600 text-[10px] font-bold uppercase tracking-tight">Deputy General
+                            Manager</span>
+                        <h3 class="text-2xl font-bold mt-1 mb-4 text-zinc-300">박명희</h3>
+                        <p class="text-zinc-500 text-sm leading-relaxed">사이트 부분 수정 및 레이아웃 관리</p>
+                    </div>
+                    <div class="creator-content">
+                        <p class="neon-text text-lg">르매리 UX 최적화 및 브랜드 이미지 현대화 리딩</p>
+                        <button class="retro-btn" onclick="openRetrospective('park_mh')">View Retrospective</button>
+                    </div>
+                </div>
+                <div class="creator-card glass p-8 rounded-3xl h-64">
+                    <div class="worker-content">
+                        <span class="text-zinc-600 text-[10px] font-bold uppercase tracking-tight">Associate</span>
+                        <h3 class="text-2xl font-bold mt-1 mb-4 text-zinc-300">민동규</h3>
+                        <p class="text-zinc-500 text-sm leading-relaxed">주어진 디자인 소스 가공 및 업로드</p>
+                    </div>
+                    <div class="creator-content">
+                        <p class="neon-text text-lg">브랜딩 관점의 IMC 디자인 확장 및 작업 공정 문서화</p>
+                        <button class="retro-btn" onclick="openRetrospective('min_dg')">View Retrospective</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- [Team 6] 시스템개발팀 -->
+        <section id="team-dev" class="section-padding border-b border-zinc-900 last:border-0 team-section">
+            <div class="flex flex-col md:flex-row gap-12 mb-20 relative z-10">
+                <div class="md:w-1/3 section-title-trigger">
+                    <span class="text-[#00ffcc] font-bold text-sm tracking-widest uppercase">Team 06</span>
+                    <h2 class="text-3xl md:text-4xl font-black mt-2">시스템개발팀</h2>
+                    <button class="video-btn" onclick="openVideoModal('DGCuFf0XhI4')">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M19.07 4.93C17.22 3.08 14.66 2 12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 9.34 20.92 6.78 19.07 4.93ZM10 16.5V7.5L16 12L10 16.5Z"
+                                fill="currentColor" />
+                        </svg>
+                        <span>로드맵 영상 보기</span>
+                    </button>
+                </div>
+                <div class="md:w-2/3 grid md:grid-cols-2 gap-10">
+                    <div>
+                        <h4 class="text-zinc-500 text-xs font-bold mb-4 uppercase">2025 Retrospective</h4>
+                        <p class="text-xl font-medium leading-relaxed">
+                            전사 핵심 인프라(NAS) 안정적 운영 및 <span class="text-white">보안 체계 고도화</span>, 서비스 모듈화 실행.
+                        </p>
+                    </div>
+                    <div>
+                        <h4 class="text-zinc-500 text-xs font-bold mb-4 uppercase">2026 Milestone</h4>
+                        <ul class="space-y-4">
+                            <li class="flex gap-4">
+                                <span class="bg-zinc-800 text-[10px] px-2 py-1 rounded h-fit">01월</span>
+                                <span class="text-zinc-400 text-sm">디노블·르매리 실서버 반영 및 '선배의인맥' 환경 구축</span>
+                            </li>
+                            <li class="flex gap-4">
+                                <span class="bg-zinc-800 text-[10px] px-2 py-1 rounded h-fit">02월</span>
+                                <span class="text-zinc-400 text-sm">한프진 랜딩페이지 리뉴얼 대응 및 유지보수 안정화</span>
+                            </li>
+                            <li class="flex gap-4">
+                                <span
+                                    class="bg-[#00ffcc] text-black text-[10px] px-2 py-1 rounded h-fit font-bold">03월</span>
+                                <span class="text-zinc-400 text-sm font-bold">시스템 최적화 및 백엔드 기술 스택 확장/적용</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-6 relative z-10">
+                <!-- Creator Card: Oh Seungtaek -->
+                <div class="creator-card glass p-8 rounded-3xl h-64">
+                    <div class="worker-content">
+                        <span class="text-zinc-600 text-[10px] font-bold uppercase tracking-tight">Team Leader</span>
+                        <h3 class="text-2xl font-bold mt-1 mb-4 text-zinc-300">오승택</h3>
+                        <p class="text-zinc-500 text-sm leading-relaxed">서버 및 DB 단순 유지보수 건 처리</p>
+                    </div>
+                    <div class="creator-content">
+                        <p class="neon-text text-lg">백엔드 영역 기술 스택 확장 및 개발 생산성 고도화</p>
+                        <button class="retro-btn" onclick="openRetrospective('oh_st')">View Retrospective</button>
+                    </div>
+                </div>
+                <!-- Creator Card: Jung Seyoung -->
+                <div class="creator-card glass p-8 rounded-3xl h-64">
+                    <div class="worker-content">
+                        <span class="text-zinc-600 text-[10px] font-bold uppercase tracking-tight">System Engineer /
+                            Front-end</span>
+                        <h3 class="text-2xl font-bold mt-1 mb-4 text-zinc-300">정세영</h3>
+                        <p class="text-zinc-500 text-sm leading-relaxed">단순 퍼블리싱 및 요청 기반 UI 수정 작업</p>
+                    </div>
+                    <div class="creator-content">
+                        <p class="neon-text text-lg">단순 퍼블리셔에서<br>풀스택 엔지니어로의 도약</p>
+                        <button class="retro-btn" onclick="openRetrospective('jung_sy')">View Retrospective</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <footer class="py-10 text-center text-zinc-800 text-xs border-t border-zinc-900">
+        © 2026 PLANNING DIVISION. ALL RIGHTS RESERVED.
+    </footer>
+
+    <!-- Retrospective Slide-over Panel -->
+    <div id="retro-overlay" onclick="closeRetrospective()"></div>
+    <div id="retro-panel">
+        <div class="close-retro" onclick="closeRetrospective()">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M15 5L5 15M5 5L15 15" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round" />
+            </svg>
+        </div>
+
+        <div class="flex-1 overflow-y-auto p-12 pt-24 pb-32 notion-content" data-lenis-prevent>
+            <!-- Header -->
+            <div class="mb-12">
+                <div id="retro-tag" class="notion-tag">Department Name</div>
+                <h2 id="retro-name" class="text-5xl font-extrabold mb-3 tracking-tight">Member Name</h2>
+                <p id="retro-motto" class="text-xl text-zinc-400 font-medium leading-relaxed italic">"Individual Motto
+                    or Descriptor"</p>
+            </div>
+
+            <!-- Visual Counters -->
+            <div class="mb-12">
+                <span class="section-label">2025 Quantitative Achievement</span>
+                <div id="retro-stats" class="grid grid-cols-2 gap-8">
+                    <!-- Stats will be injected here -->
+                </div>
+            </div>
+
+            <!-- Success & Lesson Contrast -->
+            <div class="mb-12">
+                <span class="section-label">Success & Lesson</span>
+                <div class="space-y-4">
+                    <div class="notion-callout callout-success">
+                        <div class="text-xl">✨</div>
+                        <div>
+                            <div class="font-bold text-xs uppercase mb-1 tracking-wider">Success</div>
+                            <p id="retro-success" class="font-medium">Content here...</p>
+                        </div>
+                    </div>
+                    <div class="notion-callout callout-lesson">
+                        <div class="text-xl">🚧</div>
+                        <div>
+                            <div class="font-bold text-xs uppercase mb-1 tracking-wider">Lesson</div>
+                            <p id="retro-lesson" class="font-medium">Content here...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Raw Data Scroll -->
+            <div class="mb-12">
+                <span class="section-label">Log: 2025 성과 기록 (Raw Data)</span>
+                <div class="bg-zinc-50 p-8 rounded-2xl border border-zinc-100">
+                    <ul id="retro-logs" class="raw-data-list">
+                        <!-- Logs will be injected here -->
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Next Action -->
+            <div class="mb-12">
+                <span class="section-label">Next: 2026 Action Plan</span>
+                <div id="retro-next-container">
+                    <p id="retro-next">Next steps...</p>
+                </div>
+                <p class="text-[11px] text-zinc-400 mt-6 font-medium">Generated by <span
+                        class="text-zinc-500 font-bold">2026 Planning Vision System Archiver</span>.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Video Modal -->
+    <div id="video-overlay" onclick="closeVideoModal()">
+        <div class="video-container" onclick="event.stopPropagation()">
+            <div class="close-video" onclick="closeVideoModal()">
+                <span>CLOSE</span>
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M15 5L5 15M5 5L15 15" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round" />
+                </svg>
+            </div>
+            <iframe id="video-iframe" width="100%" height="100%" src="" frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen></iframe>
+        </div>
+    </div>
+
+    <script>
+        // Smooth Scroll
+        const lenis = new Lenis();
+        function raf(time) {
+            lenis.raf(time);
+            requestAnimationFrame(raf);
+        }
+        requestAnimationFrame(raf);
+
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Vertical Progress Bar
+        gsap.to("#vertical-progress-bar", {
+            height: "100%",
+            ease: "none",
+            scrollTrigger: {
+                start: "top top",
+                end: "bottom bottom",
+                scrub: 0.3
+            }
+        });
+
+        // Hero Entrance
+        const tlHero = gsap.timeline();
+        tlHero.to("#hero-sub", { opacity: 0.5, y: -10, duration: 1 })
+            .to("#hero-title", { opacity: 1, y: -20, duration: 1.2, ease: "power4.out" }, "-=0.5")
+            .to("#hero-desc", { opacity: 1, y: -15, duration: 1 }, "-=0.8");
+
+        // Section Title Sliding Animation
+        const sections = gsap.utils.toArray(".section-title-trigger");
+        sections.forEach(title => {
+            gsap.from(title, {
+                opacity: 0,
+                x: -100,
+                duration: 1,
+                scrollTrigger: {
+                    trigger: title,
+                    start: "top 80%",
+                    toggleActions: "play none none none"
+                }
+            });
+        });
+
+        // Team Quick Nav Smooth Scroll
+        document.querySelectorAll('.sticky-nav a').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                lenis.scrollTo(targetId);
+
+                // Active update
+                document.querySelectorAll('.sticky-nav a').forEach(a => a.classList.remove('text-[#00ffcc]'));
+                this.classList.add('text-[#00ffcc]');
+            });
+        });
+
+        // Current Team Section Highlight in Sticky Nav
+        const teamSections = gsap.utils.toArray(".team-section");
+        teamSections.forEach(section => {
+            ScrollTrigger.create({
+                trigger: section,
+                start: "top 100px",
+                end: "bottom 100px",
+                onToggle: self => {
+                    if (self.isActive) {
+                        const id = section.getAttribute('id');
+                        document.querySelectorAll('.sticky-nav a').forEach(a => {
+                            if (a.getAttribute('href') === `#${id}`) {
+                                a.classList.add('text-[#00ffcc]');
+                                a.classList.remove('text-zinc-500');
+                            } else {
+                                a.classList.remove('text-[#00ffcc]');
+                                a.classList.add('text-zinc-500');
+                            }
+                        });
+                    }
+                }
+            });
+        });
+
+        // Data Stream Effect (Enhanced)
+        function createDataStream() {
+            const container = document.getElementById('hero-data-stream');
+            const particleCount = 60;
+
+            for (let i = 0; i < particleCount; i++) {
+                const dot = document.createElement('div');
+                dot.style.position = 'absolute';
+                dot.style.width = Math.random() * 2 + 1 + 'px';
+                dot.style.height = dot.style.width;
+                dot.style.background = '#00ffcc';
+                dot.style.borderRadius = '50%';
+                dot.style.left = Math.random() * 100 + '%';
+                dot.style.top = Math.random() * 100 + '%';
+                dot.style.opacity = Math.random() * 0.5;
+                dot.style.boxShadow = '0 0 10px #00ffcc';
+                container.appendChild(dot);
+
+                gsap.to(dot, {
+                    y: -500,
+                    x: (Math.random() - 0.5) * 100,
+                    opacity: 0,
+                    duration: Math.random() * 3 + 2,
+                    repeat: -1,
+                    ease: "power1.out",
+                    delay: Math.random() * 5
+                });
+            }
+
+            // Lines
+            for (let i = 0; i < 15; i++) {
+                const line = document.createElement('div');
+                line.style.position = 'absolute';
+                line.style.width = '1px';
+                line.style.height = Math.random() * 300 + 100 + 'px';
+                line.style.background = 'linear-gradient(to top, rgba(0,255,204,0), rgba(0,255,204,0.3), rgba(0,255,204,0))';
+                line.style.left = Math.random() * 100 + '%';
+                line.style.top = '100%';
+                container.appendChild(line);
+
+                gsap.to(line, {
+                    top: '-50%',
+                    duration: Math.random() * 5 + 5,
+                    repeat: -1,
+                    ease: "none",
+                    delay: Math.random() * 5
+                });
+            }
+        }
+        createDataStream();
+
+        // Retrospective Data
+        const retroData = {
+            'lee_hg': {
+                name: "이현규 차장",
+                tag: "System Leader",
+                motto: "리스크를 시스템으로 정면 돌파한 오토메이션 마케터",
+                stats: [
+                    { label: "자동화 솔루션", value: "5종" },
+                    { label: "업무 효율", value: "30%↑" }
+                ],
+                success: "시스템 리더십 확립. 조직 리스크를 기술적 효율화로 해결하며 팀의 체질을 개선함.",
+                lesson: "신규 플랫폼(Threads, Bluesky 등) 선점의 적기를 놓친 점. 2026년에는 트렌드 대응 속도를 높일 필요가 있음.",
+                logs: [
+                    "조직 안정화: 팀원 전원 교체 상황에서 직무 표준화 매뉴얼(OJT) 구축으로 업무 공백 제로화.",
+                    "자동화 혁신: 악플 자동 수집, 경쟁사 모니터링, 컨텐츠 생성 등 5종의 오토메이션 솔루션 직접 설계.",
+                    "브랜드 확장: 유튜브 컨셉 혁신 및 역대 최고 규모의 B2B 제휴 성과 창출."
+                ],
+                next: "AI 기반 콘텐츠 자동화 프로세스 완성 및 업계 바이럴 지수 압도적 1위 탈환."
+            },
+            'kim_mk': {
+                name: "김민기 대리",
+                tag: "Collaboration Hub",
+                motto: "부서 간의 벽을 허물고 효율을 설계하는 커뮤니케이션 전문가",
+                stats: [
+                    { label: "프로젝트 완수율", value: "98%" },
+                    { label: "협업 부서", value: "4개" }
+                ],
+                success: "전략적 커뮤니케이션 역량 확보. 복잡한 이해관계 속에서도 프로젝트를 완수하는 자신감을 얻음.",
+                lesson: "책임감 과잉으로 인한 업무 과부하. 팀원들에게 효율적으로 업무를 분배하지 못하고 직접 수행한 비중이 높았음.",
+                logs: [
+                    "이벤트 매니지먼트: 설/화이트데이 등 주요 시즌별 이벤트 기획 및 영업부서 배포 이미지 제작 주도.",
+                    "SNS 톤앤매너: 르매리 SNS의 디자인 및 내용 구성 체계화로 브랜드 신뢰도 향상.",
+                    "협업 프로세스: 디자인·영업·기획팀 사이의 소통 가교 역할을 수행하며 프로젝트 완수율 제고."
+                ],
+                next: "실무 위주에서 관리 및 전략 중심으로 업무 비중 전환, 팀 내 업무 가이드라인 확립을 통한 생산성 극대화."
+            },
+            'jung_hr': {
+                name: "정혜림 사원",
+                tag: "Value Connector",
+                motto: "브랜드 정체성과 실질적 수익을 연결하는 비즈니스 기획자",
+                stats: [
+                    { label: "브랜드 리뉴얼", value: "1건" },
+                    { label: "제휴 성과", value: "Top" }
+                ],
+                success: "기획부터 실행, 성과 회수까지의 전 과정을 경험하며 '돈이 되는 기획'에 대한 감각을 익힘.",
+                lesson: "단발성 제휴에 그친 사례들. 2026년에는 장기적이고 반복 가능한 수익 모델로의 자산화가 필요함.",
+                logs: [
+                    "디노블 리뉴얼: 브랜드 노후화 진단 및 로고 변경 프로젝트 단독 주도.",
+                    "B2B 제휴 성과: 단순 협찬을 넘어 실제 결제 성과로 이어지는 가치 제안 구조 설계.",
+                    "행사 운영: 퍼플스 오프라인 행사 PM 수행으로 운영 안정성 및 확장성 확보."
+                ],
+                next: "디노블을 '관리 가능한 브랜드 자산'으로 안착시키고, B2B 제휴 성혼 DB 전환율을 전년 대비 40% 이상 향상."
+            },
+            'kim_jw': {
+                name: "김지우 사원",
+                tag: "Signature Content Creator",
+                motto: "데이터 기반 리서치로 브랜드의 페르소나를 구축하는 크리에이터",
+                stats: [
+                    { label: "팔로잉 네트워크", value: "전문직" },
+                    { label: "채널 리뉴얼", value: "3개" }
+                ],
+                success: "브랜드 인지도 제고를 위한 일관된 운영 역량 확보. 퍼플스의 브랜드 폭을 넓히는 데 기여함.",
+                lesson: "'하나의 시그니처 콘텐츠' 부재. 여러 시도를 했으나 브랜드를 대표할 만한 강력한 킬러 콘텐츠 제작이 미흡했음.",
+                logs: [
+                    "SNS 정체성 재정립: 인스타그램을 핵심 채널로 설정하고 로고/컬러/톤앤매너 리뉴얼.",
+                    "타겟 리서치: 의사·변호사 등 전문직군 중심의 선별적 팔로잉 및 네트워크 구축.",
+                    "실행력: '왜 이 방식이 퍼플스에 맞는가'를 기준으로 콘텐츠를 선별하는 판단 역량 강화."
+                ],
+                next: "퍼플스만의 독보적인 시그니처 콘텐츠 시리즈 런칭 및 외부 협업을 통한 공격적인 마케팅 확장."
+            },
+            'lee_jm': {
+                name: "이종명 사원",
+                tag: "Viral Specialist",
+                motto: "영상 문법을 익히며 바이럴의 기초 체력을 다지는 성장형 마케터",
+                stats: [
+                    { label: "쇼츠 제작", value: "Daily" },
+                    { label: "현장 대응", value: "Elite" }
+                ],
+                success: "업무 적응 및 배우는 시기로서 마케팅 툴과 영상 제작 기초 역량을 확보함.",
+                lesson: "아직 눈에 띄는 가시적 성과가 부족함. 2026년에는 본인만의 전문 영역 구축이 필수적임.",
+                logs: [
+                    "실무 적응: 마케팅 전반에 대한 이해도 제고 및 팀 내 다양한 서포트 업무 수행.",
+                    "콘텐츠 제작: 유튜브 촬영 지원, 쇼츠 제작, 블로그 포스팅 등 영상 중심의 바이럴 실무 경험.",
+                    "현장 대응: 파티 스텝 참석 등을 통해 고객 접점에서의 브랜드 경험을 직접 체득."
+                ],
+                next: "단순 지원을 넘어 주도적인 영상 기반 바이럴 콘텐츠 제작 전문가로 거듭나기 위한 기술적·기획적 역량 강화."
+            },
+            'kim_iy': {
+                name: "김인영 팀장",
+                tag: "Growth & CRM",
+                motto: "데이터로 신뢰를 증명하고 성장을 설계하는 그로스 리더",
+                stats: [
+                    { label: "상담 결제율", value: "70.7%" },
+                    { label: "홈페이지 유입", value: "42%↑" }
+                ],
+                success: "단순 콘텐츠 제작을 넘어 기술적 트래킹부터 CRM까지 마케팅 전 영역을 데이터 중심으로 통합 운영하는 '그로스 역량' 내재화.",
+                lesson: "대외 제휴의 확장성 부족. 전문직 단체 대상 아웃바운드 캠페인이 브랜딩에는 기여했으나 실질적인 대규모 제휴 계약으로 연결하지 못한 점.",
+                logs: [
+                    "결제율 혁신: 정교한 트래킹 시스템 구축 및 UX 최적화로 상담 결제율을 49.9%에서 70.7%로 대폭 개선.",
+                    "신뢰 자산화: '사회적 증거(Testimonial)' 여정 개선을 통해 홈페이지 유입률 42% 향상 및 양질의 성혼 후기 12건 확보.",
+                    "마케팅 기술 내재화: UTM 유실 방지 스크립트 및 Meta 고급 매칭 스크립트 자체 개발로 광고 효율 최적화."
+                ],
+                next: "'명예의 전당' 프로젝트를 통해 신뢰 자산을 시스템화하고, 통합 성과 지표(Blended ROAS) 도입으로 데이터 기반 의사결정 체계 확립."
+            },
+            'seo_si': {
+                name: "서신일 팀장",
+                tag: "Performance AD",
+                motto: "매체 다변화와 영상 광고의 퍼포먼스 가능성을 입증한 아키텍트",
+                stats: [
+                    { label: "매체 다변화", value: "SA+VA" },
+                    { label: "유튜브 조회", value: "성공적" }
+                ],
+                success: "경험 부족으로 시도하지 못했던 '영상 광고' 영역을 실제 집행 단계까지 추진하여 내부 운영 노하우를 축적함.",
+                lesson: "영상 자산의 다양성 부족. 소재의 한계로 인해 일부 매체(Pmax 등)의 성과를 지속적으로 고도화하지 못한 구조적 한계 인지.",
+                logs: [
+                    "채널 다변화 성공: 네이버 SA 중심에서 Blind, Toss, GFA 등으로 매체를 확장하여 신규 유입 및 전환 기여도 분석 마련.",
+                    "영상 퍼포먼스 도입: Google Pmax, Demand Gen, Meta VA 등 영상 기반 광고를 본격화하여 유튜브 채널 조회수 증대 및 브랜딩 효과 확인.",
+                    "운영 안정화: 급격한 매체 환경 변화 속에서도 통합 관리 기준을 정립하여 광고 성과의 변동성 제어."
+                ],
+                next: "기집행 매체의 성과 안정화와 더불어 네이버 NOSP(DOOH) 및 인플루언서 PPL(Stellaize) 등 외부 솔루션 연계를 통한 단계적 확장 전략 실행."
+            },
+            'choi_jw': {
+                name: "최정우 팀장",
+                tag: "Creative Video",
+                motto: "기획부터 제작까지, 결정사 콘텐츠의 새로운 문법을 만든 디렉터",
+                stats: [
+                    { label: "쇼츠 조회수", value: "2.7만" },
+                    { label: "웹드라마", value: "1만↑" }
+                ],
+                success: "1인 제작 환경에서 불가능해 보였던 웹드라마와 대형 행사의 영상화를 성공시키며 '제작 오너십'의 한계를 넓힘.",
+                lesson: "1인 시스템의 한계로 인한 기획 깊이의 고민. 2026년에는 더 정교한 대본과 캐스팅 등 '프리 프로덕션' 단계의 강화가 필요함.",
+                logs: [
+                    "웹드라마 런칭: 업계 최초 웹드라마 '맞선은 처음이라'의 프리 프로덕션부터 제작까지 전 과정을 홀로 완수하여 새로운 홍보 모델 제시.",
+                    "바이럴 성과: 연예인 자선 골프대회 스케치 영상으로 광고 없이 조회수 11,888회 기록 및 쇼츠 통합 약 2.7만 회 달성.",
+                    "콘텐츠 다각화: 매니저 교육 영상 10과목 제작(교육 시스템 도입) 및 하이엔드 토크쇼 '살롱 인 퍼플스' 기획/제작."
+                ],
+                next: "'살롱 인 퍼플스'의 안정적 제작 및 수익화 모델 검증, '언니의인맥' 웹드라마 신규 기획을 통한 브랜드 파워 극대화."
+            },
+            'jung_sh': {
+                name: "정새한결 팀장",
+                tag: "UX/UI Design",
+                motto: "브랜드의 페르소나를 시각화하고 디자인 시스템을 구축한 총괄 디렉터",
+                stats: [
+                    { label: "브랜드 리뉴얼", value: "3대" },
+                    { label: "신규 런칭", value: "2건" }
+                ],
+                success: "팀 전체의 업무를 조망하며 최적의 디자인 시안을 도출하는 '총괄 지휘 역량' 강화. 브랜드별 일관된 아이덴티티를 안착시킴.",
+                lesson: "다수의 프로젝트가 겹칠 때 발생하는 리소스 분배의 어려움. 2026년에는 더욱 효율적인 작업 공정 표준화가 필요함.",
+                logs: [
+                    "3대 브랜드 리뉴얼: 퍼플스, 디노블, 르매리 홈페이지 메인 및 서브페이지 리뉴얼 디자인 완수.",
+                    "신규 서비스 런칭: '언니의인맥', '이모의인맥' 등 신규 브랜드의 웹 디자인 컨셉 도출 및 사이트 제작.",
+                    "디자인 매니지먼트: 팀장으로서 전 부서 디자인 요청 건(이벤트, 프로모션, 광고 소재 등) 총괄 피드백 및 품질 관리."
+                ],
+                next: "'선배의인맥' 신규 구축 및 퍼플스 서브페이지 리뉴얼 완수. 브랜드 가치를 높이는 비주얼 전략가(Visual Strategist)로 활동."
+            },
+            'park_mh': {
+                name: "박명희 차장",
+                tag: "UX Innovator",
+                motto: "사용자 중심의 UX 설계로 브랜드 신뢰도를 극대화하는 디자이너",
+                stats: [
+                    { label: "르매리 리뉴얼", value: "PC" },
+                    { label: "유입 접근성", value: "Max" }
+                ],
+                success: "'재혼'이라는 민감한 키워드를 따뜻하고 현대적인 디자인으로 풀어내어 브랜드 신뢰도를 높인 점에 큰 자부심을 느낌.",
+                lesson: "회장님 보고 및 컨셉 확정 과정에서의 소통 시간 소요. 향후 기획 단계에서부터 시각적 설득력을 더 높일 필요가 있음.",
+                logs: [
+                    "르매리 PC 리뉴얼: 브랜드 정체성을 반영한 비주얼 가이드라인 수립 및 UI/UX 디자인 완수.",
+                    "UX 최적화: 고관여 타겟(재혼) 특성을 고려한 폰트 크기, 명도 대비, 버튼 크기 등 가독성 및 접근성 개선.",
+                    "모바일 접근성 강화: 노후된 사이트를 반응형으로 구축하여 사용자 접근성 및 편의성 극대화."
+                ],
+                next: "기존 브랜드의 UX 고도화와 더불어, 사용자의 감정을 움직이는 인터페이스 설계자(UX Innovator)로서의 전문성 강화."
+            },
+            'min_dg': {
+                name: "민동규 사원",
+                tag: "Brand Logic Designer",
+                motto: "디자인 시스템의 초석을 다지고 구조적 디자인을 수행하는 성장형 디자이너",
+                stats: [
+                    { label: "실무 역량", value: "비약" },
+                    { label: "가이드라인", value: "IMC" }
+                ],
+                success: "단순 페이지 제작을 넘어 브랜딩과 운영 관점에서 디자인을 판단하는 시야를 확보함.",
+                lesson: "급박한 일정 속에서 일부 작업의 사전 공유와 문서화가 미흡했던 점. 2026년에는 작업 프로세스 자산화에 집중할 예정.",
+                logs: [
+                    "디노블 리뉴얼 주도: 디노블 메인 및 서브페이지 디자인 전 과정을 경험하며 실무 역량 비약적 향상.",
+                    "가이드라인 수립: 디노블·르매리 IMC 디자인 가이드라인 수립을 통해 브랜드 일관성 및 협업 효율 개선.",
+                    "멀티태스킹: 언니의인맥, 이모의인맥 등 다수 프로젝트 병행 상황에서도 일정 및 품질 준수."
+                ],
+                next: "디자인 시스템을 더욱 정교하게 다듬고, 브랜드 가이드를 기반으로 한 로직 디자이너(Brand Logic Designer)로 도약."
+            },
+            'oh_st': {
+                name: "오승택 팀장",
+                tag: "Technical Architect",
+                motto: "안정적인 인프라를 바탕으로 기술적 확장을 준비하는 기술 리더",
+                stats: [
+                    { label: "인프라 관리", value: "전사" },
+                    { label: "운영 안정", value: "100%" }
+                ],
+                success: "복잡한 레거시 시스템을 안정적으로 유지하며, 전사 서비스가 중단 없이 운영될 수 있는 기반을 공고히 함.",
+                lesson: "관리 업무 비중이 높아지며 개인적인 기술 스택(백엔드 등) 확장에 할애할 시간이 부족했음.",
+                logs: [
+                    "전사 인프라 관리: 계열사 전체 시스템 유지보수 및 개발 일정 총괄 관리.",
+                    "유지보수 효율화: 인트라넷 게시판 운영 및 이슈 대응 프로세스 체계화.",
+                    "신규 프로젝트 지원: '선배의인맥' 등 신규 서비스 개발 환경 구축 및 기술적 서포트."
+                ],
+                next: "백엔드 영역 집중 학습을 통해 풀스택 역량을 확보하고, 기획본부의 비즈니스 구조를 시스템적으로 설계하는 테크니컬 아키텍트(Technical Architect)로 진화."
+            },
+            'jung_sy': {
+                name: "정세영 사원",
+                tag: "System Engineer",
+                motto: "프론트엔드 로직 설계로 개발의 질을 높이는 시스템 엔지니어",
+                stats: [
+                    { label: "보안 리스크", value: "차단" },
+                    { label: "NAS 관리", value: "단독" }
+                ],
+                success: "컴포넌트 단위 설계와 UI 모듈화를 실무에 적용하여 향후 유지보수가 용이한 구조를 구축함. '동작 원리'를 이해하는 개발자로 성장.",
+                lesson: "기존 팀장 부재 기간 동안 발생한 소통 채널의 일시적 혼선. 주도적인 커뮤니케이션으로 이를 극복하며 책임감을 배움.",
+                logs: [
+                    "인프라 보안 최적화: 핵심 자산인 NAS 단독 담당, 계정/권한 체계 정리 및 문서화를 통해 보안 리스크 차단.",
+                    "로직 설계 역량: 르매리 리뉴얼 시 단순 퍼블리싱을 넘어 이벤트 트리거 및 전환 로직 직접 설계/적용.",
+                    "운영 효율화: 인트라넷 반복 요청 사항을 분석하여 구조적 문제점을 인식하고 개선 방향 정의."
+                ],
+                next: "'From Publisher to Full-stack': 프론트엔드 전문성을 바탕으로 백엔드와 서버 환경까지 아우르는 시스템 엔지니어로 도약."
+            }
+        };
+
+        function openRetrospective(id) {
+            const data = retroData[id];
+            if (!data) return;
+
+            // Populate content
+            document.getElementById('retro-name').textContent = data.name;
+            document.getElementById('retro-tag').textContent = data.tag;
+            document.getElementById('retro-motto').textContent = `"${data.motto}"`;
+            document.getElementById('retro-success').textContent = data.success;
+            document.getElementById('retro-lesson').textContent = data.lesson;
+            document.getElementById('retro-next').textContent = data.next;
+
+            // Stats
+            const statsContainer = document.getElementById('retro-stats');
+            statsContainer.innerHTML = '';
+            data.stats.forEach(stat => {
+                const statDiv = document.createElement('div');
+                statDiv.className = 'stat-card';
+                statDiv.innerHTML = `
+                    <div class="stat-value">${stat.value}</div>
+                    <div class="stat-label">${stat.label}</div>
+                `;
+                statsContainer.appendChild(statDiv);
+            });
+
+            // Logs
+            const logsContainer = document.getElementById('retro-logs');
+            logsContainer.innerHTML = '';
+            data.logs.forEach(log => {
+                const li = document.createElement('li');
+                li.textContent = log;
+                logsContainer.appendChild(li);
+            });
+
+            // Show Panel
+            document.getElementById('retro-overlay').classList.add('active');
+            gsap.to('#retro-panel', {
+                x: 0,
+                duration: 0.6,
+                ease: "power4.out"
+            });
+            lenis.stop(); // Stop smooth scroll
+        }
+
+        function closeRetrospective() {
+            document.getElementById('retro-overlay').classList.remove('active');
+            gsap.to('#retro-panel', {
+                x: '100%',
+                duration: 0.5,
+                ease: "power4.in"
+            });
+            lenis.start(); // Start smooth scroll
+        }
+
+        function openVideoModal(videoId) {
+            const iframe = document.getElementById('video-iframe');
+            iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
+            document.getElementById('video-overlay').classList.add('active');
+            lenis.stop();
+        }
+
+        function closeVideoModal() {
+            const iframe = document.getElementById('video-iframe');
+            iframe.src = '';
+            document.getElementById('video-overlay').classList.remove('active');
+            lenis.start();
+        }
+
+    </script>
+</body>
+
+</html>
