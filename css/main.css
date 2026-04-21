@@ -1,0 +1,134 @@
+/* Reset & Base */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+@font-face {
+  font-family: 'Pretendard-Black';
+  src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Black.woff') format('woff');
+  font-weight: 900;
+  font-style: normal;
+}
+
+body {
+  background-color: #000;
+  color: #fff;
+  font-family: 'Pretendard-Black', sans-serif;
+  overflow: hidden; /* Hide scrollbars during full-screen experiences */
+  width: 100vw;
+  height: 100vh;
+}
+
+/* 1. Video Container */
+.video-container {
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  width: 100vw;
+  height: 100vh;
+  background: #000;
+}
+
+#introVideo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* 2. Main Content (Image & Countdown) */
+.main-content {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  width: 100vw;
+  height: 100vh;
+  opacity: 0;
+  visibility: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end; /* Keep content at the bottom */
+  align-items: center;
+  padding-bottom: 12vh;
+}
+
+.bg-image {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  background-image: url('../img/countdown_bg.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(to top, rgba(0,0,0,1) 0%, rgba(0,0,0,0.6) 30%, rgba(0,0,0,0) 80%);
+}
+
+.content-wrapper {
+  text-align: center;
+  z-index: 1;
+}
+
+.slogan {
+  font-size: clamp(2rem, 5vw, 4rem);
+  margin-bottom: 1rem;
+  background: linear-gradient(135deg, #FF9900 0%, #FF3300 40%, #B71C1C 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  padding: 0.1em;
+  line-height: 1.5;
+  filter: drop-shadow(0px 0px 15px rgba(255, 51, 0, 0.3));
+}
+
+.target-date {
+  font-size: clamp(1rem, 3vw, 1.8rem);
+  letter-spacing: 0.3em;
+  color: rgba(255, 255, 255, 0.9);
+  margin-bottom: 3rem;
+  font-weight: 500;
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+}
+
+.countdown {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  font-family: monospace; /* Digital feel */
+}
+
+.time-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.number {
+  font-size: clamp(3rem, 8vw, 6.5rem);
+  line-height: 1;
+  color: #fff;
+  font-weight: bold;
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.8), 0 0 20px rgba(255, 60, 0, 0.6);
+}
+
+.label {
+  font-size: clamp(0.7rem, 2vw, 1rem);
+  color: rgba(255, 255, 255, 0.6);
+  margin-top: 8px;
+  letter-spacing: 0.2em;
+}
+
+.time-divider {
+  font-size: clamp(2.5rem, 6vw, 5rem);
+  line-height: 1;
+  color: rgba(255, 255, 255, 0.5);
+  transform: translateY(-15px);
+}
