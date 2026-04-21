@@ -85,53 +85,41 @@ body {
   max-width: 1400px;
 }
 
-/* Premium HUD Panel */
+/* Premium HUD Panel - Modern Glassmorphism */
 .hud-panel {
   position: relative;
-  background: linear-gradient(180deg, rgba(4, 15, 20, 0.7) 0%, rgba(0, 5, 10, 0.9) 100%);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(0, 243, 255, 0.15);
-  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6), inset 0 0 0 1px rgba(255, 255, 255, 0.05), inset 0 0 40px rgba(0, 243, 255, 0.05);
-  /* 미래적인 모서리 깎임 효과 (Chamfered edge) */
-  clip-path: polygon(25px 0, calc(100% - 25px) 0, 100% 25px, 100% calc(100% - 25px), calc(100% - 25px) 100%, 25px 100%, 0 calc(100% - 25px), 0 25px);
+  background: rgba(10, 10, 20, 0.35); /* 고급스러운 어두운 반투명 유리 */
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.15); /* 은은한 화이트 엣지 */
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+  border-radius: 32px; /* 애플스러운 부드러운 곡선 */
   padding: 4rem 3rem;
   text-align: center;
   transform-style: preserve-3d;
   will-change: transform;
 }
 
-/* 컷아웃 네온 프레임 라인 */
-.hud-panel::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 0; right: 0; bottom: 0;
-  border: 2px solid rgba(0, 243, 255, 0.3);
-  clip-path: polygon(25px 0, calc(100% - 25px) 0, 100% 25px, 100% calc(100% - 25px), calc(100% - 25px) 100%, 25px 100%, 0 calc(100% - 25px), 0 25px);
-  pointer-events: none;
-}
-
 .slogan {
-  font-family: 'Orbitron', 'Noto Sans KR', sans-serif;
-  font-size: clamp(1.2rem, 2.5vw, 2.5rem);
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: clamp(1.5rem, 3.5vw, 2.5rem);
   margin-bottom: 0.5rem;
-  color: #e0faff; 
-  text-shadow: 0 0 15px rgba(0, 243, 255, 0.6), 0 0 30px rgba(0, 243, 255, 0.3);
+  color: #ffffff; 
+  text-shadow: 0 4px 12px rgba(0, 0, 0, 0.5); /* 과한 네온을 없애고 세련된 음영만 부여 */
   line-height: 1.4;
   transform: translateZ(30px);
-  font-weight: 700;
-  letter-spacing: 5px;
-  text-transform: uppercase;
+  font-weight: 800; /* 단단하고 신뢰감 있는 굵기 */
+  letter-spacing: -1px; /* 한국어 타이틀에 맞는 타이트한 자간 */
 }
 
 .target-date {
-  font-family: 'Share Tech Mono', monospace;
-  font-size: clamp(0.9rem, 1.5vw, 1.2rem);
-  letter-spacing: 12px;
-  color: #fff;
-  margin-bottom: 3.5rem;
-  font-weight: bold;
-  text-shadow: 0 0 10px rgba(0, 243, 255, 0.8), 0 0 20px rgba(0, 243, 255, 0.4);
+  font-family: 'Orbitron', sans-serif;
+  font-size: clamp(0.9rem, 1.5vw, 1.1rem);
+  letter-spacing: 8px;
+  color: rgba(255, 255, 255, 0.7);
+  margin-bottom: 4rem;
+  font-weight: 500;
+  text-shadow: none;
   transform: translateZ(20px);
 }
 
@@ -165,17 +153,17 @@ body {
 
 circle {
   fill: transparent;
-  stroke-width: 2px; /* 투박한 두께 축소, 섬세함 강화 */
+  stroke-width: 3px; /* 시인성 확보를 위해 살짝 조정 */
 }
 
 .ring-bg {
-  stroke: rgba(255, 255, 255, 0.05); /* 극도로 옅은 배경선 */
+  stroke: rgba(255, 255, 255, 0.15); /* 안정감 있는 배경 구분 */
 }
 
 .ring-progress {
-  stroke: #00f3ff;
-  stroke-linecap: butt; /* 둥근 방식 대신 각진 플랫엣지로 테크니컬한 느낌 */
-  filter: drop-shadow(0 0 6px rgba(0, 243, 255, 0.8));
+  stroke: #ffffff; /* 순백색 타이머로 테크놀로지 사이트 종말감 아닌 럭셔리함 부여 */
+  stroke-linecap: round; /* 끝을 둥글게 해 부드러움 극대화 */
+  filter: none; /* 네온 필터링 제거하여 촌스러움 차단 */
 }
 
 .time-content {
@@ -185,14 +173,13 @@ circle {
 }
 
 .number {
-  font-family: 'Orbitron', 'Share Tech Mono', monospace;
+  font-family: 'Orbitron', sans-serif;
   font-size: clamp(1.4rem, 4vw, 2.7rem);
   line-height: 1;
-  color: #fff;
+  color: #ffffff;
   font-weight: 700;
-  text-shadow: 0 0 10px rgba(255, 255, 255, 0.6), 0 0 20px rgba(0, 243, 255, 0.8);
-  letter-spacing: 1px;
-  /* 완벽한 기하학적 수직 중앙 정렬 */
+  text-shadow: none; /* 군더더기 쉐도우 제거 */
+  letter-spacing: 0;
   position: absolute;
   top: 50%;
   left: 50%;
@@ -203,13 +190,12 @@ circle {
 .label {
   font-family: 'Orbitron', 'Noto Sans KR', sans-serif;
   font-size: clamp(0.45rem, 1vw, 0.65rem);
-  color: #00f3ff;
-  letter-spacing: 4px; /* 글자간 간격 넓혀서 고급스럽게 */
-  opacity: 0.9;
+  color: rgba(255, 255, 255, 0.6); /* 세련된 반투명 그레이 화이트 */
+  letter-spacing: 3px; 
+  opacity: 1;
   text-transform: uppercase;
-  /* 텍스트 우측으로 너무 치우치지 않도록 강제 정렬 */
   position: absolute;
-  bottom: 12%; /* 원형의 하단 곡선 위쪽에 안착 */
+  bottom: 15%; /* 라벨 위치안정감 향상 */
   left: 50%;
   transform: translateX(-50%);
   margin: 0;
@@ -249,10 +235,6 @@ circle {
   .hud-panel {
     padding: 2.5rem 0.5rem;
     width: 96vw;
-    border-radius: 0;
-    clip-path: polygon(15px 0, calc(100% - 15px) 0, 100% 15px, 100% calc(100% - 15px), calc(100% - 15px) 100%, 15px 100%, 0 calc(100% - 15px), 0 15px);
-  }
-  .hud-panel::before {
-    clip-path: polygon(15px 0, calc(100% - 15px) 0, 100% 15px, 100% calc(100% - 15px), calc(100% - 15px) 100%, 15px 100%, 0 calc(100% - 15px), 0 15px);
+    border-radius: 24px; /* 모바일에서도 부드러운 라운딩 적용 */
   }
 }
