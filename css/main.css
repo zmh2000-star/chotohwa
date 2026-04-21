@@ -87,39 +87,66 @@ body {
 
 /* Premium HUD Panel */
 .hud-panel {
-  /* 화면 가운데를 가로지르는 첨단 계기판 스타일 밴드 */
-  background: linear-gradient(180deg, rgba(0, 243, 255, 0.05) 0%, rgba(0, 0, 0, 0.6) 30%, rgba(0, 0, 0, 0.8) 100%);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border-top: 1px solid rgba(0, 243, 255, 0.4);
-  border-bottom: 1px solid rgba(0, 243, 255, 0.4);
-  box-shadow: 0 0 30px rgba(0, 243, 255, 0.1), inset 0 0 20px rgba(0, 243, 255, 0.05);
-  border-radius: 12px;
-  padding: 4rem 2rem;
+  position: relative;
+  background: linear-gradient(180deg, rgba(4, 15, 20, 0.7) 0%, rgba(0, 5, 10, 0.9) 100%);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(0, 243, 255, 0.15);
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6), inset 0 0 0 1px rgba(255, 255, 255, 0.05), inset 0 0 40px rgba(0, 243, 255, 0.05);
+  /* 미래적인 모서리 깎임 효과 (Chamfered edge) */
+  clip-path: polygon(25px 0, calc(100% - 25px) 0, 100% 25px, 100% calc(100% - 25px), calc(100% - 25px) 100%, 25px 100%, 0 calc(100% - 25px), 0 25px);
+  padding: 4rem 3rem;
   text-align: center;
   transform-style: preserve-3d;
   will-change: transform;
 }
 
+/* 추가적인 네온 컷아웃 라인 */
+.hud-panel::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  border: 2px solid rgba(0, 243, 255, 0.3);
+  clip-path: polygon(25px 0, calc(100% - 25px) 0, 100% 25px, 100% calc(100% - 25px), calc(100% - 25px) 100%, 25px 100%, 0 calc(100% - 25px), 0 25px);
+  pointer-events: none;
+}
+
+/* 상하단 하이테크 레이저 빔 디테일 */
+.hud-panel::after {
+  content: '';
+  position: absolute;
+  top: 10px; bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 30%;
+  border-top: 2px solid #00f3ff;
+  border-bottom: 2px solid #00f3ff;
+  opacity: 0.6;
+  pointer-events: none;
+  box-shadow: 0 -2px 10px #00f3ff, 0 2px 10px #00f3ff;
+}
+
 .slogan {
   font-family: 'Orbitron', 'Noto Sans KR', sans-serif;
-  font-size: clamp(1.8rem, 4vw, 3.5rem);
-  margin-bottom: 1rem;
-  color: #ffffff; /* 순백색 텍스트 */
-  /* 강력한 사이버 시안 네온 글로우 텍스트 섀도우 */
-  text-shadow: 0 0 10px #00f3ff, 0 0 20px #00f3ff, 0 0 40px #00f3ff;
-  line-height: 1.3;
-  transform: translateZ(30px); /* 3D 호버 시 튀어나오는 깊이감 */
-  font-weight: 900;
-  letter-spacing: 2px;
+  font-size: clamp(1.2rem, 2.5vw, 2.5rem);
+  margin-bottom: 0.5rem;
+  color: #e0faff; 
+  text-shadow: 0 0 15px rgba(0, 243, 255, 0.6), 0 0 30px rgba(0, 243, 255, 0.3);
+  line-height: 1.4;
+  transform: translateZ(30px);
+  font-weight: 700;
+  letter-spacing: 5px;
+  text-transform: uppercase;
 }
 
 .target-date {
-  font-size: clamp(0.9rem, 2vw, 1.4rem);
-  letter-spacing: 0.4em;
-  color: rgba(255, 255, 255, 0.8);
-  margin-bottom: 3rem;
-  font-weight: 700;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: clamp(0.9rem, 1.5vw, 1.2rem);
+  letter-spacing: 8px;
+  color: #00f3ff;
+  margin-bottom: 3.5rem;
+  font-weight: normal;
+  text-shadow: 0 0 8px rgba(0, 243, 255, 0.5);
   transform: translateZ(20px);
 }
 
@@ -127,7 +154,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 15px;
+  gap: 25px; /* 콜론을 없애고 간격만 사용해 미니멀하게 설계 */
   transform: translateZ(40px);
 }
 
@@ -153,18 +180,17 @@ body {
 
 circle {
   fill: transparent;
-  stroke-width: 4;
+  stroke-width: 2px; /* 투박한 두께 축소, 섬세함 강화 */
 }
 
 .ring-bg {
-  stroke: rgba(255, 255, 255, 0.1);
+  stroke: rgba(255, 255, 255, 0.05); /* 극도로 옅은 배경선 */
 }
 
 .ring-progress {
   stroke: #00f3ff;
-  stroke-linecap: round;
-  filter: drop-shadow(0 0 8px #00f3ff);
-  /* JS requestAnimationFrame으로 60프레임 제어하므로 CSS 트랜지션을 제거해 밀리초 반영 속도 향상 */
+  stroke-linecap: butt; /* 둥근 방식 대신 각진 플랫엣지로 테크니컬한 느낌 */
+  filter: drop-shadow(0 0 6px rgba(0, 243, 255, 0.8));
 }
 
 .time-content {
@@ -177,50 +203,65 @@ circle {
 
 .number {
   font-family: 'Orbitron', 'Share Tech Mono', monospace;
-  font-size: clamp(1.2rem, 4vw, 4rem);
+  font-size: clamp(1.4rem, 4vw, 3rem); /* 링보다 작게 배치해 여백 확보 */
   line-height: 1;
   color: #fff;
   font-weight: 700;
-  text-shadow: 0 0 10px rgba(255, 255, 255, 0.5), 0 0 20px rgba(0, 243, 255, 0.8), 0 0 30px rgba(0, 243, 255, 0.5);
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.6), 0 0 20px rgba(0, 243, 255, 0.8);
   letter-spacing: 1px;
 }
 
 .label {
-  font-family: 'Noto Sans KR', sans-serif;
-  font-size: clamp(0.6rem, 1.2vw, 0.8rem);
-  color: rgba(255, 255, 255, 0.7);
-  margin-top: 4px;
-  letter-spacing: 0.1em;
+  font-family: 'Orbitron', 'Noto Sans KR', sans-serif;
+  font-size: clamp(0.5rem, 1.2vw, 0.75rem);
+  color: #00f3ff;
+  margin-top: 6px;
+  letter-spacing: 3px;
+  opacity: 0.8;
+  text-transform: uppercase;
 }
 
 .time-divider {
-  font-family: 'Orbitron', 'Share Tech Mono', monospace;
-  font-size: clamp(1.5rem, 3.5vw, 3rem);
-  line-height: 1;
-  color: rgba(0, 243, 255, 0.6);
-  transform: translateY(-10px);
-  text-shadow: 0 0 10px rgba(0, 243, 255, 0.3);
+  display: none; /* 지저분한 콜론(Divider)을 완벽히 숨겨서 고급스러움 부여 */
 }
 
 @media screen and (max-width: 768px) {
   .slogan {
-    font-size: clamp(1.4rem, 5vw, 2rem);
+    font-size: clamp(1rem, 4.5vw, 1.5rem);
+    letter-spacing: 3px;
+  }
+  .target-date {
+    letter-spacing: 4px;
+    margin-bottom: 2rem;
   }
   .countdown {
-    gap: 4px; /* 사이 간격을 최소화 */
-    flex-wrap: nowrap; /* 밀리초 추가되었으므로 강제로 한 줄 유지하거나 랩핑 방지 */
+    gap: 0; 
+    justify-content: space-evenly; 
+    width: 100%;
+    flex-wrap: nowrap;
   }
   .time-block {
-    width: clamp(45px, 15vw, 70px);
-    height: clamp(45px, 15vw, 70px);
+    width: clamp(50px, 18vw, 65px);
+    height: clamp(50px, 18vw, 65px);
+  }
+  .number {
+    font-size: clamp(1rem, 3.5vw, 1.4rem);
+  }
+  .label {
+    font-size: 0.5rem;
+    letter-spacing: 1px;
+    margin-top: 3px;
   }
   .hud-panel {
-    padding: 2rem 0.5rem;
-    border-radius: 8px;
-    width: 98vw; /* 좌우 꽉차게 */
+    padding: 2.5rem 0.5rem;
+    width: 96vw;
+    border-radius: 0;
+    clip-path: polygon(15px 0, calc(100% - 15px) 0, 100% 15px, 100% calc(100% - 15px), calc(100% - 15px) 100%, 15px 100%, 0 calc(100% - 15px), 0 15px);
   }
-  .time-divider {
-    font-size: clamp(1rem, 3vw, 1.5rem);
-    transform: translateY(-8px);
+  .hud-panel::before {
+    clip-path: polygon(15px 0, calc(100% - 15px) 0, 100% 15px, 100% calc(100% - 15px), calc(100% - 15px) 100%, 15px 100%, 0 calc(100% - 15px), 0 15px);
+  }
+  .hud-panel::after {
+    width: 50%; /* 모바일에서는 레이저빔 길이 축소 */
   }
 }
