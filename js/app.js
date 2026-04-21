@@ -52,7 +52,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // 3. SVG 프로그레스 링 세팅 및 카운트다운
-    const r = 45;
+    const r = 70;
     const circumference = 2 * Math.PI * r;
 
     // SVG 링들

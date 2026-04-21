@@ -79,16 +79,22 @@ body {
 
 /* 3. 3D Tilt Wrapper */
 .content-wrapper {
-  perspective: 1000px; /* 3D 입체 투영점 */
+  perspective: 1500px; /* 3D 입체 투영점 */
   z-index: 1;
-  width: 90%;
-  max-width: 1000px;
+  width: 95vw;
+  max-width: 1400px;
 }
 
-/* Transparent HUD Panel */
-.glass-panel {
-  /* 기존 배경과 테투리 제거 (아트워크 개방) */
-  background: transparent;
+/* Premium HUD Panel */
+.hud-panel {
+  /* 화면 가운데를 가로지르는 첨단 계기판 스타일 밴드 */
+  background: linear-gradient(180deg, rgba(0, 243, 255, 0.05) 0%, rgba(0, 0, 0, 0.6) 30%, rgba(0, 0, 0, 0.8) 100%);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-top: 1px solid rgba(0, 243, 255, 0.4);
+  border-bottom: 1px solid rgba(0, 243, 255, 0.4);
+  box-shadow: 0 0 30px rgba(0, 243, 255, 0.1), inset 0 0 20px rgba(0, 243, 255, 0.05);
+  border-radius: 12px;
   padding: 4rem 2rem;
   text-align: center;
   transform-style: preserve-3d;
@@ -126,8 +132,8 @@ body {
 /* Circular SVG Timer Block */
 .time-block {
   position: relative;
-  width: clamp(70px, 15vw, 120px);
-  height: clamp(70px, 15vw, 120px);
+  width: clamp(100px, 20vw, 150px);
+  height: clamp(100px, 20vw, 150px);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -168,12 +174,13 @@ circle {
 }
 
 .number {
-  font-family: 'Share Tech Mono', monospace;
-  font-size: clamp(1.8rem, 4vw, 3.5rem);
+  font-family: 'Orbitron', 'Share Tech Mono', monospace;
+  font-size: clamp(2rem, 5vw, 4rem);
   line-height: 1;
   color: #fff;
-  font-weight: normal;
-  text-shadow: 0 0 10px rgba(255, 255, 255, 0.5), 0 0 20px rgba(0, 243, 255, 0.8);
+  font-weight: 700;
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.5), 0 0 20px rgba(0, 243, 255, 0.8), 0 0 30px rgba(0, 243, 255, 0.5);
+  letter-spacing: 2px;
 }
 
 .label {
@@ -185,18 +192,20 @@ circle {
 }
 
 .time-divider {
-  font-family: 'Share Tech Mono', monospace;
+  font-family: 'Orbitron', 'Share Tech Mono', monospace;
   font-size: clamp(1.5rem, 3.5vw, 3rem);
   line-height: 1;
-  color: rgba(255, 255, 255, 0.4);
+  color: rgba(0, 243, 255, 0.6);
   transform: translateY(-10px);
+  text-shadow: 0 0 10px rgba(0, 243, 255, 0.3);
 }
 
 @media screen and (max-width: 768px) {
   .countdown {
     gap: 8px;
   }
-  .glass-panel {
+  .hud-panel {
     padding: 3rem 1rem;
+    border-radius: 8px;
   }
 }

@@ -1,20 +1,24 @@
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>초토화군단 프로젝트 오픈</title>
-  
-  <!-- Google Fonts: 미래지향적인 Share Tech Mono 및 Noto Sans KR -->
+
+  <!-- Google Fonts: 미래지향적인 Orbitron, Share Tech Mono 및 Noto Sans KR -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Noto+Sans+KR:wght@400;700;900&display=swap" rel="stylesheet">
-  
+  <link
+    href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Share+Tech+Mono&family=Noto+Sans+KR:wght@400;700;900&display=swap"
+    rel="stylesheet">
+
   <link rel="stylesheet" href="css/main.css" />
-  
+
   <!-- GSAP Library -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 </head>
+
 <body>
 
   <!-- 1. 비디오 배경 (JS에서 모바일/PC 감지 후 src 주입) -->
@@ -31,16 +35,16 @@
 
     <!-- 3D 틸트 호버가 적용될 컨테이너 -->
     <div class="content-wrapper" id="tiltWrapper">
-      <div class="glass-panel">
-        <h1 class="slogan glow-text">초토화군단 프로젝트 오픈</h1>
+      <div class="hud-panel">
+        <h1 class="slogan glow-text">초토화군단 신규 프로젝트 오픈</h1>
         <div class="target-date">2026. 09. 01</div>
 
         <div class="countdown" id="countdown">
           <!-- DAYS -->
           <div class="time-block">
-            <svg class="progress-ring" width="100" height="100">
-              <circle class="ring-bg" cx="50" cy="50" r="45"></circle>
-              <circle class="ring-progress" id="ring-days" cx="50" cy="50" r="45"></circle>
+            <svg class="progress-ring" width="150" height="150">
+              <circle class="ring-bg" cx="75" cy="75" r="70"></circle>
+              <circle class="ring-progress" id="ring-days" cx="75" cy="75" r="70"></circle>
             </svg>
             <div class="time-content">
               <span class="number" id="days">00</span>
@@ -52,9 +56,9 @@
 
           <!-- HOURS -->
           <div class="time-block">
-            <svg class="progress-ring" width="100" height="100">
-              <circle class="ring-bg" cx="50" cy="50" r="45"></circle>
-              <circle class="ring-progress" id="ring-hours" cx="50" cy="50" r="45"></circle>
+            <svg class="progress-ring" width="150" height="150">
+              <circle class="ring-bg" cx="75" cy="75" r="70"></circle>
+              <circle class="ring-progress" id="ring-hours" cx="75" cy="75" r="70"></circle>
             </svg>
             <div class="time-content">
               <span class="number" id="hours">00</span>
@@ -66,9 +70,9 @@
 
           <!-- MINS -->
           <div class="time-block">
-            <svg class="progress-ring" width="100" height="100">
-              <circle class="ring-bg" cx="50" cy="50" r="45"></circle>
-              <circle class="ring-progress" id="ring-mins" cx="50" cy="50" r="45"></circle>
+            <svg class="progress-ring" width="150" height="150">
+              <circle class="ring-bg" cx="75" cy="75" r="70"></circle>
+              <circle class="ring-progress" id="ring-mins" cx="75" cy="75" r="70"></circle>
             </svg>
             <div class="time-content">
               <span class="number" id="mins">00</span>
@@ -80,9 +84,9 @@
 
           <!-- SECS -->
           <div class="time-block">
-            <svg class="progress-ring" width="100" height="100">
-              <circle class="ring-bg" cx="50" cy="50" r="45"></circle>
-              <circle class="ring-progress" id="ring-secs" cx="50" cy="50" r="45"></circle>
+            <svg class="progress-ring" width="150" height="150">
+              <circle class="ring-bg" cx="75" cy="75" r="70"></circle>
+              <circle class="ring-progress" id="ring-secs" cx="75" cy="75" r="70"></circle>
             </svg>
             <div class="time-content">
               <span class="number" id="secs">00</span>
@@ -96,4 +100,5 @@
 
   <script src="js/app.js"></script>
 </body>
+
 </html>
