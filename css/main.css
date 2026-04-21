@@ -73,8 +73,8 @@ body {
   position: absolute;
   inset: 0;
   z-index: -1;
-  /* 부드러운 다크 그라데이션 오버레이 */
-  background: radial-gradient(circle at center, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.8) 100%);
+  /* 하단에서만 어두워지며 배경 아트를 완전히 100% 살리는 그라데이션 */
+  background: linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.5) 40%, rgba(0,0,0,0) 80%);
 }
 
 /* 3. 3D Tilt Wrapper */
@@ -85,16 +85,12 @@ body {
   max-width: 1000px;
 }
 
-/* Glassmorphism Panel */
+/* Transparent HUD Panel */
 .glass-panel {
-  background: rgba(20, 20, 20, 0.4);
-  backdrop-filter: blur(15px);
-  -webkit-backdrop-filter: blur(15px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 24px;
+  /* 기존 배경과 테투리 제거 (아트워크 개방) */
+  background: transparent;
   padding: 4rem 2rem;
   text-align: center;
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), inset 0 0 0 1px rgba(255,255,255,0.05);
   transform-style: preserve-3d;
   will-change: transform;
 }
@@ -102,14 +98,10 @@ body {
 .slogan {
   font-size: clamp(1.8rem, 4vw, 3.5rem);
   margin-bottom: 1rem;
-  background: linear-gradient(135deg, #FF9900 0%, #FF3300 40%, #B71C1C 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  color: transparent;
-  padding: 0.1em;
+  color: #ffffff; /* 순백색 텍스트 */
+  /* 강력한 사이버 시안 네온 글로우 텍스트 섀도우 */
+  text-shadow: 0 0 10px #00f3ff, 0 0 20px #00f3ff, 0 0 40px #00f3ff;
   line-height: 1.3;
-  filter: drop-shadow(0px 0px 20px rgba(255, 51, 0, 0.4));
   transform: translateZ(30px); /* 3D 호버 시 튀어나오는 깊이감 */
   font-weight: 900;
 }
@@ -161,9 +153,9 @@ circle {
 }
 
 .ring-progress {
-  stroke: #FF4500;
+  stroke: #00f3ff;
   stroke-linecap: round;
-  filter: drop-shadow(0 0 6px #FF4500);
+  filter: drop-shadow(0 0 8px #00f3ff);
   transition: stroke-dashoffset 0.1s linear;
 }
 
@@ -181,7 +173,7 @@ circle {
   line-height: 1;
   color: #fff;
   font-weight: normal;
-  text-shadow: 0 0 10px rgba(255, 255, 255, 0.5), 0 0 20px rgba(255, 69, 0, 0.8);
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.5), 0 0 20px rgba(0, 243, 255, 0.8);
 }
 
 .label {
@@ -206,6 +198,5 @@ circle {
   }
   .glass-panel {
     padding: 3rem 1rem;
-    border-radius: 16px;
   }
 }
