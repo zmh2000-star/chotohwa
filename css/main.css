@@ -101,7 +101,7 @@ body {
   will-change: transform;
 }
 
-/* 추가적인 네온 컷아웃 라인 */
+/* 컷아웃 네온 프레임 라인 */
 .hud-panel::before {
   content: '';
   position: absolute;
@@ -109,21 +109,6 @@ body {
   border: 2px solid rgba(0, 243, 255, 0.3);
   clip-path: polygon(25px 0, calc(100% - 25px) 0, 100% 25px, 100% calc(100% - 25px), calc(100% - 25px) 100%, 25px 100%, 0 calc(100% - 25px), 0 25px);
   pointer-events: none;
-}
-
-/* 상하단 하이테크 레이저 빔 디테일 */
-.hud-panel::after {
-  content: '';
-  position: absolute;
-  top: 10px; bottom: 10px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 30%;
-  border-top: 2px solid #00f3ff;
-  border-bottom: 2px solid #00f3ff;
-  opacity: 0.6;
-  pointer-events: none;
-  box-shadow: 0 -2px 10px #00f3ff, 0 2px 10px #00f3ff;
 }
 
 .slogan {
@@ -142,11 +127,11 @@ body {
 .target-date {
   font-family: 'Share Tech Mono', monospace;
   font-size: clamp(0.9rem, 1.5vw, 1.2rem);
-  letter-spacing: 8px;
-  color: #00f3ff;
+  letter-spacing: 12px;
+  color: #fff;
   margin-bottom: 3.5rem;
-  font-weight: normal;
-  text-shadow: 0 0 8px rgba(0, 243, 255, 0.5);
+  font-weight: bold;
+  text-shadow: 0 0 10px rgba(0, 243, 255, 0.8), 0 0 20px rgba(0, 243, 255, 0.4);
   transform: translateZ(20px);
 }
 
@@ -194,31 +179,40 @@ circle {
 }
 
 .time-content {
-  position: relative;
-  z-index: 2;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
 }
 
 .number {
   font-family: 'Orbitron', 'Share Tech Mono', monospace;
-  font-size: clamp(1.4rem, 4vw, 3rem); /* 링보다 작게 배치해 여백 확보 */
+  font-size: clamp(1.4rem, 4vw, 2.7rem);
   line-height: 1;
   color: #fff;
   font-weight: 700;
   text-shadow: 0 0 10px rgba(255, 255, 255, 0.6), 0 0 20px rgba(0, 243, 255, 0.8);
   letter-spacing: 1px;
+  /* 완벽한 기하학적 수직 중앙 정렬 */
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  margin: 0;
 }
 
 .label {
   font-family: 'Orbitron', 'Noto Sans KR', sans-serif;
-  font-size: clamp(0.5rem, 1.2vw, 0.75rem);
+  font-size: clamp(0.45rem, 1vw, 0.65rem);
   color: #00f3ff;
-  margin-top: 6px;
-  letter-spacing: 3px;
-  opacity: 0.8;
+  letter-spacing: 4px; /* 글자간 간격 넓혀서 고급스럽게 */
+  opacity: 0.9;
   text-transform: uppercase;
+  /* 텍스트 우측으로 너무 치우치지 않도록 강제 정렬 */
+  position: absolute;
+  bottom: 12%; /* 원형의 하단 곡선 위쪽에 안착 */
+  left: 50%;
+  transform: translateX(-50%);
+  margin: 0;
 }
 
 .time-divider {
@@ -235,8 +229,8 @@ circle {
     margin-bottom: 2rem;
   }
   .countdown {
-    gap: 0; 
-    justify-content: space-evenly; 
+    gap: 0;
+    justify-content: space-evenly;
     width: 100%;
     flex-wrap: nowrap;
   }
@@ -245,12 +239,12 @@ circle {
     height: clamp(50px, 18vw, 65px);
   }
   .number {
-    font-size: clamp(1rem, 3.5vw, 1.4rem);
+    font-size: clamp(1rem, 3.5vw, 1.2rem); /* 모바일에서 글자가 원 바깥으로 튀어나가지 않게 조절 */
   }
   .label {
-    font-size: 0.5rem;
+    font-size: 0.45rem;
     letter-spacing: 1px;
-    margin-top: 3px;
+    bottom: 8%; /* 모바일에서는 하단 곡선 간격 미세 조정 */
   }
   .hud-panel {
     padding: 2.5rem 0.5rem;
@@ -260,8 +254,5 @@ circle {
   }
   .hud-panel::before {
     clip-path: polygon(15px 0, calc(100% - 15px) 0, 100% 15px, 100% calc(100% - 15px), calc(100% - 15px) 100%, 15px 100%, 0 calc(100% - 15px), 0 15px);
-  }
-  .hud-panel::after {
-    width: 50%; /* 모바일에서는 레이저빔 길이 축소 */
   }
 }
