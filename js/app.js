@@ -60,7 +60,8 @@ document.addEventListener('DOMContentLoaded', () => {
         days: document.getElementById('ring-days'),
         hours: document.getElementById('ring-hours'),
         mins: document.getElementById('ring-mins'),
-        secs: document.getElementById('ring-secs')
+        secs: document.getElementById('ring-secs'),
+        ms: document.getElementById('ring-ms')
     };
 
     // 초기 대시 설정
@@ -90,21 +91,27 @@ document.addEventListener('DOMContentLoaded', () => {
         const h = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
         const m = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
         const s = Math.floor((distance % (1000 * 60)) / 1000);
+        const ms = Math.floor((distance % 1000) / 10); // 0-99 (두 자리 밀리초)
 
         document.getElementById('days').innerText = d.toString().padStart(2, '0');
         document.getElementById('hours').innerText = h.toString().padStart(2, '0');
         document.getElementById('mins').innerText = m.toString().padStart(2, '0');
         document.getElementById('secs').innerText = s.toString().padStart(2, '0');
+        document.getElementById('ms').innerText = ms.toString().padStart(2, '0');
 
         // 프로그레스 바 갱신 (예시: day는 365, hour/min/sec는 각 최대치 기준)
         setProgress(rings.days, (d / 365) * 100);
         setProgress(rings.hours, (h / 24) * 100);
         setProgress(rings.mins, (m / 60) * 100);
         setProgress(rings.secs, (s / 60) * 100);
+        setProgress(rings.ms, ((distance % 1000) / 1000) * 100);
+
+        // 60fps 부드러운 애니메이션 호출 (밀리초 단위 실시간 업데이트용)
+        requestAnimationFrame(updateCountdown);
     }
 
-    updateCountdown();
-    setInterval(updateCountdown, 1000);
+    // 초 단위 setInterval 대신 requestAnimationFrame 사용 시작
+    requestAnimationFrame(updateCountdown);
 
     // 4. 묵직한 3D 시네마틱 마우스 패럴랙스 효과 (데스크탑 위주)
     if (window.innerWidth > 768) {

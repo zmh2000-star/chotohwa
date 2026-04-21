@@ -162,7 +162,7 @@ circle {
   stroke: #00f3ff;
   stroke-linecap: round;
   filter: drop-shadow(0 0 8px #00f3ff);
-  transition: stroke-dashoffset 0.1s linear;
+  /* JS requestAnimationFrame으로 60프레임 제어하므로 CSS 트랜지션을 제거해 밀리초 반영 속도 향상 */
 }
 
 .time-content {
@@ -175,12 +175,12 @@ circle {
 
 .number {
   font-family: 'Orbitron', 'Share Tech Mono', monospace;
-  font-size: clamp(2rem, 5vw, 4rem);
+  font-size: clamp(1.2rem, 4vw, 4rem);
   line-height: 1;
   color: #fff;
   font-weight: 700;
   text-shadow: 0 0 10px rgba(255, 255, 255, 0.5), 0 0 20px rgba(0, 243, 255, 0.8), 0 0 30px rgba(0, 243, 255, 0.5);
-  letter-spacing: 2px;
+  letter-spacing: 1px;
 }
 
 .label {
@@ -201,11 +201,24 @@ circle {
 }
 
 @media screen and (max-width: 768px) {
+  .slogan {
+    font-size: clamp(1.4rem, 5vw, 2rem);
+  }
   .countdown {
-    gap: 8px;
+    gap: 4px; /* 사이 간격을 최소화 */
+    flex-wrap: nowrap; /* 밀리초 추가되었으므로 강제로 한 줄 유지하거나 랩핑 방지 */
+  }
+  .time-block {
+    width: clamp(45px, 15vw, 70px);
+    height: clamp(45px, 15vw, 70px);
   }
   .hud-panel {
-    padding: 3rem 1rem;
+    padding: 2rem 0.5rem;
     border-radius: 8px;
+    width: 98vw; /* 좌우 꽉차게 */
+  }
+  .time-divider {
+    font-size: clamp(1rem, 3vw, 1.5rem);
+    transform: translateY(-8px);
   }
 }
