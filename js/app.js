@@ -49,6 +49,13 @@ document.addEventListener('DOMContentLoaded', () => {
             delay: 0.5,
             ease: "back.out(1.2)"
         });
+
+        // 티저 비디오 재생 (인트로 종료 후 컨텐츠가 나타날 때 처음부터 재생)
+        const teaserVideo = document.getElementById('teaserVideo');
+        if (teaserVideo) {
+            teaserVideo.currentTime = 0;
+            teaserVideo.play().catch(e => console.log('Auto-play prevented:', e));
+        }
     });
 
     // 3. SVG 프로그레스 링 세팅 및 카운트다운
