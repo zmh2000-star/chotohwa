@@ -1,4 +1,11 @@
 /* Reset & Base */
+@font-face {
+    font-family: 'BMDOHYEON';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_one@1.0/BMDOHYEON.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -134,7 +141,7 @@ body {
 .slogan {
   font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Noto Sans KR', sans-serif;
   font-size: clamp(1.2rem, 3.5vw, 2.5rem); /* 베이스 타이포그래피 전체 스케일업 */
-  margin-bottom: 1.5rem; /* 영상과 텍스트 사이 간격 좁히기 */
+  margin-bottom: 0.8rem; /* 슬로건과 타겟 날짜 간격 대폭 축소 */
   color: #ffffff; 
   text-shadow: 0 4px 12px rgba(0, 0, 0, 0.5); 
   line-height: 1.3; /* 간격을 훨씬 타이트하게 */
@@ -154,13 +161,38 @@ body {
 }
 
 .highlight-massive {
-  display: block;
-  font-size: 1.5em; /* 1.3em에서 1.5em로 거대하게 확장 */
-  font-weight: 900;
-  letter-spacing: -2px; /* 크기가 커진 만큼 자간을 당겨서 블록버스터 느낌 부여 */
-  margin: 0.3rem 0; /* 위아래 간격을 약간 줘서 확실히 구분 */
-  /* 애니메이션 그라디언트를 더 돋보이게 하면서 배경을 어둡게 눌러 가독성을 폭발시키는 이중 백라이트 */
-  filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.8)) drop-shadow(0 0 30px rgba(0, 243, 255, 0.5));
+  display: inline-block; /* 기울임과 3D 효과를 위해 block -> inline-block */
+  font-family: 'BMDOHYEON', sans-serif;
+  font-size: 1.8em;
+  font-weight: normal;
+  letter-spacing: -1px;
+  margin: 0.5rem 0;
+  
+  /* 3안: 볼드 3D 익스트루전 & 스트릿 팝아트 */
+  /* 단일 형광 컬러로 극강의 채도 확보 */
+  color: #ccff00; 
+  -webkit-text-fill-color: #ccff00; /* 기존 그라데이션 오버라이드 */
+  background: none; 
+  
+  /* 다중 텍스트 섀도우를 이용한 솔리드 3D 블록 (강렬한 핫핑크) */
+  text-shadow: 
+    1px 1px 0px #ff007f,
+    2px 2px 0px #ff007f,
+    3px 3px 0px #ff007f,
+    4px 4px 0px #ff007f,
+    5px 5px 0px #ff007f,
+    6px 6px 0px #ff007f,
+    7px 7px 0px #ff007f,
+    8px 8px 0px #ff007f,
+    9px 9px 0px #ff007f,
+    10px 10px 0px #ff007f,
+    11px 11px 0px #ff007f,
+    12px 12px 0px #ff007f,
+    15px 15px 25px rgba(0, 0, 0, 0.8); /* 3D 블록이 떠보이게 하는 강력한 드롭 섀도우 */
+
+  /* 스트릿 팝아트 감성의 역동성을 위해 살짝 기울임 */
+  transform: rotate(-3deg);
+  filter: none;
 }
 
 .slogan-line3 {
@@ -168,23 +200,39 @@ body {
   color: #ffffff;
   font-weight: 600;
   display: block;
-  margin-top: 0.2rem;
+  margin-top: 0.5rem;
 }
 
-/* Highlight Animated Text Gradient */
-.text-gradient {
-  /* 기존(보라/핫핑크)에서 밝은 시안/라이트핑크/스프링옐로우 로 조정하여 명도를 폭발시킴 */
-  background: linear-gradient(90deg, #00f3ff, #ff82d2, #ffeb3b, #00f3ff);
-  background-size: 300% 100%;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  color: transparent;
-  animation: shine 6s linear infinite;
+/* 단어별 통통 튀는 도미노 애니메이션 */
+.bounce-word {
+  display: inline-block;
+  margin-right: 0.2em; /* 단어 사이 간격 띄우기 */
+  animation: popBounce 2.5s infinite cubic-bezier(0.28, 0.84, 0.42, 1);
+  /* HTML 인라인 스타일에 지정된 --i 변수를 사용해 각 단어마다 딜레이 부여 */
+  animation-delay: calc(var(--i) * 0.12s);
+  transform-origin: bottom center;
 }
 
-@keyframes shine {
-  0% { background-position: 0% 50%; }
-  100% { background-position: 100% 50%; }
+.bounce-word:last-child {
+  margin-right: 0;
+}
+
+@keyframes popBounce {
+  0%, 45%, 100% {
+    transform: translateY(0) scale(1) rotate(0deg);
+  }
+  10% {
+    /* 위로 높게 튀어오르며 살짝 커지고 비틀어짐 */
+    transform: translateY(-25px) scale(1.1) rotate(6deg);
+  }
+  20% {
+    /* 착지하면서 반대로 살짝 기우뚱 */
+    transform: translateY(0) scale(1) rotate(-4deg);
+  }
+  30% {
+    /* 가볍게 두 번째 바운스 */
+    transform: translateY(-10px) scale(1.05) rotate(2deg);
+  }
 }
 
 .target-date {
@@ -193,7 +241,7 @@ body {
   font-size: clamp(0.75rem, 1vw, 0.9rem);
   letter-spacing: 6px;
   color: rgba(255, 255, 255, 0.85);
-  margin-bottom: 2.5rem;
+  margin-bottom: 0.5rem; /* 컴팩트한 레이아웃을 위해 간격 극한으로 축소 */
   font-weight: 500;
   text-shadow: none;
   transform: translateZ(20px);
@@ -206,7 +254,7 @@ body {
 .teaser-video {
   width: 100%;
   max-width: 600px; /* 카운트다운 타이머 너비와 완벽히 일치시켜 그리드감 부여 */
-  margin: 0 auto 3.5rem auto; /* 하단 링 타이머와의 간격을 벌려 숨통 틔움 */
+  margin: 0 auto; /* 하단 링 타이머가 위로 올라갔으므로 간격 제거 */
   border-radius: 16px;
   overflow: hidden;
   position: relative;
@@ -230,7 +278,7 @@ body {
   transform: translateZ(40px);
   width: 100%;
   max-width: 600px;
-  margin: 0 auto;
+  margin: 0 auto 1rem auto; /* 영상과의 간격을 극한으로 줄여 컴팩트하게 구성 */
 }
 
 /* Circular SVG Timer Block */
@@ -310,41 +358,47 @@ circle {
   .slogan {
     font-size: clamp(1rem, 5vw, 1.8rem); /* 모바일에서도 타이틀 스케일 대폭 키움 */
     letter-spacing: -1px;
-    margin-bottom: 2rem;
+    margin-bottom: 1rem;
   }
   .target-date {
     letter-spacing: 2px;
-    margin-bottom: 1rem;
+    margin-bottom: 0.8rem; /* 모바일에서 너무 답답하지 않게 살짝 여백 복구 */
+    padding: 0.4rem 1.2rem; /* 모바일용 패딩 축소 */
+    font-size: 0.7rem; /* 모바일 최적화 폰트 크기 */
   }
   .teaser-video {
-    margin-bottom: 2rem;
+    margin-bottom: 0;
+    border-radius: 12px; /* 모바일에서는 모서리 라운딩 살짝 축소 */
   }
   .countdown {
+    margin-bottom: 1.2rem; /* 영상과의 간격 적절히 조율 */
     gap: 0;
-    justify-content: space-evenly;
+    justify-content: space-between; /* space-evenly 대신 between으로 양끝 정렬 */
     width: 100%;
     flex-wrap: nowrap;
+    padding: 0 0.5rem; /* 좌우 살짝 여백 */
   }
   .time-block {
-    width: clamp(50px, 18vw, 65px);
-    height: clamp(50px, 18vw, 65px);
+    /* 원형 타이머가 서로 닿지 않도록 모바일 사이즈 미세 축소 */
+    width: clamp(45px, 14vw, 55px);
+    height: clamp(45px, 14vw, 55px);
   }
   .number {
-    font-size: clamp(1rem, 3.5vw, 1.2rem); /* 모바일에서 글자가 원 바깥으로 튀어나가지 않게 조절 */
+    font-size: clamp(0.9rem, 3.2vw, 1.1rem); /* 모바일 글자 튀어나옴 방지 */
   }
   .label {
-    font-size: 0.45rem;
+    font-size: 0.4rem; /* 라벨 폰트 축소 */
     letter-spacing: 1px;
-    bottom: 8%; /* 모바일에서는 하단 곡선 간격 미세 조정 */
+    bottom: 6%; /* 곡선 침범 방지 */
   }
   .hud-panel {
-    padding: 4rem 1rem 2.5rem;
-    width: 96vw;
-    border-radius: 24px; /* 모바일에서도 부드러운 라운딩 적용 */
+    padding: 3.5rem 1rem 1.5rem; /* 하단 패딩을 줄여서 매우 컴팩트하게 완성 */
+    width: 95vw;
+    border-radius: 24px;
   }
   .profile-badge {
-    width: 80px;
-    height: 80px;
-    top: -40px;
+    width: 70px;
+    height: 70px;
+    top: -35px;
   }
 }

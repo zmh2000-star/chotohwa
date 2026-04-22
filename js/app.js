@@ -18,8 +18,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     setupVideo();
 
-    // 카운트다운 목표 날짜: 2026-09-01 00:00:00
-    const targetDate = new Date('2026-09-01T00:00:00').getTime();
+    // 카운트다운 목표 날짜: 2026-09-01 15:00:00
+    const targetDate = new Date('2026-09-01T15:00:00').getTime();
 
     // 2. 비디오 종료 시 시네마틱 트랜지션 (글리치 + 블러/아우라 모드)
     introVideo.addEventListener('ended', () => {
@@ -40,7 +40,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
         
         // 메인 글래스 패널 내부 요소들 시네마틱 등장 효과
-        gsap.from(".slogan, .target-date, .time-block, .time-divider", {
+        gsap.from(".slogan, .target-date, .time-block, .time-divider, .teaser-video", {
             y: 50,
             rotationX: 15,
             opacity: 0,
