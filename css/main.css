@@ -123,7 +123,8 @@ body {
   box-shadow: 0 20px 45px rgba(0,0,0,0.7), inset 0 0 30px rgba(255,255,255,0.4);
 }
 
-.profile-badge img {
+.profile-badge img,
+.profile-badge video {
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -140,6 +141,33 @@ body {
   transform: translateZ(30px);
   font-weight: 700; 
   letter-spacing: -1px; 
+}
+
+/* Slogan Typography Hierarchy */
+.slogan-line1 {
+  font-size: 0.65em;
+  color: rgba(255, 255, 255, 0.7);
+  font-weight: 500;
+  letter-spacing: 2px;
+  display: block;
+  margin-bottom: 0.2rem;
+}
+
+.highlight-massive {
+  display: inline-block;
+  font-size: 1.3em;
+  font-weight: 900;
+  margin: 0.2rem 0;
+  /* 애니메이션 그라디언트를 더 돋보이게 하는 은은한 발광 효과 */
+  filter: drop-shadow(0 0 15px rgba(185, 0, 255, 0.4));
+}
+
+.slogan-line3 {
+  font-size: 0.8em;
+  color: #ffffff;
+  font-weight: 600;
+  display: block;
+  margin-top: 0.2rem;
 }
 
 /* Highlight Animated Text Gradient */
