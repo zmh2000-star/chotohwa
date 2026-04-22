@@ -232,6 +232,28 @@ body {
   margin: 0 auto;
 }
 
+/* HUD Panel Bottom Logo Anchor */
+.panel-logo {
+  margin: 4rem auto 0;
+  width: clamp(120px, 18vw, 160px);
+  opacity: 0.85;
+  transform: translateZ(30px);
+  transition: opacity 0.4s ease, transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  cursor: pointer;
+}
+
+.panel-logo:hover {
+  opacity: 1;
+  transform: translateZ(45px) scale(1.08); /* 마우스 오버 시 우아한 입체적 팝업 */
+}
+
+.panel-logo img {
+  width: 100%;
+  height: auto;
+  display: block;
+  filter: drop-shadow(0 5px 15px rgba(0, 0, 0, 0.5)) drop-shadow(0 0 8px rgba(255,255,255,0.2));
+}
+
 /* Circular SVG Timer Block */
 .time-block {
   position: relative;
@@ -345,5 +367,9 @@ circle {
     width: 80px;
     height: 80px;
     top: -40px;
+  }
+  .panel-logo {
+    margin-top: 2.5rem;
+    width: 100px;
   }
 }
