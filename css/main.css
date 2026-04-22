@@ -137,7 +137,7 @@ body {
   margin-bottom: 1.5rem; /* 영상과 텍스트 사이 간격 좁히기 */
   color: #ffffff; 
   text-shadow: 0 4px 12px rgba(0, 0, 0, 0.5); 
-  line-height: 1.6;
+  line-height: 1.3; /* 간격을 훨씬 타이트하게 */
   transform: translateZ(30px);
   font-weight: 700; 
   letter-spacing: -1px; 
@@ -154,12 +154,12 @@ body {
 }
 
 .highlight-massive {
-  display: inline-block;
+  display: block;
   font-size: 1.3em;
   font-weight: 900;
-  margin: 0.2rem 0;
-  /* 애니메이션 그라디언트를 더 돋보이게 하는 은은한 발광 효과 */
-  filter: drop-shadow(0 0 15px rgba(185, 0, 255, 0.4));
+  margin: 0.3rem 0; /* 위아래 간격을 약간 줘서 확실히 구분 */
+  /* 애니메이션 그라디언트를 더 돋보이게 하면서 배경을 어둡게 눌러 가독성을 폭발시키는 이중 백라이트 */
+  filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.8)) drop-shadow(0 0 30px rgba(0, 243, 255, 0.5));
 }
 
 .slogan-line3 {
@@ -172,7 +172,8 @@ body {
 
 /* Highlight Animated Text Gradient */
 .text-gradient {
-  background: linear-gradient(90deg, #00f3ff, #b900ff, #ff0099, #00f3ff);
+  /* 기존(보라/핫핑크)에서 밝은 시안/라이트핑크/스프링옐로우 로 조정하여 명도를 폭발시킴 */
+  background: linear-gradient(90deg, #00f3ff, #ff82d2, #ffeb3b, #00f3ff);
   background-size: 300% 100%;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
