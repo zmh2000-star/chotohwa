@@ -94,10 +94,40 @@ body {
   border: 1px solid rgba(255, 255, 255, 0.15); /* 은은한 화이트 엣지 */
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), inset 0 0 0 1px rgba(255, 255, 255, 0.05);
   border-radius: 32px; /* 애플스러운 부드러운 곡선 */
-  padding: 4rem 3rem;
+  padding: 5rem 3rem 4rem; /* 상단 프로필 배지가 들어갈 여유 공간 확보 */
   text-align: center;
   transform-style: preserve-3d;
   will-change: transform;
+}
+
+/* User Profile Badge */
+.profile-badge {
+  position: absolute;
+  top: -55px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  border: 3px solid rgba(255, 255, 255, 0.4);
+  box-shadow: 0 15px 35px rgba(0,0,0,0.6), inset 0 0 20px rgba(255,255,255,0.2);
+  overflow: hidden;
+  z-index: 10;
+  background: #000;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.profile-badge:hover {
+  transform: translateX(-50%) scale(1.1) translateY(-5px);
+  border-color: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 20px 45px rgba(0,0,0,0.7), inset 0 0 30px rgba(255,255,255,0.4);
+}
+
+.profile-badge img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
 }
 
 .slogan {
@@ -110,6 +140,21 @@ body {
   transform: translateZ(30px);
   font-weight: 700; 
   letter-spacing: -1px; 
+}
+
+/* Highlight Animated Text Gradient */
+.text-gradient {
+  background: linear-gradient(90deg, #00f3ff, #b900ff, #ff0099, #00f3ff);
+  background-size: 300% 100%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  animation: shine 6s linear infinite;
+}
+
+@keyframes shine {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 100% 50%; }
 }
 
 .target-date {
@@ -234,8 +279,13 @@ circle {
     bottom: 8%; /* 모바일에서는 하단 곡선 간격 미세 조정 */
   }
   .hud-panel {
-    padding: 2.5rem 0.5rem;
+    padding: 4rem 1rem 2.5rem;
     width: 96vw;
     border-radius: 24px; /* 모바일에서도 부드러운 라운딩 적용 */
+  }
+  .profile-badge {
+    width: 80px;
+    height: 80px;
+    top: -40px;
   }
 }
