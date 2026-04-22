@@ -101,19 +101,19 @@ body {
 }
 
 .slogan {
-  font-family: 'Noto Sans KR', sans-serif;
-  font-size: clamp(1.5rem, 3.5vw, 2.5rem);
-  margin-bottom: 0.5rem;
+  font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Noto Sans KR', sans-serif;
+  font-size: clamp(1.1rem, 2.2vw, 2.2rem);
+  margin-bottom: 2.5rem;
   color: #ffffff; 
-  text-shadow: 0 4px 12px rgba(0, 0, 0, 0.5); /* 과한 네온을 없애고 세련된 음영만 부여 */
-  line-height: 1.4;
+  text-shadow: 0 4px 12px rgba(0, 0, 0, 0.5); 
+  line-height: 1.6;
   transform: translateZ(30px);
-  font-weight: 800; /* 단단하고 신뢰감 있는 굵기 */
-  letter-spacing: -1px; /* 한국어 타이틀에 맞는 타이트한 자간 */
+  font-weight: 700; 
+  letter-spacing: -1px; 
 }
 
 .target-date {
-  font-family: 'Orbitron', sans-serif;
+  font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Noto Sans KR', sans-serif;
   font-size: clamp(0.9rem, 1.5vw, 1.1rem);
   letter-spacing: 8px;
   color: rgba(255, 255, 255, 0.7);
@@ -173,7 +173,7 @@ circle {
 }
 
 .number {
-  font-family: 'Orbitron', sans-serif;
+  font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Noto Sans KR', sans-serif;
   font-size: clamp(1.4rem, 4vw, 2.7rem);
   line-height: 1;
   color: #ffffff;
@@ -188,7 +188,7 @@ circle {
 }
 
 .label {
-  font-family: 'Orbitron', 'Noto Sans KR', sans-serif;
+  font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Noto Sans KR', sans-serif;
   font-size: clamp(0.45rem, 1vw, 0.65rem);
   color: rgba(255, 255, 255, 0.6); /* 세련된 반투명 그레이 화이트 */
   letter-spacing: 3px; 
@@ -207,12 +207,13 @@ circle {
 
 @media screen and (max-width: 768px) {
   .slogan {
-    font-size: clamp(1rem, 4.5vw, 1.5rem);
-    letter-spacing: 3px;
+    font-size: clamp(0.9rem, 4vw, 1.3rem);
+    letter-spacing: -0.5px;
+    margin-bottom: 2rem;
   }
   .target-date {
-    letter-spacing: 4px;
-    margin-bottom: 2rem;
+    letter-spacing: 2px;
+    margin-bottom: 2.5rem;
   }
   .countdown {
     gap: 0;
