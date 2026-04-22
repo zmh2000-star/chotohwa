@@ -39,19 +39,33 @@
         <div class="profile-badge">
           <img src="img/장명환프사.webp" alt="Creator Profile">
         </div>
-        <h1 class="slogan">
-          새로운 <span class="text-gradient">파괴적 혁신,</span><br/>
-          초토화군단의 <span class="text-gradient">미친 꿈을 위대하게 만들</span><br/>
-          프로젝트가 곧 공개됩니다.
-        </h1>
+        <div class="slogan-wrapper">
+          <span class="eyebrow">새로운 파괴적 혁신,</span>
+          <h1 class="slogan">
+            초토화군단의 <span class="text-gradient">미친 꿈을 위대하게 만들</span><br/>
+            프로젝트가 곧 공개됩니다.
+          </h1>
+        </div>
         <div class="target-date">2026. 09. 01</div>
+
+        <!-- Timer Gradient Defs -->
+        <svg width="0" height="0" style="position: absolute;">
+          <defs>
+            <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#00f3ff" />
+              <stop offset="50%" stop-color="#b900ff" />
+              <stop offset="100%" stop-color="#ff0099" />
+            </linearGradient>
+          </defs>
+        </svg>
+
 
         <div class="countdown" id="countdown">
           <!-- DAYS -->
           <div class="time-block">
             <svg class="progress-ring" viewBox="0 0 150 150" width="100%" height="100%">
               <circle class="ring-bg" cx="75" cy="75" r="70"></circle>
-              <circle class="ring-progress" id="ring-days" cx="75" cy="75" r="70"></circle>
+              <circle class="ring-progress" stroke="url(#ringGrad)" id="ring-days" cx="75" cy="75" r="70"></circle>
             </svg>
             <div class="time-content">
               <span class="number" id="days">00</span>
@@ -65,7 +79,7 @@
           <div class="time-block">
             <svg class="progress-ring" viewBox="0 0 150 150" width="100%" height="100%">
               <circle class="ring-bg" cx="75" cy="75" r="70"></circle>
-              <circle class="ring-progress" id="ring-hours" cx="75" cy="75" r="70"></circle>
+              <circle class="ring-progress" stroke="url(#ringGrad)" id="ring-hours" cx="75" cy="75" r="70"></circle>
             </svg>
             <div class="time-content">
               <span class="number" id="hours">00</span>
@@ -79,7 +93,7 @@
           <div class="time-block">
             <svg class="progress-ring" viewBox="0 0 150 150" width="100%" height="100%">
               <circle class="ring-bg" cx="75" cy="75" r="70"></circle>
-              <circle class="ring-progress" id="ring-mins" cx="75" cy="75" r="70"></circle>
+              <circle class="ring-progress" stroke="url(#ringGrad)" id="ring-mins" cx="75" cy="75" r="70"></circle>
             </svg>
             <div class="time-content">
               <span class="number" id="mins">00</span>
@@ -93,7 +107,7 @@
           <div class="time-block">
             <svg class="progress-ring" viewBox="0 0 150 150" width="100%" height="100%">
               <circle class="ring-bg" cx="75" cy="75" r="70"></circle>
-              <circle class="ring-progress" id="ring-secs" cx="75" cy="75" r="70"></circle>
+              <circle class="ring-progress" stroke="url(#ringGrad)" id="ring-secs" cx="75" cy="75" r="70"></circle>
             </svg>
             <div class="time-content">
               <span class="number" id="secs">00</span>
@@ -107,7 +121,7 @@
           <div class="time-block" id="msBlock">
             <svg class="progress-ring" viewBox="0 0 150 150" width="100%" height="100%">
               <circle class="ring-bg" cx="75" cy="75" r="70"></circle>
-              <circle class="ring-progress" id="ring-ms" cx="75" cy="75" r="70"></circle>
+              <circle class="ring-progress" stroke="url(#ringGrad)" id="ring-ms" cx="75" cy="75" r="70"></circle>
             </svg>
             <div class="time-content">
               <span class="number" id="ms">00</span>

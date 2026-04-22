@@ -206,7 +206,6 @@ circle {
 }
 
 .ring-progress {
-  stroke: #ffffff; /* 순백색 타이머로 테크놀로지 사이트 종말감 아닌 럭셔리함 부여 */
   stroke-linecap: round; /* 끝을 둥글게 해 부드러움 극대화 */
   filter: none; /* 네온 필터링 제거하여 촌스러움 차단 */
 }
