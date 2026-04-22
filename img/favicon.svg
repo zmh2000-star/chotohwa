@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120">
+  <defs>
+    <linearGradient id="meltGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00f3ff"/>
+      <stop offset="50%" stop-color="#b900ff"/>
+      <stop offset="100%" stop-color="#ff0099"/>
+    </linearGradient>
+  </defs>
+  
+  <g fill="url(#meltGrad)">
+    <!-- Left Ear -->
+    <rect x="30" y="15" width="20" height="50" rx="10" transform="rotate(-15 40 40)" />
+    <!-- Right Ear -->
+    <rect x="70" y="20" width="20" height="40" rx="10" transform="rotate(15 80 40)" />
+    
+    <!-- Main Head -->
+    <path d="M 20 60 C 20 30, 100 30, 100 60 C 100 90, 90 100, 60 100 C 30 100, 20 90, 20 60 Z" />
+    
+    <!-- Melting Drips -->
+    <!-- Drip 1 (Left) -->
+    <path d="M 30 90 L 30 110 A 8 8 0 0 0 46 110 L 46 95 Z" />
+    <!-- Drip 2 (Center) -->
+    <path d="M 55 98 L 55 120 A 7 7 0 0 0 69 120 L 69 98 Z" />
+    <!-- Drip 3 (Right) -->
+    <path d="M 78 90 L 78 105 A 6 6 0 0 0 90 105 L 90 85 Z" />
+  </g>
+  
+  <!-- Eyes -->
+  <!-- Left Eye: Normal round -->
+  <circle cx="45" cy="55" r="7" fill="#0b0b1a" />
+  <!-- Right Eye: Wink -->
+  <path d="M 72 52 L 80 58 L 72 64" stroke="#0b0b1a" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  
+  <!-- Grinning Mouth -->
+  <path d="M 35 75 Q 60 90 85 75" stroke="#0b0b1a" stroke-width="5" fill="none" stroke-linecap="round"/>
+  <!-- Teeth lines -->
+  <line x1="48" y1="78" x2="48" y2="84" stroke="#0b0b1a" stroke-width="4" stroke-linecap="round"/>
+  <line x1="60" y1="81" x2="60" y2="87" stroke="#0b0b1a" stroke-width="4" stroke-linecap="round"/>
+  <line x1="72" y1="78" x2="72" y2="84" stroke="#0b0b1a" stroke-width="4" stroke-linecap="round"/>
+</svg>
