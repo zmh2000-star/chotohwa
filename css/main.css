@@ -319,6 +319,11 @@ circle {
   position: absolute;
   inset: 0;
   pointer-events: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 2px;
 }
 
 .number {
@@ -329,24 +334,16 @@ circle {
   font-weight: 700;
   text-shadow: none; /* 군더더기 쉐도우 제거 */
   letter-spacing: 0;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
   margin: 0;
 }
 
 .label {
   font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Noto Sans KR', sans-serif;
-  font-size: clamp(0.45rem, 1vw, 0.65rem);
-  color: rgba(255, 255, 255, 0.6); /* 세련된 반투명 그레이 화이트 */
-  letter-spacing: 3px; 
+  font-size: clamp(0.5rem, 1vw, 0.7rem);
+  color: rgba(255, 255, 255, 0.8); /* 시인성을 위해 투명도 조절 */
+  letter-spacing: 2px; 
   opacity: 1;
   text-transform: uppercase;
-  position: absolute;
-  bottom: 15%; /* 라벨 위치안정감 향상 */
-  left: 50%;
-  transform: translateX(-50%);
   margin: 0;
 }
 
@@ -387,9 +384,8 @@ circle {
     font-size: clamp(0.9rem, 3.2vw, 1.1rem); /* 모바일 글자 튀어나옴 방지 */
   }
   .label {
-    font-size: 0.4rem; /* 라벨 폰트 축소 */
+    font-size: 0.45rem; /* 라벨 시인성 개선 */
     letter-spacing: 1px;
-    bottom: 6%; /* 곡선 침범 방지 */
   }
   .hud-panel {
     padding: 3.5rem 1rem 1.5rem; /* 하단 패딩을 줄여서 매우 컴팩트하게 완성 */
