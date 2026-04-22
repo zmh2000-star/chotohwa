@@ -94,7 +94,7 @@ body {
   border: 1px solid rgba(255, 255, 255, 0.15); /* 은은한 화이트 엣지 */
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), inset 0 0 0 1px rgba(255, 255, 255, 0.05);
   border-radius: 32px; /* 애플스러운 부드러운 곡선 */
-  padding: 5rem 3rem 4rem; /* 상단 프로필 배지가 들어갈 여유 공간 확보 */
+  padding: 4rem 3rem 3.5rem; /* 상단 프로필 배지가 들어갈 여유 공간 및 하단 간격 최적화 */
   text-align: center;
   transform-style: preserve-3d;
   will-change: transform;
@@ -134,7 +134,7 @@ body {
 .slogan {
   font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Noto Sans KR', sans-serif;
   font-size: clamp(1.1rem, 2.2vw, 2.2rem);
-  margin-bottom: 2.5rem;
+  margin-bottom: 1.5rem; /* 영상과 텍스트 사이 간격 좁히기 */
   color: #ffffff; 
   text-shadow: 0 4px 12px rgba(0, 0, 0, 0.5); 
   line-height: 1.6;
@@ -186,25 +186,30 @@ body {
 }
 
 .target-date {
+  display: inline-block;
   font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Noto Sans KR', sans-serif;
-  font-size: clamp(0.9rem, 1.5vw, 1.1rem);
-  letter-spacing: 8px;
-  color: rgba(255, 255, 255, 0.7);
-  margin-bottom: 1.5rem;
+  font-size: clamp(0.75rem, 1vw, 0.9rem);
+  letter-spacing: 6px;
+  color: rgba(255, 255, 255, 0.85);
+  margin-bottom: 2.5rem;
   font-weight: 500;
   text-shadow: none;
   transform: translateZ(20px);
+  padding: 0.5rem 2rem;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 50px;
 }
 
 .teaser-video {
   width: 100%;
-  max-width: 500px;
-  margin: 0 auto 2.5rem auto;
-  border-radius: 12px;
+  max-width: 600px; /* 카운트다운 타이머 너비와 완벽히 일치시켜 그리드감 부여 */
+  margin: 0 auto 3.5rem auto; /* 하단 링 타이머와의 간격을 벌려 숨통 틔움 */
+  border-radius: 16px;
   overflow: hidden;
   position: relative;
   transform: translateZ(25px);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), inset 0 0 0 1px rgba(255, 255, 255, 0.15);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6), inset 0 0 0 1px rgba(255, 255, 255, 0.15);
   background: #000;
 }
 
@@ -221,6 +226,9 @@ body {
   justify-content: center;
   gap: 25px; /* 콜론을 없애고 간격만 사용해 미니멀하게 설계 */
   transform: translateZ(40px);
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
 }
 
 /* Circular SVG Timer Block */
