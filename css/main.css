@@ -133,7 +133,7 @@ body {
 
 .slogan {
   font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Noto Sans KR', sans-serif;
-  font-size: clamp(1.1rem, 2.2vw, 2.2rem);
+  font-size: clamp(1.2rem, 3.5vw, 2.5rem); /* 베이스 타이포그래피 전체 스케일업 */
   margin-bottom: 1.5rem; /* 영상과 텍스트 사이 간격 좁히기 */
   color: #ffffff; 
   text-shadow: 0 4px 12px rgba(0, 0, 0, 0.5); 
@@ -155,8 +155,9 @@ body {
 
 .highlight-massive {
   display: block;
-  font-size: 1.3em;
+  font-size: 1.5em; /* 1.3em에서 1.5em로 거대하게 확장 */
   font-weight: 900;
+  letter-spacing: -2px; /* 크기가 커진 만큼 자간을 당겨서 블록버스터 느낌 부여 */
   margin: 0.3rem 0; /* 위아래 간격을 약간 줘서 확실히 구분 */
   /* 애니메이션 그라디언트를 더 돋보이게 하면서 배경을 어둡게 눌러 가독성을 폭발시키는 이중 백라이트 */
   filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.8)) drop-shadow(0 0 30px rgba(0, 243, 255, 0.5));
@@ -230,28 +231,6 @@ body {
   width: 100%;
   max-width: 600px;
   margin: 0 auto;
-}
-
-/* HUD Panel Bottom Logo Anchor */
-.panel-logo {
-  margin: 4rem auto 0;
-  width: clamp(120px, 18vw, 160px);
-  opacity: 0.85;
-  transform: translateZ(30px);
-  transition: opacity 0.4s ease, transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  cursor: pointer;
-}
-
-.panel-logo:hover {
-  opacity: 1;
-  transform: translateZ(45px) scale(1.08); /* 마우스 오버 시 우아한 입체적 팝업 */
-}
-
-.panel-logo img {
-  width: 100%;
-  height: auto;
-  display: block;
-  filter: drop-shadow(0 5px 15px rgba(0, 0, 0, 0.5)) drop-shadow(0 0 8px rgba(255,255,255,0.2));
 }
 
 /* Circular SVG Timer Block */
@@ -329,8 +308,8 @@ circle {
 
 @media screen and (max-width: 768px) {
   .slogan {
-    font-size: clamp(0.9rem, 4vw, 1.3rem);
-    letter-spacing: -0.5px;
+    font-size: clamp(1rem, 5vw, 1.8rem); /* 모바일에서도 타이틀 스케일 대폭 키움 */
+    letter-spacing: -1px;
     margin-bottom: 2rem;
   }
   .target-date {
@@ -367,9 +346,5 @@ circle {
     width: 80px;
     height: 80px;
     top: -40px;
-  }
-  .panel-logo {
-    margin-top: 2.5rem;
-    width: 100px;
   }
 }
