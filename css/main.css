@@ -190,10 +190,29 @@ body {
   font-size: clamp(0.9rem, 1.5vw, 1.1rem);
   letter-spacing: 8px;
   color: rgba(255, 255, 255, 0.7);
-  margin-bottom: 4rem;
+  margin-bottom: 1.5rem;
   font-weight: 500;
   text-shadow: none;
   transform: translateZ(20px);
+}
+
+.teaser-video {
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto 2.5rem auto;
+  border-radius: 12px;
+  overflow: hidden;
+  position: relative;
+  transform: translateZ(25px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), inset 0 0 0 1px rgba(255, 255, 255, 0.15);
+  background: #000;
+}
+
+.teaser-video video {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: cover;
 }
 
 .countdown {
@@ -285,7 +304,10 @@ circle {
   }
   .target-date {
     letter-spacing: 2px;
-    margin-bottom: 2.5rem;
+    margin-bottom: 1rem;
+  }
+  .teaser-video {
+    margin-bottom: 2rem;
   }
   .countdown {
     gap: 0;
