@@ -15,6 +15,11 @@ document.addEventListener('DOMContentLoaded', () => {
         introVideo.innerHTML = '';
         introVideo.appendChild(sourceObj);
         introVideo.load();
+        
+        // 비디오가 실제로 재생을 시작할 때 투명도를 해제하여 못생긴 로딩 화면 방지
+        introVideo.addEventListener('playing', () => {
+            introVideo.classList.add('is-playing');
+        });
     }
     setupVideo();
 
