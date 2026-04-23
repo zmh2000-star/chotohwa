@@ -731,6 +731,18 @@ circle {
   transform: translateY(-2px);
 }
 @media screen and (max-width: 768px) {
+  .hud-panel {
+    padding-top: 3.2rem; /* 공백 대폭 축소 (프로필 뱃지와의 간격 최적화) */
+    padding-bottom: 2rem;
+  }
+  .slogan {
+    font-size: 1.35rem; /* 모바일에서 본문 텍스트 크기 증가 */
+    margin-bottom: 1.2rem;
+  }
+  .highlight-massive {
+    font-size: 1.65em; /* 비율에 맞게 메인 타이포 크기 조정 */
+    margin: 0.3rem 0;
+  }
   .philosophy-interaction {
     margin-top: 1rem;
     margin-bottom: 1.5rem;
