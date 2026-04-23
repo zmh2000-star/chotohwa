@@ -57,9 +57,25 @@ body {
   opacity: 0;
   visibility: hidden;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
+  overflow-y: auto;
+  scrollbar-width: none; /* 파이어폭스 스크롤바 숨김 */
 }
+
+/* 상하 여백 및 중앙 정렬 시 상단 짤림(Top Clipping) 방지를 위한 가상 요소 */
+.main-content::before {
+  content: '';
+  flex: 1 1 auto;
+  min-height: 80px; /* 상단 프로필 배지가 위치할 여백을 보장 */
+}
+
+.main-content::after {
+  content: '';
+  flex: 1 1 auto;
+  min-height: 40px; /* 하단 여백 보장 */
+}
+
 
 /* Responsive Background Image */
 .bg-image {
@@ -89,12 +105,13 @@ body {
   background: linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.5) 40%, rgba(0,0,0,0) 80%);
 }
 
-/* 3. 3D Tilt Wrapper */
 .content-wrapper {
   perspective: 1500px; /* 3D 입체 투영점 */
   z-index: 1;
   width: 95vw;
   max-width: 1400px;
+  flex-shrink: 0;
+  margin: 0 auto; /* 수직 정렬은 가상요소가 처리하므로 수평 정렬만 적용 */
 }
 
 /* Premium HUD Panel - Modern Glassmorphism */
@@ -106,20 +123,26 @@ body {
   border: 1px solid rgba(255, 255, 255, 0.15); /* 은은한 화이트 엣지 */
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), inset 0 0 0 1px rgba(255, 255, 255, 0.05);
   border-radius: 32px; /* 애플스러운 부드러운 곡선 */
-  padding: 4rem 3rem 3.5rem; /* 상단 프로필 배지가 들어갈 여유 공간 및 하단 간격 최적화 */
+  /* 사용자가 조정한 여백 복원: 상단 패딩을 대폭 늘려 프로필 배지와 텍스트 겹침 방지 */
+  padding: clamp(6.5rem, 12vh, 8.5rem) clamp(1rem, 4vw, 4.5rem) clamp(1.5rem, 3vh, 4.5rem);
   text-align: center;
   transform-style: preserve-3d;
   will-change: transform;
 }
 
+/* 크롬, 사파리 스크롤바 숨김 */
+.main-content::-webkit-scrollbar {
+  display: none;
+}
+
 /* User Profile Badge */
 .profile-badge {
   position: absolute;
-  top: -55px;
+  top: clamp(-40px, -6vh, -60px);
   left: 50%;
   transform: translateX(-50%);
-  width: 110px;
-  height: 110px;
+  width: clamp(80px, 12vh, 120px);
+  height: clamp(80px, 12vh, 120px);
   border-radius: 50%;
   border: 3px solid rgba(255, 255, 255, 0.4);
   box-shadow: 0 15px 35px rgba(0,0,0,0.6), inset 0 0 20px rgba(255,255,255,0.2);
@@ -145,11 +168,11 @@ body {
 
 .slogan {
   font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Noto Sans KR', sans-serif;
-  font-size: clamp(1.2rem, 3.5vw, 2.5rem); /* 베이스 타이포그래피 전체 스케일업 */
-  margin-bottom: 0.8rem; /* 슬로건과 타겟 날짜 간격 대폭 축소 */
+  font-size: clamp(1.2rem, min(3.5vw, 4vh), 2.5rem); /* 뷰포트 높이도 함께 고려 */
+  margin-bottom: clamp(0.5rem, 1.5vh, 1.8rem); /* 화면 높이에 따라 콤팩트하게 조절 */
   color: #ffffff; 
   text-shadow: 0 4px 12px rgba(0, 0, 0, 0.5); 
-  line-height: 1.3; /* 간격을 훨씬 타이트하게 */
+  line-height: 1.3; 
   transform: translateZ(30px);
   font-weight: 700; 
   letter-spacing: -1px; 
@@ -246,7 +269,7 @@ body {
   font-size: clamp(0.75rem, 1vw, 0.9rem);
   letter-spacing: 6px;
   color: rgba(255, 255, 255, 0.85);
-  margin-bottom: 0.5rem; /* 컴팩트한 레이아웃을 위해 간격 극한으로 축소 */
+  margin-bottom: clamp(1rem, 3vh, 3.5rem); /* 영상과의 동적 여백 한도 조정 */
   font-weight: 500;
   text-shadow: none;
   transform: translateZ(20px);
@@ -259,7 +282,7 @@ body {
 .teaser-video {
   width: 100%;
   max-width: 600px; /* 카운트다운 타이머 너비와 완벽히 일치시켜 그리드감 부여 */
-  margin: 0 auto; /* 하단 링 타이머가 위로 올라갔으므로 간격 제거 */
+  margin: 0 auto clamp(1rem, 3vh, 3.5rem) auto; /* 카운트다운과의 동적 여백 */
   border-radius: 16px;
   overflow: hidden;
   position: relative;
@@ -272,6 +295,7 @@ body {
   display: block;
   width: 100%;
   height: auto;
+  max-height: 25vh; /* 화면이 낮을 때 영상 높이 제한 */
   object-fit: cover;
 }
 
@@ -283,14 +307,14 @@ body {
   transform: translateZ(40px);
   width: 100%;
   max-width: 600px;
-  margin: 0 auto 1rem auto; /* 영상과의 간격을 극한으로 줄여 컴팩트하게 구성 */
+  margin: 0 auto; /* 여백은 하단 버튼 래퍼에서 제어 */
 }
 
 /* Circular SVG Timer Block */
 .time-block {
   position: relative;
-  width: clamp(100px, 20vw, 150px);
-  height: clamp(100px, 20vw, 150px);
+  width: clamp(70px, min(18vw, 15vh), 130px);
+  height: clamp(70px, min(18vw, 15vh), 130px);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -333,7 +357,7 @@ circle {
 
 .number {
   font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Noto Sans KR', sans-serif;
-  font-size: clamp(1.4rem, 4vw, 2.7rem);
+  font-size: clamp(1.2rem, min(4vw, 3.5vh), 2.7rem);
   line-height: 1;
   color: #ffffff;
   font-weight: 700;
@@ -385,6 +409,9 @@ circle {
     width: clamp(45px, 14vw, 55px);
     height: clamp(45px, 14vw, 55px);
   }
+  .teaser-video video {
+    max-height: 20vh;
+  }
   .number {
     font-size: clamp(0.9rem, 3.2vw, 1.1rem); /* 모바일 글자 튀어나옴 방지 */
   }
@@ -393,7 +420,7 @@ circle {
     letter-spacing: 1px;
   }
   .hud-panel {
-    padding: 3.5rem 1rem 1.5rem; /* 하단 패딩을 줄여서 매우 컴팩트하게 완성 */
+    padding: 6.5rem 1rem 1.5rem; /* 모바일: 상단 패딩을 크게 늘려 배지와 텍스트 겹침 완벽 방지 */
     width: 95vw;
     border-radius: 24px;
   }
@@ -401,5 +428,399 @@ circle {
     width: 70px;
     height: 70px;
     top: -35px;
+  }
+
+  .philosophy-btn-wrapper {
+    margin-top: 1.5rem;
+  }
+  .btn-philosophy {
+    padding: 0.6rem 1rem;
+    font-size: 0.75rem;
+    max-width: 260px;
+  }
+
+}
+
+/* 5. Philosophy Button */
+.philosophy-btn-wrapper {
+  margin-top: clamp(1.5rem, 3vh, 4.5rem); /* 하단 버튼 동적 마진 한도 조정 */
+  transform: translateZ(30px);
+  display: flex;
+  justify-content: center;
+}
+
+.btn-philosophy {
+  background: rgba(0, 0, 0, 0.5);
+  border: 2px solid #ccff00;
+  border-radius: 50px;
+  color: #ccff00;
+  font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Noto Sans KR', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  padding: 1rem 1.2rem;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  width: 100%;
+  max-width: 360px;
+  overflow: hidden;
+  box-shadow: 0 0 15px rgba(204, 255, 0, 0.3), inset 0 0 10px rgba(204, 255, 0, 0.2);
+}
+
+/* Ticker Animation */
+.ticker-wrap {
+  display: flex;
+  width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  -webkit-mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
+  mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
+}
+
+.ticker-item {
+  flex-shrink: 0;
+  padding-right: 2rem;
+  animation: ticker-slide 8s linear infinite;
+}
+
+@keyframes ticker-slide {
+  from { transform: translateX(0); }
+  to { transform: translateX(-100%); }
+}
+
+.btn-philosophy:hover {
+  background: #ccff00;
+  color: #000;
+  box-shadow: 0 0 25px rgba(204, 255, 0, 0.6);
+  transform: translateY(-2px);
+}
+
+/* SKIP Intro Button */
+.btn-skip-intro {
+  position: fixed;
+  bottom: 2.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10000;
+  background: rgba(0, 0, 0, 0.5);
+  color: rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  padding: 0.6rem 1.5rem;
+  border-radius: 30px;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+  letter-spacing: 2px;
+}
+
+.btn-skip-intro:hover {
+  background: rgba(255, 255, 255, 0.2);
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.6);
+  transform: translateX(-50%) scale(1.05);
+}
+
+.btn-skip-intro.hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+/* 6. Philosophy Modal */
+.philosophy-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  z-index: 9999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.4s ease, visibility 0.4s ease;
+}
+
+.philosophy-modal-overlay.is-active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.philosophy-modal-content {
+  background: rgba(15, 15, 25, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 24px;
+  width: 90vw;
+  max-width: 800px;
+  max-height: 85vh;
+  overflow-y: auto;
+  padding: 3.5rem 3rem;
+  position: relative;
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.8), inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+  transform: translateY(30px) scale(0.95);
+  transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.philosophy-modal-overlay.is-active .philosophy-modal-content {
+  transform: translateY(0) scale(1);
+}
+
+/* Custom Scrollbar for Modal */
+.philosophy-modal-content::-webkit-scrollbar {
+  width: 8px;
+}
+.philosophy-modal-content::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 4px;
+}
+.philosophy-modal-content::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+}
+.philosophy-modal-content::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.modal-close-btn {
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  background: transparent;
+  border: none;
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 2.5rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.modal-close-btn:hover {
+  color: #ff007f;
+  transform: rotate(90deg);
+}
+
+.modal-body {
+  text-align: left;
+}
+
+.modal-title {
+  font-family: 'BMDOHYEON', sans-serif;
+  font-size: 2.2rem;
+  color: #ccff00;
+  margin-bottom: 4.0rem;
+  text-align: center;
+  letter-spacing: 9px;
+}
+
+.philosophy-section {
+  margin-bottom: 2.5rem;
+}
+
+.philosophy-section:last-child {
+  margin-bottom: 0;
+}
+
+.philosophy-section h3 {
+  font-family: 'Pretendard', -apple-system, sans-serif;
+  font-size: 1.3rem;
+  color: #ccff00;
+  margin-bottom: 1rem;
+  font-weight: 700;
+}
+
+.philosophy-section p {
+  font-family: 'Pretendard', -apple-system, sans-serif;
+  font-size: 1.05rem;
+  line-height: 1.7;
+  color: rgba(255, 255, 255, 0.85);
+  font-weight: 400;
+  word-break: keep-all;
+}
+
+.philosophy-section strong {
+  color: #fff;
+  font-weight: 700;
+  background: linear-gradient(90deg, #00f3ff, #b900ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Modal Interaction Banner */
+.philosophy-interaction {
+  width: 100%;
+  aspect-ratio: 1903 / 804;
+  height: auto;
+  border-radius: 16px;
+  overflow: hidden;
+  margin-top: 1rem;
+  margin-bottom: 2.5rem;
+  box-shadow: 0 15px 35px rgba(0,0,0,0.6), inset 0 0 0 1px rgba(255,255,255,0.1);
+  transform: translateZ(0); /* For rendering performance */
+  position: relative;
+}
+
+.interaction-bg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  filter: grayscale(20%) brightness(0.9) contrast(1.1); /* Adds premium cinematic dark tone */
+  transition: filter 0.5s ease, transform 0.8s ease;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+}
+
+.interaction-fg {
+  width: 60.27%; /* 원본 배경(1903) 대비 전경 이미지(1147)의 정확한 비율을 사용하여 어떤 해상도에서도 배경과 완벽히 동기화되게 함 */
+  height: auto;
+  position: absolute;
+  /* 사용자가 찾은 25px 여백을 비율로 변환(25/804)하여 어떤 화면 크기에서도 완벽한 위치를 유지하게 함 */
+  bottom: 8.1%; 
+  left: 51%; /* 사용자가 확인한 최적의 가로 위치 */
+  z-index: 2;
+  opacity: 0;
+  transform-origin: bottom center; /* 크기 변환 시 바닥 고정 */
+  /* 애니메이션과 중앙 정렬을 동시에 처리 */
+  transform: translateX(-50%) translateY(30px) scale(0.95);
+  transition: opacity 1s cubic-bezier(0.25, 1, 0.5, 1), transform 1s cubic-bezier(0.25, 1, 0.5, 1);
+  pointer-events: none;
+}
+
+.interaction-fg.active {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0) scale(1);
+}
+
+.philosophy-interaction:hover .interaction-bg {
+  filter: grayscale(0%) brightness(1) contrast(1.1);
+  transform: scale(1.03);
+}
+
+/* 본문 하단 닫기 버튼 */
+.modal-bottom-actions {
+  text-align: center;
+  margin-top: 3rem;
+  padding-bottom: 2rem;
+}
+
+.btn-modal-back {
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 1rem 2rem;
+  font-size: 1.1rem;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: inherit;
+  font-weight: 500;
+  letter-spacing: 1px;
+}
+
+.btn-modal-back:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
+}
+@media screen and (max-width: 768px) {
+  .philosophy-interaction {
+    margin-top: 1rem;
+    margin-bottom: 1.5rem;
+  }
+  .philosophy-modal-content {
+    width: 100vw;
+    height: 100vh; 
+    max-height: 100vh; 
+    border-radius: 0;
+    border: none;
+    padding: 5rem 1.5rem 3rem; /* 스크롤 편의를 위해 상단 넉넉하게 확보 */
+    background: #0a0a0c; /* 당근마켓처럼 글에만 집중할 수 있는 솔리드 다크 배경 */
+  }
+  .modal-close-btn {
+    top: 1.5rem;
+    right: 1.5rem;
+    font-size: 2rem;
+    background: rgba(255, 255, 255, 0.15); /* 버튼 시인성 확보 */
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .modal-title {
+    font-size: 2rem;
+    margin-bottom: 2.5rem;
+    letter-spacing: 2px;
+    line-height: 1.3;
+  }
+  .philosophy-section h3 {
+    font-size: 1.35rem; 
+    margin-bottom: 1rem;
+  }
+  .philosophy-section p {
+    font-size: 1.15rem; /* 당근처럼 매우 시원하게 */
+    line-height: 1.8; 
+    margin-bottom: 2rem; /* 문단 간격 넓게 */
+    color: rgba(255, 255, 255, 0.9);
+  }
+  .btn-skip-intro {
+    bottom: 1.5rem;
+    padding: 0.5rem 1.2rem;
+    font-size: 0.85rem;
+  }
+}
+
+@media screen and (max-height: 650px) {
+  .hud-panel {
+    /* 노트북(가로로 길고 세로로 짧은 해상도)에서 텍스트 겹침 방지 */
+    padding: 5.5rem 1rem 1.5rem; 
+  }
+  .profile-badge {
+    width: 60px;
+    height: 60px;
+    top: -30px;
+  }
+  .slogan {
+    font-size: clamp(1rem, 3vh, 1.5rem);
+    margin-bottom: 0.5rem;
+  }
+  .highlight-massive {
+    font-size: 1.4em;
+  }
+  .target-date {
+    margin-bottom: 0.5rem;
+    padding: 0.3rem 1rem;
+  }
+  .teaser-video {
+    margin-bottom: 0.8rem;
+  }
+  .teaser-video video {
+    max-height: 18vh;
+  }
+  .countdown {
+    margin-bottom: 0.5rem;
+  }
+  .time-block {
+    width: clamp(45px, 12vh, 60px);
+    height: clamp(45px, 12vh, 60px);
+  }
+  .number {
+    font-size: clamp(0.9rem, 3vh, 1.2rem);
+  }
+  .philosophy-btn-wrapper {
+    margin-top: 1rem;
+  }
+  .btn-philosophy {
+    padding: 0.6rem 1rem;
+    font-size: 0.85rem;
   }
 }

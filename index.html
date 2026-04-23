@@ -33,8 +33,12 @@
   <!-- 1. 비디오 배경 (JS에서 모바일/PC 감지 후 src 주입) -->
   <div class="video-container" id="videoContainer">
     <!-- 비디오가 로드되기 전에 source를 넣기 위해 비워둠 -->
-    <video id="introVideo" autoplay muted playsinline poster="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></video>
+    <video id="introVideo" autoplay muted playsinline
+      poster="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></video>
   </div>
+
+  <!-- 스킵 버튼 -->
+  <button id="skipIntroBtn" class="btn-skip-intro">SKIP</button>
 
   <!-- 2. 이미지 및 글래스모피즘 카운트다운 영역 -->
   <div class="main-content" id="mainContent">
@@ -147,6 +151,61 @@
 
         <div class="teaser-video">
           <video id="teaserVideo" src="movie/teaser2.mp4" muted playsinline preload="auto" alt="Teaser Video"></video>
+        </div>
+
+        <!-- 철학 보기 버튼 -->
+        <div class="philosophy-btn-wrapper">
+          <button id="openPhilosophyBtn" class="btn-philosophy">
+            <div class="ticker-wrap">
+              <span class="ticker-item">새로운 파괴적 혁신, 초토화군단 무브먼트</span>
+              <span class="ticker-item">새로운 파괴적 혁신, 초토화군단 무브먼트</span>
+            </div>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Philosophy Modal -->
+  <div class="philosophy-modal-overlay" id="philosophyModal">
+    <div class="philosophy-modal-content">
+      <button class="modal-close-btn" id="closePhilosophyBtn">&times;</button>
+      <div class="modal-body">
+        <h2 class="modal-title">THE CHOTOHWA MOVEMENT</h2>
+
+        <div class="philosophy-section">
+          <h3>롹켄롤 정신과 파괴적 혁신</h3>
+          <p>초토화군단은 거창한 구호보다는 묵묵한 실행을 믿습니다. 우리는 <strong>'파괴적 혁신(Disruptive Innovation)'</strong>의 가치를 마음 깊이 새기고 비즈니스에
+            임하고 있습니다. 업계를 선도하는 훌륭한 기업들이 미처 챙기지 못하는 작은 빈틈과 불편함 속에서 우리는 새로운 기회를 발견합니다. 창업자의 밑바탕에 흐르는 <strong>'롹켄롤(Rock 'n'
+              Roll) 정신'</strong>은 오만함이나 단순한 파괴가 아닌, 낡은 관행에 안주하지 않고 끊임없이 더 나은 해답을 찾고자 하는 순수한 열정이자 도전 정신입니다. 우리는 이 열정을 동력
+            삼아, 화려함보다는 본질에 집중하며 시장의 가장 낮은 곳에서부터 조용히, 하지만 확실하게 변화를 만들어가려 합니다.
+          </p>
+        </div>
+
+        <div class="philosophy-section">
+          <h3>AI 기술력과 제너럴리스트의 융합</h3>
+          <p>우리의 도전은 한 개인의 열정에만 머물지 않고, 시대의 흐름인 <strong>'첨단 AI 기술'</strong>과 <strong>'장명환의 제너럴리스트(Generalist)
+              역량'</strong>을 통해 구체화됩니다. 각 분야의 뛰어난 전문가들을 깊이 존중하는 동시에, 우리는 기획, 개발, 디자인, 비즈니스 등 다양한 영역을 경계 없이 연결하며 전체적인 맥락을
+            짚어내는 데 집중합니다. 인간의 물리적 한계는 AI의 압도적인 속도와 분석력을 겸허히 빌려 채워나갑니다. 이를 통해 우리는 거대한 자본이나 큰 조직 없이도, 고객이 진정으로 필요로 하는 문제들을
+            생각보다 훨씬 빠르고 정교하게 해결해 나가는 작지만 단단한 팀이 되었습니다.</p>
+        </div>
+
+        <div class="philosophy-section">
+          <h3>새로운 가치를 향한 묵묵한 걸음</h3>
+          <p>우리의 시선은 높은 곳의 화려한 무대가 아닌, 누군가는 작다고 지나칠 수 있는 밑바닥과 틈새를 향해 있습니다. 거창한 장벽을 단숨에 무너뜨리겠다는 오만함보다는, 우리의 진정성 있는 고민과
+            롹켄롤의 식지 않는 에너지로 굳어진 관행들을 조금씩 유연하게 풀어가려 합니다. 제너럴리스트의 넓은 시야와 AI의 효율성을 바탕으로, 고객의 일상에 작지만 확실한 혁신을 전해드리고 싶습니다.
+            요란하지 않지만 결코 멈추지 않는 걸음으로 세상에 꼭 필요한 새로운 질서를 제안하는 것, 그것이 초토화군단이 만들어가고자 하는 겸손하지만 결연한 무브먼트입니다.</p>
+        </div>
+
+        <!-- 하단 인터랙션 배너 -->
+        <div class="philosophy-interaction">
+          <img src="img/jang_bg.jpg" alt="Chotohwa Background" class="interaction-bg">
+          <img src="img/jang.png" alt="Chotohwa Founder" class="interaction-fg">
+        </div>
+
+        <!-- 본문 끝 닫기 버튼 -->
+        <div class="modal-bottom-actions">
+          <button class="btn-modal-back" id="closePhilosophyBottomBtn">메인으로 돌아가기</button>
         </div>
       </div>
     </div>

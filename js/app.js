@@ -27,7 +27,17 @@ document.addEventListener('DOMContentLoaded', () => {
     const targetDate = new Date('2026-09-01T15:00:00').getTime();
 
     // 2. 비디오 종료 시 시네마틱 트랜지션 (글리치 + 블러/아우라 모드)
-    introVideo.addEventListener('ended', () => {
+    function endIntro() {
+        // 이미 종료 처리되었으면 무시 (중복 실행 방지)
+        if (introVideo.dataset.ended === 'true') return;
+        introVideo.dataset.ended = 'true';
+
+        // 스킵 버튼 숨기기
+        const skipBtn = document.getElementById('skipIntroBtn');
+        if (skipBtn) {
+            skipBtn.classList.add('hidden');
+        }
+
         // 영상 제거 대신, 커다란 블러 후광으로 변경하여 배경 요소로 재활용!
         gsap.to(introVideo, {
             scale: 1.1,         // 거대해지면서
@@ -45,7 +55,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
         
         // 메인 글래스 패널 내부 요소들 시네마틱 등장 효과
-        gsap.from(".slogan, .target-date, .time-block, .time-divider, .teaser-video", {
+        gsap.from(".slogan, .target-date, .time-block, .time-divider, .teaser-video, .philosophy-btn-wrapper", {
             y: 50,
             rotationX: 15,
             opacity: 0,
@@ -61,7 +71,18 @@ document.addEventListener('DOMContentLoaded', () => {
             teaserVideo.currentTime = 0;
             teaserVideo.play().catch(e => console.log('Auto-play prevented:', e));
         }
-    });
+    }
+
+    introVideo.addEventListener('ended', endIntro);
+
+    // 스킵 버튼 클릭 이벤트
+    const skipBtn = document.getElementById('skipIntroBtn');
+    if (skipBtn) {
+        skipBtn.addEventListener('click', () => {
+            introVideo.pause(); // 비디오 정지
+            endIntro();         // 트랜지션 즉시 실행
+        });
+    }
 
     // 3. SVG 프로그레스 링 세팅 및 카운트다운
     const r = 70;
@@ -157,6 +178,76 @@ document.addEventListener('DOMContentLoaded', () => {
         document.addEventListener('mouseleave', () => {
             gsap.to(tiltWrapper, { rotationY: 0, rotationX: 0, duration: 1.2, ease: "power3.out" });
             gsap.to(bgImage, { x: 0, y: 0, duration: 1.2, ease: "power3.out" });
+        });
+    }
+
+    // 5. Philosophy Modal Control
+    const openPhilosophyBtn = document.getElementById('openPhilosophyBtn');
+    const closePhilosophyBtn = document.getElementById('closePhilosophyBtn');
+    const closePhilosophyBottomBtn = document.getElementById('closePhilosophyBottomBtn');
+    const philosophyModal = document.getElementById('philosophyModal');
+
+    if (openPhilosophyBtn && closePhilosophyBtn && philosophyModal) {
+        const interactionFg = philosophyModal.querySelector('.interaction-fg');
+
+        openPhilosophyBtn.addEventListener('click', () => {
+            philosophyModal.classList.add('is-active');
+            
+            // GSAP 모달 내부 텍스트 순차적 페이드업 애니메이션
+            gsap.fromTo(philosophyModal.querySelectorAll('.modal-title, .philosophy-section, .philosophy-interaction'), 
+                { y: 30, opacity: 0 }, 
+                { 
+                    y: 0, 
+                    opacity: 1, 
+                    duration: 0.8, 
+                    stagger: 0.15, 
+                    ease: "power3.out", 
+                    delay: 0.2,
+                    onComplete: () => {
+                        const interactionBanner = philosophyModal.querySelector('.philosophy-interaction');
+                        if (interactionFg && interactionBanner) {
+                            // 모달 애니메이션이 끝난 후, 배너가 화면에 보일 때 나타나게 설정
+                            const observer = new IntersectionObserver((entries) => {
+                                entries.forEach(entry => {
+                                    if (entry.isIntersecting) {
+                                        interactionFg.classList.add('active');
+                                        observer.disconnect(); // 한 번 실행 후 해제
+                                    }
+                                });
+                            }, { threshold: 0.5 }); // 배너가 50% 이상 보일 때 작동
+                            
+                            observer.observe(interactionBanner);
+                            philosophyModal.interactionObserver = observer; // 닫을 때 해제하기 위해 저장
+                        }
+                    }
+                }
+            );
+        });
+
+        const closeModal = () => {
+            philosophyModal.classList.remove('is-active');
+            
+            if (philosophyModal.interactionObserver) {
+                philosophyModal.interactionObserver.disconnect();
+                philosophyModal.interactionObserver = null;
+            }
+
+            if(interactionFg) {
+                // Reset interaction for next open
+                setTimeout(() => {
+                    interactionFg.classList.remove('active');
+                }, 300); // Wait for modal to hide
+            }
+        };
+
+        closePhilosophyBtn.addEventListener('click', closeModal);
+        if (closePhilosophyBottomBtn) closePhilosophyBottomBtn.addEventListener('click', closeModal);
+
+        // Close modal when clicking outside the content area
+        philosophyModal.addEventListener('click', (e) => {
+            if (e.target === philosophyModal) {
+                closeModal();
+            }
         });
     }
 });
