@@ -430,30 +430,37 @@ circle {
     top: -35px;
   }
 
-  .philosophy-btn-wrapper {
+  .action-btn-wrapper {
     margin-top: 1.5rem;
+    flex-direction: column;
+    gap: 0.8rem;
   }
-  .btn-philosophy {
-    padding: 0.6rem 1rem;
-    font-size: 0.75rem;
-    max-width: 260px;
+  .btn-philosophy, .btn-webtoon {
+    padding: 0.8rem 1rem;
+    font-size: 0.8rem;
+    max-width: 280px;
+    width: 100%;
   }
 
 }
 
-/* 5. Philosophy Button */
-.philosophy-btn-wrapper {
+/* 5. Action Buttons (Philosophy & Webtoon) */
+.action-btn-wrapper {
   margin-top: clamp(1.5rem, 3vh, 4.5rem); /* 하단 버튼 동적 마진 한도 조정 */
   transform: translateZ(30px);
   display: flex;
+  flex-direction: row;
   justify-content: center;
+  align-items: center;
+  gap: 1.2rem;
+  width: 100%;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-.btn-philosophy {
-  background: rgba(0, 0, 0, 0.5);
-  border: 2px solid #ccff00;
+.btn-philosophy, .btn-webtoon {
   border-radius: 50px;
-  color: #ccff00;
   font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Noto Sans KR', sans-serif;
   font-size: 0.95rem;
   font-weight: 700;
@@ -464,9 +471,26 @@ circle {
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   width: 100%;
-  max-width: 360px;
+  max-width: 280px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
   overflow: hidden;
+}
+
+.btn-philosophy {
+  background: rgba(0, 0, 0, 0.5);
+  border: 2px solid #ccff00;
+  color: #ccff00;
   box-shadow: 0 0 15px rgba(204, 255, 0, 0.3), inset 0 0 10px rgba(204, 255, 0, 0.2);
+}
+
+.btn-webtoon {
+  background: #00f3ff;
+  border: 2px solid #00f3ff;
+  color: #000;
+  box-shadow: 0 0 20px rgba(0, 243, 255, 0.5);
 }
 
 /* Ticker Animation */
@@ -495,6 +519,14 @@ circle {
   color: #000;
   box-shadow: 0 0 25px rgba(204, 255, 0, 0.6);
   transform: translateY(-2px);
+}
+
+.btn-webtoon:hover {
+  background: #fff;
+  border-color: #fff;
+  color: #000;
+  box-shadow: 0 0 30px rgba(255, 255, 255, 0.8);
+  transform: translateY(-2px) scale(1.02);
 }
 
 /* SKIP Intro Button */
@@ -828,11 +860,171 @@ circle {
   .number {
     font-size: clamp(0.9rem, 3vh, 1.2rem);
   }
-  .philosophy-btn-wrapper {
+  .action-btn-wrapper {
     margin-top: 1rem;
   }
-  .btn-philosophy {
+  .btn-philosophy, .btn-webtoon {
     padding: 0.6rem 1rem;
     font-size: 0.85rem;
+  }
+}
+
+/* 7. Webtoon Modal */
+.webtoon-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(10, 10, 12, 0.95);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  z-index: 10000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.4s ease, visibility 0.4s ease;
+}
+
+.webtoon-modal-overlay.is-active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.webtoon-modal-content {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-close-btn {
+  z-index: 50;
+}
+
+.webtoon-slider-container {
+  width: 100%;
+  height: 85vh; /* 뷰포트 대부분 차지 */
+  max-width: 1200px;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 좌우 터치 영역 */
+.webtoon-nav-zone {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  width: 30%;
+  z-index: 10;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.zone-left { left: 0; }
+.zone-right { right: 0; }
+
+.webtoon-slider {
+  display: flex;
+  height: 100%;
+  width: 100%;
+  transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+  will-change: transform;
+}
+
+.webtoon-slide {
+  flex: 0 0 100%;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.webtoon-slide img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  box-shadow: 0 15px 40px rgba(0,0,0,0.5);
+  border-radius: 8px;
+  user-select: none;
+}
+
+/* 하단 컨트롤 바 */
+.webtoon-controls {
+  position: absolute;
+  bottom: 2vh;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  background: rgba(0, 0, 0, 0.6);
+  padding: 0.5rem 1.5rem;
+  border-radius: 50px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  z-index: 20;
+}
+
+.btn-nav {
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 0.5rem;
+  line-height: 1;
+  transition: color 0.3s ease, transform 0.3s ease;
+  font-family: 'Share Tech Mono', monospace;
+}
+
+.btn-nav:hover {
+  color: #00f3ff;
+  transform: scale(1.2);
+}
+
+.webtoon-indicator {
+  color: #fff;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 1.1rem;
+  letter-spacing: 2px;
+}
+
+#webtoonCurrentPage {
+  color: #00f3ff;
+  font-weight: 700;
+  font-size: 1.3rem;
+}
+
+/* 모바일 분기 */
+@media screen and (max-width: 768px) {
+  .webtoon-slider-container {
+    height: 80vh;
+  }
+  .webtoon-slide {
+    padding: 0; /* 모바일에서는 화면을 최대한 활용 */
+  }
+  .webtoon-slide img {
+    border-radius: 0;
+  }
+  .webtoon-controls {
+    bottom: 3vh;
+    padding: 0.4rem 1.2rem;
+    gap: 1rem;
+  }
+  .btn-nav {
+    font-size: 1.3rem;
+  }
+  .webtoon-indicator {
+    font-size: 1rem;
+  }
+  #webtoonCurrentPage {
+    font-size: 1.1rem;
   }
 }

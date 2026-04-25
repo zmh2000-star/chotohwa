@@ -50,7 +50,7 @@
     <div class="content-wrapper" id="tiltWrapper">
       <div class="hud-panel">
         <div class="profile-badge">
-          <img src="img/장명환프사.webp" alt="Creator Profile">
+          <img src="img/new_logo.png" alt="Creator Profile">
         </div>
         <div class="slogan-wrapper">
           <h1 class="slogan">
@@ -153,13 +153,14 @@
           <video id="teaserVideo" src="movie/teaser2.mp4" muted playsinline preload="auto" alt="Teaser Video"></video>
         </div>
 
-        <!-- 철학 보기 버튼 -->
-        <div class="philosophy-btn-wrapper">
+        <!-- 액션 버튼 컨테이너 (그리드 정렬 및 강약 대비) -->
+        <div class="action-btn-wrapper">
           <button id="openPhilosophyBtn" class="btn-philosophy">
-            <div class="ticker-wrap">
-              <span class="ticker-item">초토화군단 무브먼트 자세히보기</span>
-              <span class="ticker-item">초토화군단 무브먼트 자세히보기</span>
-            </div>
+            <span class="btn-icon">⚡</span> 무브먼트 자세히보기
+          </button>
+          
+          <button id="openWebtoonBtn" class="btn-webtoon primary-action">
+            <span class="btn-icon">📖</span> 탄생비화 (웹툰 보기)
           </button>
         </div>
       </div>
@@ -207,6 +208,37 @@
         <div class="modal-bottom-actions">
           <button class="btn-modal-back" id="closePhilosophyBottomBtn">메인으로 돌아가기</button>
         </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Webtoon Modal -->
+  <div class="webtoon-modal-overlay" id="webtoonModal">
+    <div class="webtoon-modal-content">
+      <button class="modal-close-btn" id="closeWebtoonBtn">&times;</button>
+      
+      <div class="webtoon-slider-container">
+        <!-- 클릭 영역 (좌측/우측) -->
+        <div class="webtoon-nav-zone zone-left" id="webtoonPrevZone"></div>
+        <div class="webtoon-nav-zone zone-right" id="webtoonNextZone"></div>
+        
+        <!-- 슬라이더 트랙 -->
+        <div class="webtoon-slider" id="webtoonSlider">
+          <div class="webtoon-slide"><img src="img/cartoon1.jpg" alt="Cartoon 1" draggable="false"></div>
+          <div class="webtoon-slide"><img src="img/cartoon2.jpg" alt="Cartoon 2" draggable="false"></div>
+          <div class="webtoon-slide"><img src="img/cartoon3.jpg" alt="Cartoon 3" draggable="false"></div>
+          <div class="webtoon-slide"><img src="img/cartoon4.jpg" alt="Cartoon 4" draggable="false"></div>
+          <div class="webtoon-slide"><img src="img/cartoon5.jpg" alt="Cartoon 5" draggable="false"></div>
+        </div>
+      </div>
+      
+      <!-- 하단 네비게이션바 -->
+      <div class="webtoon-controls">
+        <button class="btn-nav" id="webtoonPrevBtn">&lt;</button>
+        <div class="webtoon-indicator">
+          <span id="webtoonCurrentPage">1</span> / 5
+        </div>
+        <button class="btn-nav" id="webtoonNextBtn">&gt;</button>
       </div>
     </div>
   </div>

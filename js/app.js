@@ -250,4 +250,90 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
+
+    // 6. Webtoon Modal Control & Slider
+    const openWebtoonBtn = document.getElementById('openWebtoonBtn');
+    const closeWebtoonBtn = document.getElementById('closeWebtoonBtn');
+    const webtoonModal = document.getElementById('webtoonModal');
+    const webtoonSlider = document.getElementById('webtoonSlider');
+    const webtoonPrevBtn = document.getElementById('webtoonPrevBtn');
+    const webtoonNextBtn = document.getElementById('webtoonNextBtn');
+    const webtoonPrevZone = document.getElementById('webtoonPrevZone');
+    const webtoonNextZone = document.getElementById('webtoonNextZone');
+    const webtoonCurrentPageEl = document.getElementById('webtoonCurrentPage');
+    
+    let currentWebtoonIndex = 0;
+    const totalWebtoonPages = 5;
+
+    function updateWebtoonSlider() {
+        if (!webtoonSlider) return;
+        // 한 페이지당 -100% 씩 X축 이동하여 슬라이드 효과 구현
+        const translateX = -(currentWebtoonIndex * 100);
+        webtoonSlider.style.transform = `translateX(${translateX}%)`;
+        if (webtoonCurrentPageEl) {
+            webtoonCurrentPageEl.innerText = currentWebtoonIndex + 1;
+        }
+    }
+
+    function nextWebtoonPage() {
+        if (currentWebtoonIndex < totalWebtoonPages - 1) {
+            currentWebtoonIndex++;
+            updateWebtoonSlider();
+        } else {
+            // 마지막 페이지에서 다음으로 넘길 때 튕기는 느낌을 줄 수 있음
+            gsap.to(webtoonSlider, { x: "-=10px", yoyo: true, repeat: 1, duration: 0.1 });
+        }
+    }
+
+    function prevWebtoonPage() {
+        if (currentWebtoonIndex > 0) {
+            currentWebtoonIndex--;
+            updateWebtoonSlider();
+        } else {
+            // 첫 페이지에서 이전으로 넘길 때
+            gsap.to(webtoonSlider, { x: "+=10px", yoyo: true, repeat: 1, duration: 0.1 });
+        }
+    }
+
+    if (openWebtoonBtn && closeWebtoonBtn && webtoonModal) {
+        openWebtoonBtn.addEventListener('click', () => {
+            currentWebtoonIndex = 0;
+            updateWebtoonSlider();
+            webtoonModal.classList.add('is-active');
+        });
+
+        const closeWebtoonModal = () => {
+            webtoonModal.classList.remove('is-active');
+        };
+
+        closeWebtoonBtn.addEventListener('click', closeWebtoonModal);
+        
+        // Background click to close
+        webtoonModal.addEventListener('click', (e) => {
+            if (e.target === webtoonModal) {
+                closeWebtoonModal();
+            }
+        });
+
+        // Click zones
+        if(webtoonPrevZone) webtoonPrevZone.addEventListener('click', prevWebtoonPage);
+        if(webtoonNextZone) webtoonNextZone.addEventListener('click', nextWebtoonPage);
+        
+        // Nav buttons
+        if(webtoonPrevBtn) webtoonPrevBtn.addEventListener('click', prevWebtoonPage);
+        if(webtoonNextBtn) webtoonNextBtn.addEventListener('click', nextWebtoonPage);
+
+        // Keyboard navigation (Escape to close, Left/Right for pages)
+        document.addEventListener('keydown', (e) => {
+            if (!webtoonModal.classList.contains('is-active')) return;
+            
+            if (e.key === 'Escape') {
+                closeWebtoonModal();
+            } else if (e.key === 'ArrowRight') {
+                nextWebtoonPage();
+            } else if (e.key === 'ArrowLeft') {
+                prevWebtoonPage();
+            }
+        });
+    }
 });
