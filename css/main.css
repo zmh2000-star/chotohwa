@@ -124,7 +124,7 @@ body {
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), inset 0 0 0 1px rgba(255, 255, 255, 0.05);
   border-radius: 32px; /* 애플스러운 부드러운 곡선 */
   /* 사용자가 조정한 여백 복원: 상단 패딩을 대폭 늘려 프로필 배지와 텍스트 겹침 방지 */
-  padding: clamp(6.5rem, 12vh, 8.5rem) clamp(1rem, 4vw, 4.5rem) clamp(1.5rem, 3vh, 4.5rem);
+  padding: clamp(6.5rem, 12vh, 8.5rem) clamp(2rem, 5vw, 5rem) clamp(3rem, 6vh, 6rem);
   text-align: center;
   transform-style: preserve-3d;
   will-change: transform;
@@ -169,7 +169,7 @@ body {
 .slogan {
   font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Noto Sans KR', sans-serif;
   font-size: clamp(1.2rem, min(3.5vw, 4vh), 2.5rem); /* 뷰포트 높이도 함께 고려 */
-  margin-bottom: clamp(0.5rem, 1.5vh, 1.8rem); /* 화면 높이에 따라 콤팩트하게 조절 */
+  margin-bottom: clamp(1rem, 3vh, 2.5rem); /* 좀 더 여유있는 간격 */
   color: #ffffff; 
   text-shadow: 0 4px 12px rgba(0, 0, 0, 0.5); 
   line-height: 1.3; 
@@ -269,7 +269,7 @@ body {
   font-size: clamp(0.75rem, 1vw, 0.9rem);
   letter-spacing: 6px;
   color: rgba(255, 255, 255, 0.85);
-  margin-bottom: clamp(1rem, 3vh, 3.5rem); /* 영상과의 동적 여백 한도 조정 */
+  margin-bottom: clamp(1.5rem, 4vh, 4.5rem); /* 카운트다운과의 여백 확대 */
   font-weight: 500;
   text-shadow: none;
   transform: translateZ(20px);
@@ -282,7 +282,7 @@ body {
 .teaser-video {
   width: 100%;
   max-width: 600px; /* 카운트다운 타이머 너비와 완벽히 일치시켜 그리드감 부여 */
-  margin: 0 auto clamp(1rem, 3vh, 3.5rem) auto; /* 카운트다운과의 동적 여백 */
+  margin: 0 auto clamp(2rem, 4vh, 4rem) auto; /* 하단 버튼과의 여백 확대 */
   border-radius: 16px;
   overflow: hidden;
   position: relative;
@@ -295,7 +295,7 @@ body {
   display: block;
   width: 100%;
   height: auto;
-  max-height: 25vh; /* 화면이 낮을 때 영상 높이 제한 */
+  max-height: 40vh; /* 데스크탑에서 영상 비율 충분히 확보 */
   object-fit: cover;
 }
 
@@ -307,7 +307,7 @@ body {
   transform: translateZ(40px);
   width: 100%;
   max-width: 600px;
-  margin: 0 auto; /* 여백은 하단 버튼 래퍼에서 제어 */
+  margin: 0 auto clamp(1.5rem, 4vh, 3.5rem) auto; /* 하단 비디오 블록과의 여백 추가 */
 }
 
 /* Circular SVG Timer Block */
@@ -430,17 +430,7 @@ circle {
     top: -35px;
   }
 
-  .action-btn-wrapper {
-    margin-top: 1.5rem;
-    flex-direction: column;
-    gap: 0.8rem;
-  }
-  .btn-philosophy, .btn-webtoon {
-    padding: 0.8rem 1rem;
-    font-size: 0.8rem;
-    max-width: 280px;
-    width: 100%;
-  }
+
 
 }
 
@@ -452,9 +442,9 @@ circle {
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  gap: 1.2rem;
+  gap: 1rem;
   width: 100%;
-  max-width: 600px;
+  max-width: 660px;
   margin-left: auto;
   margin-right: auto;
 }
@@ -471,12 +461,17 @@ circle {
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   width: 100%;
-  max-width: 280px;
+  max-width: 320px;
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 8px;
   overflow: hidden;
+  white-space: nowrap;
+}
+
+.mobile-br {
+  display: none;
 }
 
 .btn-philosophy {
@@ -1026,5 +1021,19 @@ circle {
   }
   #webtoonCurrentPage {
     font-size: 1.1rem;
+  }
+
+  .action-btn-wrapper {
+    margin-top: 1.5rem;
+    flex-direction: column;
+    gap: 0.8rem;
+  }
+  .btn-philosophy, .btn-webtoon {
+    padding: 0.8rem 1rem;
+    font-size: 0.85rem;
+    max-width: 320px;
+    width: 100%;
+    white-space: nowrap;
+    text-align: center;
   }
 }

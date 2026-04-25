@@ -265,6 +265,12 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentWebtoonIndex = 0;
     const totalWebtoonPages = 5;
 
+    const closeWebtoonModal = () => {
+        if (webtoonModal) {
+            webtoonModal.classList.remove('is-active');
+        }
+    };
+
     function updateWebtoonSlider() {
         if (!webtoonSlider) return;
         // 한 페이지당 -100% 씩 X축 이동하여 슬라이드 효과 구현
@@ -280,8 +286,8 @@ document.addEventListener('DOMContentLoaded', () => {
             currentWebtoonIndex++;
             updateWebtoonSlider();
         } else {
-            // 마지막 페이지에서 다음으로 넘길 때 튕기는 느낌을 줄 수 있음
-            gsap.to(webtoonSlider, { x: "-=10px", yoyo: true, repeat: 1, duration: 0.1 });
+            // 마지막 페이지에서 다음 버튼 클릭 시 모달 닫기
+            closeWebtoonModal();
         }
     }
 
@@ -290,7 +296,7 @@ document.addEventListener('DOMContentLoaded', () => {
             currentWebtoonIndex--;
             updateWebtoonSlider();
         } else {
-            // 첫 페이지에서 이전으로 넘길 때
+            // 첫 페이지에서 이전으로 넘길 때 바운스 효과
             gsap.to(webtoonSlider, { x: "+=10px", yoyo: true, repeat: 1, duration: 0.1 });
         }
     }
@@ -301,10 +307,6 @@ document.addEventListener('DOMContentLoaded', () => {
             updateWebtoonSlider();
             webtoonModal.classList.add('is-active');
         });
-
-        const closeWebtoonModal = () => {
-            webtoonModal.classList.remove('is-active');
-        };
 
         closeWebtoonBtn.addEventListener('click', closeWebtoonModal);
         
