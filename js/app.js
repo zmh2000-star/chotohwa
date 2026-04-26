@@ -65,11 +65,25 @@ document.addEventListener('DOMContentLoaded', () => {
             ease: "back.out(1.2)"
         });
 
+        // 스크롤 힌트 표시 (인트로 종료 2초 후)
+        const scrollHint = document.getElementById('scrollHint');
+        if (scrollHint) {
+            setTimeout(() => {
+                scrollHint.classList.add('is-visible');
+            }, 2000);
+        }
+
         // 티저 비디오 재생 (인트로 종료 후 컨텐츠가 나타날 때 처음부터 재생)
         const teaserVideo = document.getElementById('teaserVideo');
         if (teaserVideo) {
             teaserVideo.currentTime = 0;
-            teaserVideo.play().catch(e => console.log('Auto-play prevented:', e));
+            teaserVideo.play().then(() => {
+                teaserVideo.classList.add('is-loaded');
+            }).catch(e => {
+                console.log('Auto-play prevented:', e);
+                // 자동재생 차단 시에도 영상 표시
+                teaserVideo.classList.add('is-loaded');
+            });
         }
     }
 
@@ -81,6 +95,16 @@ document.addEventListener('DOMContentLoaded', () => {
         skipBtn.addEventListener('click', () => {
             introVideo.pause(); // 비디오 정지
             endIntro();         // 트랜지션 즉시 실행
+        });
+    }
+
+    // 스크롤 힌트 숨기기 (스크롤 시 자동 숨김)
+    if (mainContent) {
+        mainContent.addEventListener('scroll', () => {
+            const scrollHint = document.getElementById('scrollHint');
+            if (scrollHint && mainContent.scrollTop > 30) {
+                scrollHint.classList.remove('is-visible');
+            }
         });
     }
 
@@ -337,5 +361,45 @@ document.addEventListener('DOMContentLoaded', () => {
                 prevWebtoonPage();
             }
         });
+
+        // 터치 스와이프로 페이지 전환
+        let touchStartX = 0;
+        let touchStartY = 0;
+        let isSwiping = false;
+
+        webtoonModal.addEventListener('touchstart', (e) => {
+            touchStartX = e.touches[0].clientX;
+            touchStartY = e.touches[0].clientY;
+            isSwiping = false;
+        }, { passive: true });
+
+        webtoonModal.addEventListener('touchmove', (e) => {
+            if (!touchStartX) return;
+            const diffX = Math.abs(e.touches[0].clientX - touchStartX);
+            const diffY = Math.abs(e.touches[0].clientY - touchStartY);
+            // 수평 이동이 수직보다 크면 스와이프로 판단하여 스크롤 방지
+            if (diffX > diffY && diffX > 10) {
+                isSwiping = true;
+                e.preventDefault();
+            }
+        }, { passive: false });
+
+        webtoonModal.addEventListener('touchend', (e) => {
+            if (!isSwiping) return;
+            const touchEndX = e.changedTouches[0].clientX;
+            const diffX = touchStartX - touchEndX;
+
+            // 50px 이상 스와이프 시 동작
+            if (Math.abs(diffX) > 50) {
+                if (diffX > 0) {
+                    nextWebtoonPage();  // 왼쪽으로 스와이프 → 다음 페이지
+                } else {
+                    prevWebtoonPage();  // 오른쪽으로 스와이프 → 이전 페이지
+                }
+            }
+            touchStartX = 0;
+            touchStartY = 0;
+            isSwiping = false;
+        }, { passive: true });
     }
 });

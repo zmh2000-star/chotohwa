@@ -28,7 +28,8 @@ body {
   z-index: 10;
   width: 100vw;
   height: 100vh;
-  background: #000;
+  background: #000 url('../img/new_logo.png') no-repeat center center;
+  background-size: 100px auto;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -288,7 +289,8 @@ body {
   position: relative;
   transform: translateZ(25px);
   box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6), inset 0 0 0 1px rgba(255, 255, 255, 0.15);
-  background: #000;
+  background: #0a0a14 url('../img/new_logo.png') no-repeat center center;
+  background-size: 50px auto;
 }
 
 .teaser-video video {
@@ -297,6 +299,12 @@ body {
   height: auto;
   max-height: 40vh; /* 데스크탑에서 영상 비율 충분히 확보 */
   object-fit: cover;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.teaser-video video.is-loaded {
+  opacity: 1;
 }
 
 .countdown {
@@ -1035,5 +1043,54 @@ circle {
     width: 100%;
     white-space: nowrap;
     text-align: center;
+  }
+}
+
+/* 8. 스크롤 힌트 */
+.scroll-hint {
+  position: fixed;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 25;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.6s ease, visibility 0.6s ease;
+  pointer-events: none;
+}
+
+.scroll-hint.is-visible {
+  opacity: 1;
+  visibility: visible;
+}
+
+.scroll-arrow-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.scroll-text {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.65rem;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+}
+
+.scroll-arrow {
+  font-size: 1.2rem;
+  animation: scrollBounce 2s infinite ease-in-out;
+}
+
+@keyframes scrollBounce {
+  0%, 100% {
+    transform: translateY(0);
+    opacity: 0.4;
+  }
+  50% {
+    transform: translateY(8px);
+    opacity: 1;
   }
 }

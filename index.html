@@ -5,6 +5,14 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>초토화군단 프로젝트 오픈</title>
+  <meta name="description" content="초토화군단 - 미친 꿈을 위대하게! AI 기술력과 파괴적 혁신으로 새로운 가치를 만들어가는 무브먼트. 2026년 9월 신규 프로젝트 공개 예정.">
+  <meta property="og:title" content="초토화군단 프로젝트 오픈">
+  <meta property="og:description" content="미친 꿈을 위대하게! AI 기술력과 파괴적 혁신으로 새로운 가치를 만들어가는 무브먼트.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="img/new_logo.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="초토화군단 프로젝트 오픈">
+  <meta name="twitter:description" content="미친 꿈을 위대하게! AI 기술력과 파괴적 혁신으로 새로운 가치를 만들어가는 무브먼트.">
 
   <!-- 파비콘 (Favicon) -->
   <link rel="icon" type="image/svg+xml" href="img/favicon.svg" />
@@ -33,7 +41,7 @@
   <!-- 1. 비디오 배경 (JS에서 모바일/PC 감지 후 src 주입) -->
   <div class="video-container" id="videoContainer">
     <!-- 비디오가 로드되기 전에 source를 넣기 위해 비워둠 -->
-    <video id="introVideo" autoplay muted playsinline
+    <video id="introVideo" autoplay muted playsinline aria-label="초토화군단 인트로 영상"
       poster="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></video>
   </div>
 
@@ -150,7 +158,7 @@
         </div>
 
         <div class="teaser-video">
-          <video id="teaserVideo" src="movie/teaser2.mp4" muted playsinline preload="auto" alt="Teaser Video"></video>
+          <video id="teaserVideo" src="movie/teaser2.mp4" muted playsinline preload="metadata" aria-label="초토화군단 티저 영상"></video>
         </div>
 
         <!-- 액션 버튼 컨테이너 (그리드 정렬 및 강약 대비) -->
@@ -164,6 +172,14 @@
           </button>
         </div>
       </div>
+    </div>
+  </div>
+
+  <!-- 스크롤 힌트 -->
+  <div class="scroll-hint" id="scrollHint">
+    <div class="scroll-arrow-wrap">
+      <span class="scroll-text">SCROLL</span>
+      <span class="scroll-arrow">↓</span>
     </div>
   </div>
 
