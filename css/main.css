@@ -1042,12 +1042,14 @@ circle {
   .action-btn-wrapper {
     margin-top: 1.5rem;
     flex-direction: column;
+    align-items: center;
     gap: 0.8rem;
+    max-width: 600px; /* 비디오 컨테이너와 동일한 너비 */
   }
   .btn-philosophy, .btn-webtoon {
     padding: 0.8rem 1rem;
     font-size: 0.85rem;
-    max-width: 320px;
+    max-width: 600px; /* 비디오와 동일 */
     width: 100%;
     white-space: nowrap;
     text-align: center;

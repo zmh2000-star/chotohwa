@@ -80,6 +80,10 @@ document.addEventListener('DOMContentLoaded', () => {
             setTimeout(() => {
                 scrollHint.classList.add('is-visible');
             }, 2000);
+            // 5초 후 자동 숨김 (스크롤 없을 경우 대비)
+            setTimeout(() => {
+                scrollHint.classList.remove('is-visible');
+            }, 7000);
         }
 
         // 티저 비디오 재생 (인트로 종료 후 컨텐츠가 나타날 때 처음부터 재생)
