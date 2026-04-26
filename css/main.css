@@ -459,15 +459,15 @@ circle {
 
 /* 5. Action Buttons (Philosophy & Webtoon) */
 .action-btn-wrapper {
-  margin-top: clamp(1.5rem, 3vh, 4.5rem); /* PC 여백 복원 */
+  margin-top: clamp(1.5rem, 3vh, 4.5rem);
   transform: translateZ(30px);
   display: flex;
   flex-direction: row;
   justify-content: center;
-  align-items: stretch; /* 버튼 높이 정렬 통일 */
+  align-items: stretch; /* 버튼 높이 통일 */
   gap: 1rem;
   width: 100%;
-  max-width: 660px;
+  max-width: 600px; /* 영상 컨테이너와 동일한 너비 */
   margin-left: auto;
   margin-right: auto;
 }
@@ -483,8 +483,7 @@ circle {
   transition: all 0.3s ease;
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
-  width: 100%;
-  max-width: 320px;
+  flex: 1; /* 균등 분배로 영상 너비에 맞춤 */
   display: flex;
   justify-content: center;
   align-items: center;
