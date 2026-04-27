@@ -1,9 +1,9 @@
 /* Reset & Base */
 @font-face {
-    font-family: 'BMDOHYEON';
-    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_one@1.0/BMDOHYEON.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
+  font-family: 'BMDOHYEON';
+  src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_one@1.0/BMDOHYEON.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
 }
 
 * {
@@ -16,11 +16,13 @@ body {
   background-color: #000;
   color: #fff;
   font-family: 'Noto Sans KR', sans-serif;
-  overflow: hidden; /* Hide scrollbars during full-screen experiences */
+  overflow: hidden;
+  /* Hide scrollbars during full-screen experiences */
   width: 100vw;
   height: 100vh;
   height: 100dvh;
-  height: calc(var(--vh, 1vh) * 100); /* 카카오/인앱 브라우저 JS 폴백 */
+  height: calc(var(--vh, 1vh) * 100);
+  /* 카카오/인앱 브라우저 JS 폴백 */
 }
 
 /* 1. Video Container */
@@ -42,14 +44,17 @@ body {
 #introVideo {
   width: 100%;
   height: 100%;
-  object-fit: cover; /* 세로/가로 모두 꽉 차게 */
+  object-fit: cover;
+  /* 세로/가로 모두 꽉 차게 */
   /* 글리치 애니메이션 시 대비를 위한 필터 조정(JS에서 제어) */
   transition: filter 0.3s ease, opacity 0.5s ease;
-  opacity: 0; /* 처음 로딩 시 거대한 버튼 방지 */
+  opacity: 0;
+  /* 처음 로딩 시 거대한 버튼 방지 */
 }
 
 #introVideo.is-playing {
-  opacity: 1; /* 재생 시 부드럽게 등장 */
+  opacity: 1;
+  /* 재생 시 부드럽게 등장 */
 }
 
 /* 2. Main Content (Image & Countdown) */
@@ -67,13 +72,15 @@ body {
   flex-direction: column;
   align-items: center;
   overflow-y: auto;
-  scrollbar-width: none; /* 파이어폭스 스크롤바 숨김 */
+  scrollbar-width: none;
+  /* 파이어폭스 스크롤바 숨김 */
   /* 명시적 패딩으로 PC 로고 짤림 방지, 하단 불필요한 스크롤 여백 제거 */
   padding: clamp(60px, 8vh, 100px) 0 20px 0;
 }
 
 /* 수직 정렬은 margin: auto 로 대체 */
-.main-content::before, .main-content::after {
+.main-content::before,
+.main-content::after {
   display: none;
 }
 
@@ -103,29 +110,34 @@ body {
   inset: 0;
   z-index: -1;
   /* 하단에서만 어두워지며 배경 아트를 완전히 100% 살리는 그라데이션 */
-  background: linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.5) 40%, rgba(0,0,0,0) 80%);
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.95) 0%, rgba(0, 0, 0, 0.5) 40%, rgba(0, 0, 0, 0) 80%);
 }
 
 .content-wrapper {
-  perspective: 1500px; /* 3D 입체 투영점 */
+  perspective: 1500px;
+  /* 3D 입체 투영점 */
   z-index: 1;
   width: 95vw;
   max-width: 1400px;
   flex-shrink: 0;
-  margin: auto; /* padding과 결합하여 넘칠 때는 top 짤림 방지, 덜 찰 때는 중앙 정렬 */
+  margin: auto;
+  /* padding과 결합하여 넘칠 때는 top 짤림 방지, 덜 찰 때는 중앙 정렬 */
 }
 
 /* Premium HUD Panel - Modern Glassmorphism */
 .hud-panel {
   position: relative;
-  background: rgba(10, 10, 20, 0.35); /* 고급스러운 어두운 반투명 유리 */
+  background: rgba(10, 10, 20, 0.35);
+  /* 고급스러운 어두운 반투명 유리 */
   backdrop-filter: blur(24px);
   -webkit-backdrop-filter: blur(24px);
-  border: 1px solid rgba(255, 255, 255, 0.15); /* 은은한 화이트 엣지 */
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  /* 은은한 화이트 엣지 */
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), inset 0 0 0 1px rgba(255, 255, 255, 0.05);
-  border-radius: 32px; /* 애플스러운 부드러운 곡선 */
+  border-radius: 32px;
+  /* 애플스러운 부드러운 곡선 */
   /* 사용자가 조정한 여백 복원: 상단 패딩을 대폭 늘려 프로필 배지와 텍스트 겹침 방지 */
-  padding: clamp(6.5rem, 12vh, 8.5rem) clamp(2rem, 5vw, 5rem) clamp(3rem, 6vh, 6rem);
+  padding: clamp(6.5rem, 8vh, 8.5rem) clamp(2rem, 5vw, 5rem) clamp(3rem, 6vh, 6rem);
   text-align: center;
   transform-style: preserve-3d;
   will-change: transform;
@@ -146,7 +158,7 @@ body {
   height: clamp(80px, 12vh, 120px);
   border-radius: 50%;
   border: 3px solid rgba(255, 255, 255, 0.4);
-  box-shadow: 0 15px 35px rgba(0,0,0,0.6), inset 0 0 20px rgba(255,255,255,0.2);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6), inset 0 0 20px rgba(255, 255, 255, 0.2);
   overflow: hidden;
   z-index: 10;
   background: #000;
@@ -156,7 +168,7 @@ body {
 .profile-badge:hover {
   transform: translateX(-50%) scale(1.1) translateY(-5px);
   border-color: rgba(255, 255, 255, 0.9);
-  box-shadow: 0 20px 45px rgba(0,0,0,0.7), inset 0 0 30px rgba(255,255,255,0.4);
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.7), inset 0 0 30px rgba(255, 255, 255, 0.4);
 }
 
 .profile-badge img,
@@ -169,14 +181,16 @@ body {
 
 .slogan {
   font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Noto Sans KR', sans-serif;
-  font-size: clamp(1.2rem, min(3.5vw, 4vh), 2.5rem); /* 뷰포트 높이도 함께 고려 */
-  margin-bottom: clamp(1rem, 3vh, 2.5rem); /* 좀 더 여유있는 간격 */
-  color: #ffffff; 
-  text-shadow: 0 4px 12px rgba(0, 0, 0, 0.5); 
-  line-height: 1.3; 
+  font-size: clamp(1.2rem, min(3.5vw, 4vh), 2.5rem);
+  /* 뷰포트 높이도 함께 고려 */
+  margin-bottom: clamp(1rem, 3vh, 2.5rem);
+  /* 좀 더 여유있는 간격 */
+  color: #ffffff;
+  text-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+  line-height: 1.3;
   transform: translateZ(30px);
-  font-weight: 700; 
-  letter-spacing: -1px; 
+  font-weight: 700;
+  letter-spacing: -1px;
 }
 
 /* Slogan Typography Hierarchy */
@@ -190,21 +204,23 @@ body {
 }
 
 .highlight-massive {
-  display: inline-block; /* 기울임과 3D 효과를 위해 block -> inline-block */
+  display: inline-block;
+  /* 기울임과 3D 효과를 위해 block -> inline-block */
   font-family: 'BMDOHYEON', sans-serif;
   font-size: 1.8em;
   font-weight: normal;
   letter-spacing: -1px;
   margin: 0.5rem 0;
-  
+
   /* 3안: 볼드 3D 익스트루전 & 스트릿 팝아트 */
   /* 단일 형광 컬러로 극강의 채도 확보 */
-  color: #ccff00; 
-  -webkit-text-fill-color: #ccff00; /* 기존 그라데이션 오버라이드 */
-  background: none; 
-  
+  color: #ccff00;
+  -webkit-text-fill-color: #ccff00;
+  /* 기존 그라데이션 오버라이드 */
+  background: none;
+
   /* 다중 텍스트 섀도우를 이용한 솔리드 3D 블록 (강렬한 핫핑크) */
-  text-shadow: 
+  text-shadow:
     1px 1px 0px #ff007f,
     2px 2px 0px #ff007f,
     3px 3px 0px #ff007f,
@@ -217,14 +233,16 @@ body {
     10px 10px 0px #ff007f,
     11px 11px 0px #ff007f,
     12px 12px 0px #ff007f,
-    15px 15px 25px rgba(0, 0, 0, 0.8); /* 3D 블록이 떠보이게 하는 강력한 드롭 섀도우 */
+    15px 15px 25px rgba(0, 0, 0, 0.8);
+  /* 3D 블록이 떠보이게 하는 강력한 드롭 섀도우 */
 
   /* 스트릿 팝아트 감성의 역동성을 위해 살짝 기울임 */
   transform: rotate(-3deg);
   filter: none;
 }
 
-.slogan-part1, .slogan-part2 {
+.slogan-part1,
+.slogan-part2 {
   display: inline-block;
 }
 
@@ -239,7 +257,8 @@ body {
 /* 단어별 통통 튀는 도미노 애니메이션 */
 .bounce-word {
   display: inline-block;
-  margin-right: 0.2em; /* 단어 사이 간격 띄우기 */
+  margin-right: 0.2em;
+  /* 단어 사이 간격 띄우기 */
   animation: popBounce 2.5s infinite cubic-bezier(0.28, 0.84, 0.42, 1);
   /* HTML 인라인 스타일에 지정된 --i 변수를 사용해 각 단어마다 딜레이 부여 */
   animation-delay: calc(var(--i) * 0.12s);
@@ -251,17 +270,23 @@ body {
 }
 
 @keyframes popBounce {
-  0%, 45%, 100% {
+
+  0%,
+  45%,
+  100% {
     transform: translateY(0) scale(1) rotate(0deg);
   }
+
   10% {
     /* 위로 높게 튀어오르며 살짝 커지고 비틀어짐 */
     transform: translateY(-25px) scale(1.1) rotate(6deg);
   }
+
   20% {
     /* 착지하면서 반대로 살짝 기우뚱 */
     transform: translateY(0) scale(1) rotate(-4deg);
   }
+
   30% {
     /* 가볍게 두 번째 바운스 */
     transform: translateY(-10px) scale(1.05) rotate(2deg);
@@ -274,7 +299,8 @@ body {
   font-size: clamp(0.75rem, 1vw, 0.9rem);
   letter-spacing: 6px;
   color: rgba(255, 255, 255, 0.85);
-  margin-bottom: clamp(1.5rem, 4vh, 4.5rem); /* 카운트다운과의 여백 확대 */
+  margin-bottom: clamp(1.5rem, 4vh, 4.5rem);
+  /* 카운트다운과의 여백 확대 */
   font-weight: 500;
   text-shadow: none;
   transform: translateZ(20px);
@@ -286,8 +312,10 @@ body {
 
 .teaser-video {
   width: 100%;
-  max-width: 600px; /* 카운트다운 타이머 너비와 완벽히 일치시켜 그리드감 부여 */
-  margin: 0 auto clamp(2rem, 4vh, 4rem) auto; /* 하단 버튼과의 여백 확대 */
+  max-width: 600px;
+  /* 카운트다운 타이머 너비와 완벽히 일치시켜 그리드감 부여 */
+  margin: 0 auto clamp(2rem, 4vh, 4rem) auto;
+  /* 하단 버튼과의 여백 확대 */
   border-radius: 16px;
   overflow: hidden;
   position: relative;
@@ -301,7 +329,8 @@ body {
   display: block;
   width: 100%;
   height: auto;
-  max-height: 40vh; /* 데스크탑에서 영상 비율 충분히 확보 */
+  max-height: 40vh;
+  /* 데스크탑에서 영상 비율 충분히 확보 */
   object-fit: cover;
   opacity: 0;
   transition: opacity 0.5s ease;
@@ -315,11 +344,13 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 25px; /* 콜론을 없애고 간격만 사용해 미니멀하게 설계 */
+  gap: 25px;
+  /* 콜론을 없애고 간격만 사용해 미니멀하게 설계 */
   transform: translateZ(40px);
   width: 100%;
   max-width: 600px;
-  margin: 0 auto clamp(1.5rem, 4vh, 3.5rem) auto; /* 하단 비디오 블록과의 여백 추가 */
+  margin: 0 auto clamp(1.5rem, 4vh, 3.5rem) auto;
+  /* 하단 비디오 블록과의 여백 추가 */
 }
 
 /* Circular SVG Timer Block */
@@ -344,16 +375,20 @@ body {
 
 circle {
   fill: transparent;
-  stroke-width: 3px; /* 시인성 확보를 위해 살짝 조정 */
+  stroke-width: 3px;
+  /* 시인성 확보를 위해 살짝 조정 */
 }
 
 .ring-bg {
-  stroke: rgba(255, 255, 255, 0.15); /* 안정감 있는 배경 구분 */
+  stroke: rgba(255, 255, 255, 0.15);
+  /* 안정감 있는 배경 구분 */
 }
 
 .ring-progress {
-  stroke-linecap: round; /* 끝을 둥글게 해 부드러움 극대화 */
-  filter: none; /* 네온 필터링 제거하여 촌스러움 차단 */
+  stroke-linecap: round;
+  /* 끝을 둥글게 해 부드러움 극대화 */
+  filter: none;
+  /* 네온 필터링 제거하여 촌스러움 차단 */
 }
 
 .time-content {
@@ -373,7 +408,8 @@ circle {
   line-height: 1;
   color: #ffffff;
   font-weight: 700;
-  text-shadow: none; /* 군더더기 쉐도우 제거 */
+  text-shadow: none;
+  /* 군더더기 쉐도우 제거 */
   letter-spacing: 0;
   margin: 0;
 }
@@ -381,61 +417,83 @@ circle {
 .label {
   font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Noto Sans KR', sans-serif;
   font-size: clamp(0.5rem, 1vw, 0.7rem);
-  color: rgba(255, 255, 255, 0.8); /* 시인성을 위해 투명도 조절 */
-  letter-spacing: 2px; 
+  color: rgba(255, 255, 255, 0.8);
+  /* 시인성을 위해 투명도 조절 */
+  letter-spacing: 2px;
   opacity: 1;
   text-transform: uppercase;
   margin: 0;
 }
 
 .time-divider {
-  display: none; /* 지저분한 콜론(Divider)을 완벽히 숨겨서 고급스러움 부여 */
+  display: none;
+  /* 지저분한 콜론(Divider)을 완벽히 숨겨서 고급스러움 부여 */
 }
 
 @media screen and (max-width: 768px) {
   .slogan {
-    font-size: clamp(1rem, 5vw, 1.8rem); /* 모바일에서도 타이틀 스케일 대폭 키움 */
+    font-size: clamp(1rem, 5vw, 1.8rem);
+    /* 모바일에서도 타이틀 스케일 대폭 키움 */
     letter-spacing: -1px;
     margin-bottom: 1rem;
   }
+
   .target-date {
     letter-spacing: 2px;
-    margin-bottom: 0.8rem; /* 모바일에서 너무 답답하지 않게 살짝 여백 복구 */
-    padding: 0.4rem 1.2rem; /* 모바일용 패딩 축소 */
-    font-size: 0.7rem; /* 모바일 최적화 폰트 크기 */
+    margin-bottom: 0.8rem;
+    /* 모바일에서 너무 답답하지 않게 살짝 여백 복구 */
+    padding: 0.4rem 1.2rem;
+    /* 모바일용 패딩 축소 */
+    font-size: 0.7rem;
+    /* 모바일 최적화 폰트 크기 */
   }
+
   .teaser-video {
     margin-bottom: 0;
-    border-radius: 12px; /* 모바일에서는 모서리 라운딩 살짝 축소 */
+    border-radius: 12px;
+    /* 모바일에서는 모서리 라운딩 살짝 축소 */
   }
+
   .countdown {
-    margin-bottom: 1.2rem; /* 영상과의 간격 적절히 조율 */
+    margin-bottom: 1.2rem;
+    /* 영상과의 간격 적절히 조율 */
     gap: 0;
-    justify-content: space-between; /* space-evenly 대신 between으로 양끝 정렬 */
+    justify-content: space-between;
+    /* space-evenly 대신 between으로 양끝 정렬 */
     width: 100%;
     flex-wrap: nowrap;
-    padding: 0 0.5rem; /* 좌우 살짝 여백 */
+    padding: 0 0.5rem;
+    /* 좌우 살짝 여백 */
   }
+
   .time-block {
     /* 원형 타이머가 서로 닿지 않도록 모바일 사이즈 미세 축소 */
     width: clamp(45px, 14vw, 55px);
     height: clamp(45px, 14vw, 55px);
   }
+
   .teaser-video video {
     max-height: 20vh;
   }
+
   .number {
-    font-size: clamp(0.9rem, 3.2vw, 1.1rem); /* 모바일 글자 튀어나옴 방지 */
+    font-size: clamp(0.9rem, 3.2vw, 1.1rem);
+    /* 모바일 글자 튀어나옴 방지 */
   }
+
   .label {
-    font-size: 0.45rem; /* 라벨 시인성 개선 */
+    font-size: 0.45rem;
+    /* 라벨 시인성 개선 */
     letter-spacing: 1px;
   }
+
   .hud-panel {
-    padding: 6.5rem 1rem 1.5rem; /* 모바일: 상단 패딩을 크게 늘려 배지와 텍스트 겹침 완벽 방지 */
+    padding: 6.5rem 1rem 1.5rem;
+    /* 모바일: 상단 패딩을 크게 늘려 배지와 텍스트 겹침 완벽 방지 */
     width: 95vw;
     border-radius: 24px;
   }
+
   .profile-badge {
     width: 70px;
     height: 70px;
@@ -446,14 +504,20 @@ circle {
   .main-content {
     padding: clamp(60px, 8vh, 80px) 0 20px 0;
   }
+
   .action-btn-wrapper {
     margin-top: clamp(0.5rem, 1.5vh, 1.5rem);
   }
+
   .highlight-massive {
-    display: block; /* 줄바꿈 확실히 적용 */
+    display: block;
+    /* 줄바꿈 확실히 적용 */
   }
-  .slogan-part1, .slogan-part2 {
-    display: block; /* 모바일에서 각각을 블록으로 분리하여 강제 줄바꿈 */
+
+  .slogan-part1,
+  .slogan-part2 {
+    display: block;
+    /* 모바일에서 각각을 블록으로 분리하여 강제 줄바꿈 */
   }
 
 }
@@ -465,15 +529,18 @@ circle {
   display: flex;
   flex-direction: row;
   justify-content: center;
-  align-items: stretch; /* 버튼 높이 통일 */
+  align-items: stretch;
+  /* 버튼 높이 통일 */
   gap: 1rem;
   width: 100%;
-  max-width: 600px; /* 영상 컨테이너와 동일한 너비 */
+  max-width: 600px;
+  /* 영상 컨테이너와 동일한 너비 */
   margin-left: auto;
   margin-right: auto;
 }
 
-.btn-philosophy, .btn-webtoon {
+.btn-philosophy,
+.btn-webtoon {
   border-radius: 50px;
   font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Noto Sans KR', sans-serif;
   font-size: 0.95rem;
@@ -484,7 +551,8 @@ circle {
   transition: all 0.3s ease;
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
-  flex: 1; /* 균등 분배로 영상 너비에 맞춤 */
+  flex: 1;
+  /* 균등 분배로 영상 너비에 맞춤 */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -526,8 +594,13 @@ circle {
 }
 
 @keyframes ticker-slide {
-  from { transform: translateX(0); }
-  to { transform: translateX(-100%); }
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-100%);
+  }
 }
 
 .btn-philosophy:hover {
@@ -624,14 +697,17 @@ circle {
 .philosophy-modal-content::-webkit-scrollbar {
   width: 8px;
 }
+
 .philosophy-modal-content::-webkit-scrollbar-track {
   background: rgba(255, 255, 255, 0.05);
   border-radius: 4px;
 }
+
 .philosophy-modal-content::-webkit-scrollbar-thumb {
   background: rgba(255, 255, 255, 0.2);
   border-radius: 4px;
 }
+
 .philosophy-modal-content::-webkit-scrollbar-thumb:hover {
   background: rgba(255, 255, 255, 0.3);
 }
@@ -709,8 +785,9 @@ circle {
   overflow: hidden;
   margin-top: 1rem;
   margin-bottom: 2.5rem;
-  box-shadow: 0 15px 35px rgba(0,0,0,0.6), inset 0 0 0 1px rgba(255,255,255,0.1);
-  transform: translateZ(0); /* For rendering performance */
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6), inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+  transform: translateZ(0);
+  /* For rendering performance */
   position: relative;
 }
 
@@ -719,7 +796,8 @@ circle {
   height: 100%;
   object-fit: cover;
   object-position: center;
-  filter: grayscale(20%) brightness(0.9) contrast(1.1); /* Adds premium cinematic dark tone */
+  filter: grayscale(20%) brightness(0.9) contrast(1.1);
+  /* Adds premium cinematic dark tone */
   transition: filter 0.5s ease, transform 0.8s ease;
   position: absolute;
   top: 0;
@@ -728,15 +806,18 @@ circle {
 }
 
 .interaction-fg {
-  width: 60.27%; /* 원본 배경(1903) 대비 전경 이미지(1147)의 정확한 비율을 사용하여 어떤 해상도에서도 배경과 완벽히 동기화되게 함 */
+  width: 60.27%;
+  /* 원본 배경(1903) 대비 전경 이미지(1147)의 정확한 비율을 사용하여 어떤 해상도에서도 배경과 완벽히 동기화되게 함 */
   height: auto;
   position: absolute;
   /* 사용자가 찾은 25px 여백을 비율로 변환(25/804)하여 어떤 화면 크기에서도 완벽한 위치를 유지하게 함 */
-  bottom: 8.1%; 
-  left: 51%; /* 사용자가 확인한 최적의 가로 위치 */
+  bottom: 8.1%;
+  left: 51%;
+  /* 사용자가 확인한 최적의 가로 위치 */
   z-index: 2;
   opacity: 0;
-  transform-origin: bottom center; /* 크기 변환 시 바닥 고정 */
+  transform-origin: bottom center;
+  /* 크기 변환 시 바닥 고정 */
   /* 애니메이션과 중앙 정렬을 동시에 처리 */
   transform: translateX(-50%) translateY(30px) scale(0.95);
   transition: opacity 1s cubic-bezier(0.25, 1, 0.5, 1), transform 1s cubic-bezier(0.25, 1, 0.5, 1);
@@ -778,23 +859,31 @@ circle {
   background: rgba(255, 255, 255, 0.2);
   transform: translateY(-2px);
 }
+
 @media screen and (max-width: 768px) {
   .hud-panel {
-    padding-top: 5rem; /* 공백 최적화 (프로필 뱃지와의 간격 확보 및 텍스트 겹침 방지) */
+    padding-top: 3rem;
+    /* 공백 최적화 (프로필 뱃지와의 간격 확보 및 텍스트 겹침 방지) */
     padding-bottom: 2rem;
   }
+
   .slogan {
-    font-size: 1.35rem; /* 모바일에서 본문 텍스트 크기 증가 */
+    font-size: 1.35rem;
+    /* 모바일에서 본문 텍스트 크기 증가 */
     margin-bottom: 1.2rem;
   }
+
   .highlight-massive {
-    font-size: 1.65em; /* 비율에 맞게 메인 타이포 크기 조정 */
+    font-size: 1.65em;
+    /* 비율에 맞게 메인 타이포 크기 조정 */
     margin: 0.3rem 0;
   }
+
   .philosophy-interaction {
     margin-top: 1rem;
     margin-bottom: 1.5rem;
   }
+
   .philosophy-modal-content {
     width: 100vw;
     height: 100vh;
@@ -803,14 +892,18 @@ circle {
     max-height: 100dvh;
     border-radius: 0;
     border: none;
-    padding: 5rem 1.5rem 3rem; /* 스크롤 편의를 위해 상단 넉넉하게 확보 */
-    background: #0a0a0c; /* 당근마켓처럼 글에만 집중할 수 있는 솔리드 다크 배경 */
+    padding: 5rem 1.5rem 3rem;
+    /* 스크롤 편의를 위해 상단 넉넉하게 확보 */
+    background: #0a0a0c;
+    /* 당근마켓처럼 글에만 집중할 수 있는 솔리드 다크 배경 */
   }
+
   .modal-close-btn {
     top: 1.5rem;
     right: 1.5rem;
     font-size: 2rem;
-    background: rgba(255, 255, 255, 0.15); /* 버튼 시인성 확보 */
+    background: rgba(255, 255, 255, 0.15);
+    /* 버튼 시인성 확보 */
     border-radius: 50%;
     width: 40px;
     height: 40px;
@@ -818,22 +911,28 @@ circle {
     align-items: center;
     justify-content: center;
   }
+
   .modal-title {
     font-size: 2rem;
     margin-bottom: 2.5rem;
     letter-spacing: 2px;
     line-height: 1.3;
   }
+
   .philosophy-section h3 {
-    font-size: 1.35rem; 
+    font-size: 1.35rem;
     margin-bottom: 1rem;
   }
+
   .philosophy-section p {
-    font-size: 1.15rem; /* 당근처럼 매우 시원하게 */
-    line-height: 1.8; 
-    margin-bottom: 2rem; /* 문단 간격 넓게 */
+    font-size: 1.15rem;
+    /* 당근처럼 매우 시원하게 */
+    line-height: 1.8;
+    margin-bottom: 2rem;
+    /* 문단 간격 넓게 */
     color: rgba(255, 255, 255, 0.9);
   }
+
   .btn-skip-intro {
     bottom: 1.5rem;
     padding: 0.5rem 1.2rem;
@@ -844,44 +943,56 @@ circle {
 @media screen and (max-height: 650px) {
   .hud-panel {
     /* 노트북(가로로 길고 세로로 짧은 해상도)에서 텍스트 겹침 방지 */
-    padding: 5.5rem 1rem 1.5rem; 
+    padding: 5.5rem 1rem 1.5rem;
   }
+
   .profile-badge {
     width: 60px;
     height: 60px;
     top: -30px;
   }
+
   .slogan {
     font-size: clamp(1rem, 3vh, 1.5rem);
     margin-bottom: 0.5rem;
   }
+
   .highlight-massive {
     font-size: 1.4em;
   }
+
   .target-date {
     margin-bottom: 0.5rem;
     padding: 0.3rem 1rem;
   }
+
   .teaser-video {
     margin-bottom: 0.8rem;
   }
+
   .teaser-video video {
     max-height: 18vh;
   }
+
   .countdown {
     margin-bottom: 0.5rem;
   }
+
   .time-block {
     width: clamp(45px, 12vh, 60px);
     height: clamp(45px, 12vh, 60px);
   }
+
   .number {
     font-size: clamp(0.9rem, 3vh, 1.2rem);
   }
+
   .action-btn-wrapper {
     margin-top: 1rem;
   }
-  .btn-philosophy, .btn-webtoon {
+
+  .btn-philosophy,
+  .btn-webtoon {
     padding: 0.6rem 1rem;
     font-size: 0.85rem;
   }
@@ -924,7 +1035,8 @@ circle {
 
 .webtoon-slider-container {
   width: 100%;
-  height: 85vh; /* 뷰포트 대부분 차지 */
+  height: 85vh;
+  /* 뷰포트 대부분 차지 */
   max-width: 1200px;
   position: relative;
   overflow: hidden;
@@ -943,8 +1055,14 @@ circle {
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
 }
-.zone-left { left: 0; }
-.zone-right { right: 0; }
+
+.zone-left {
+  left: 0;
+}
+
+.zone-right {
+  right: 0;
+}
 
 .webtoon-slider {
   display: flex;
@@ -968,7 +1086,7 @@ circle {
   max-width: 100%;
   max-height: 100%;
   object-fit: contain;
-  box-shadow: 0 15px 40px rgba(0,0,0,0.5);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5);
   border-radius: 8px;
   user-select: none;
 }
@@ -1025,23 +1143,30 @@ circle {
   .webtoon-slider-container {
     height: 80vh;
   }
+
   .webtoon-slide {
-    padding: 0; /* 모바일에서는 화면을 최대한 활용 */
+    padding: 0;
+    /* 모바일에서는 화면을 최대한 활용 */
   }
+
   .webtoon-slide img {
     border-radius: 0;
   }
+
   .webtoon-controls {
     bottom: 3vh;
     padding: 0.4rem 1.2rem;
     gap: 1rem;
   }
+
   .btn-nav {
     font-size: 1.3rem;
   }
+
   .webtoon-indicator {
     font-size: 1rem;
   }
+
   #webtoonCurrentPage {
     font-size: 1.1rem;
   }
@@ -1051,12 +1176,16 @@ circle {
     flex-direction: column;
     align-items: center;
     gap: 0.8rem;
-    max-width: 600px; /* 비디오 컨테이너와 동일한 너비 */
+    max-width: 600px;
+    /* 비디오 컨테이너와 동일한 너비 */
   }
-  .btn-philosophy, .btn-webtoon {
+
+  .btn-philosophy,
+  .btn-webtoon {
     padding: 0.8rem 1rem;
     font-size: 0.85rem;
-    max-width: 600px; /* 비디오와 동일 */
+    max-width: 600px;
+    /* 비디오와 동일 */
     width: 100%;
     white-space: nowrap;
     text-align: center;
