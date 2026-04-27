@@ -80,7 +80,7 @@ body {
 
 /* Responsive Background Image */
 .bg-image {
-  position: absolute;
+  position: fixed;
   inset: 0;
   z-index: -2;
   /* 기본 PC 가로 배경 */
@@ -99,7 +99,7 @@ body {
 }
 
 .overlay {
-  position: absolute;
+  position: fixed;
   inset: 0;
   z-index: -1;
   /* 하단에서만 어두워지며 배경 아트를 완전히 100% 살리는 그라데이션 */
