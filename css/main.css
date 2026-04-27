@@ -68,19 +68,13 @@ body {
   align-items: center;
   overflow-y: auto;
   scrollbar-width: none; /* 파이어폭스 스크롤바 숨김 */
+  /* 명시적 패딩으로 PC 로고 짤림 방지, 하단 불필요한 스크롤 여백 제거 */
+  padding: clamp(60px, 8vh, 100px) 0 20px 0;
 }
 
-/* 상하 여백: 컨텐츠 수직 중앙 정렬 및 상단 짤림 방지 */
-.main-content::before {
-  content: '';
-  flex: 1 1 auto;
-  min-height: 10px;
-}
-
-.main-content::after {
-  content: '';
-  flex: 1 1 auto;
-  min-height: 0;
+/* 수직 정렬은 margin: auto 로 대체 */
+.main-content::before, .main-content::after {
+  display: none;
 }
 
 
@@ -118,7 +112,7 @@ body {
   width: 95vw;
   max-width: 1400px;
   flex-shrink: 0;
-  margin: 0 auto; /* 수직 정렬은 가상요소가 처리하므로 수평 정렬만 적용 */
+  margin: auto; /* padding과 결합하여 넘칠 때는 top 짤림 방지, 덜 찰 때는 중앙 정렬 */
 }
 
 /* Premium HUD Panel - Modern Glassmorphism */
@@ -228,6 +222,10 @@ body {
   /* 스트릿 팝아트 감성의 역동성을 위해 살짝 기울임 */
   transform: rotate(-3deg);
   filter: none;
+}
+
+.slogan-part1, .slogan-part2 {
+  display: inline-block;
 }
 
 .slogan-line3 {
@@ -444,18 +442,18 @@ circle {
     top: -35px;
   }
 
-  /* 모바일 상하 여백 축소 */
-  .main-content::before {
-    min-height: 50px;
-  }
-  .main-content::after {
-    min-height: 10px;
+  /* 모바일 여백 수정 (가상 요소 삭제됨, margin auto 로 커버됨) */
+  .main-content {
+    padding: clamp(60px, 8vh, 80px) 0 20px 0;
   }
   .action-btn-wrapper {
     margin-top: clamp(0.5rem, 1.5vh, 1.5rem);
   }
-  .mobile-br {
-    display: block;
+  .highlight-massive {
+    display: block; /* 줄바꿈 확실히 적용 */
+  }
+  .slogan-part1, .slogan-part2 {
+    display: block; /* 모바일에서 각각을 블록으로 분리하여 강제 줄바꿈 */
   }
 
 }
@@ -495,9 +493,7 @@ circle {
   white-space: nowrap;
 }
 
-.mobile-br {
-  display: none;
-}
+
 
 .btn-philosophy {
   background: rgba(0, 0, 0, 0.5);
@@ -784,7 +780,7 @@ circle {
 }
 @media screen and (max-width: 768px) {
   .hud-panel {
-    padding-top: 4.5rem; /* 공백 복원 (프로필 뱃지와의 간격 확보 및 텍스트 겹침 방지) */
+    padding-top: 5rem; /* 공백 최적화 (프로필 뱃지와의 간격 확보 및 텍스트 겹침 방지) */
     padding-bottom: 2rem;
   }
   .slogan {
