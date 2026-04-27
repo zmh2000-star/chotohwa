@@ -70,17 +70,17 @@ body {
   scrollbar-width: none; /* 파이어폭스 스크롤바 숨김 */
 }
 
-/* 상하 여백 및 중앙 정렬 시 상단 짤림(Top Clipping) 방지를 위한 가상 요소 */
+/* 상하 여백: 컨텐츠 수직 중앙 정렬 및 상단 짤림 방지 */
 .main-content::before {
   content: '';
   flex: 1 1 auto;
-  min-height: 80px; /* 상단 프로필 배지 여백 */
+  min-height: 10px;
 }
 
 .main-content::after {
   content: '';
   flex: 1 1 auto;
-  min-height: 40px; /* 하단 여백 */
+  min-height: 0;
 }
 
 
@@ -1061,49 +1061,5 @@ circle {
     width: 100%;
     white-space: nowrap;
     text-align: center;
-  }
-}
-
-/* 8. 스크롤 힌트 */
-.scroll-hint {
-  margin-top: 1rem;
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity 0.6s ease, visibility 0.6s ease;
-}
-
-.scroll-hint.is-visible {
-  opacity: 1;
-  visibility: visible;
-}
-
-.scroll-arrow-wrap {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 6px;
-  color: rgba(255, 255, 255, 0.45);
-}
-
-.scroll-text {
-  font-family: 'Orbitron', sans-serif;
-  font-size: 0.65rem;
-  letter-spacing: 3px;
-  text-transform: uppercase;
-}
-
-.scroll-arrow {
-  font-size: 1.2rem;
-  animation: scrollBounce 2s infinite ease-in-out;
-}
-
-@keyframes scrollBounce {
-  0%, 100% {
-    transform: translateY(0);
-    opacity: 0.4;
-  }
-  50% {
-    transform: translateY(8px);
-    opacity: 1;
   }
 }

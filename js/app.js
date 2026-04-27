@@ -74,17 +74,6 @@ document.addEventListener('DOMContentLoaded', () => {
             ease: "back.out(1.2)"
         });
 
-        // 스크롤 힌트 표시 (인트로 종료 2초 후)
-        const scrollHint = document.getElementById('scrollHint');
-        if (scrollHint) {
-            setTimeout(() => {
-                scrollHint.classList.add('is-visible');
-            }, 2000);
-            // 5초 후 자동 숨김 (스크롤 없을 경우 대비)
-            setTimeout(() => {
-                scrollHint.classList.remove('is-visible');
-            }, 7000);
-        }
 
         // 티저 비디오 재생 (인트로 종료 후 컨텐츠가 나타날 때 처음부터 재생)
         const teaserVideo = document.getElementById('teaserVideo');
@@ -111,15 +100,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // 스크롤 힌트 숨기기 (스크롤 시 자동 숨김)
-    if (mainContent) {
-        mainContent.addEventListener('scroll', () => {
-            const scrollHint = document.getElementById('scrollHint');
-            if (scrollHint && mainContent.scrollTop > 30) {
-                scrollHint.classList.remove('is-visible');
-            }
-        });
-    }
 
     // 3. SVG 프로그레스 링 세팅 및 카운트다운
     const r = 70;
