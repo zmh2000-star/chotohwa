@@ -446,13 +446,16 @@ circle {
 
   /* 모바일 상하 여백 축소 */
   .main-content::before {
-    min-height: 20px;
+    min-height: 50px;
   }
   .main-content::after {
     min-height: 10px;
   }
   .action-btn-wrapper {
     margin-top: clamp(0.5rem, 1.5vh, 1.5rem);
+  }
+  .mobile-br {
+    display: block;
   }
 
 }
@@ -781,7 +784,7 @@ circle {
 }
 @media screen and (max-width: 768px) {
   .hud-panel {
-    padding-top: 3.2rem; /* 공백 대폭 축소 (프로필 뱃지와의 간격 최적화) */
+    padding-top: 4.5rem; /* 공백 복원 (프로필 뱃지와의 간격 확보 및 텍스트 겹침 방지) */
     padding-bottom: 2rem;
   }
   .slogan {
