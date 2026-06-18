@@ -1190,4 +1190,134 @@ circle {
     white-space: nowrap;
     text-align: center;
   }
+
+  /* 모바일 이메일 문의 영역 대응 */
+  .contact-section {
+    margin-top: 1rem;
+    gap: 0.5rem;
+  }
+
+  .contact-divider {
+    width: 90%;
+  }
+
+  .contact-title {
+    font-size: 0.8rem;
+  }
+
+  .contact-email-wrapper {
+    padding: 0.3rem 0.9rem;
+  }
+
+  .contact-email {
+    font-size: 0.95rem;
+  }
+}
+
+/* 6. Contact Section (이메일 문의 영역) */
+.contact-section {
+  margin-top: clamp(1rem, 2.5vh, 3rem);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.8rem;
+  transform: translateZ(30px); /* 3D 패럴랙스 대응 */
+  width: 100%;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.contact-divider {
+  width: 70%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(0, 243, 255, 0.4), rgba(185, 0, 255, 0.4), transparent);
+  margin-bottom: 0.3rem;
+}
+
+.contact-title {
+  font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Noto Sans KR', sans-serif;
+  font-size: 0.95rem;
+  color: rgba(255, 255, 255, 0.65);
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  text-shadow: 0 0 8px rgba(0, 243, 255, 0.2);
+}
+
+.contact-email-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 0.4rem 1.2rem;
+  border-radius: 30px;
+  transition: all 0.3s ease;
+}
+
+.contact-email-wrapper:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(0, 243, 255, 0.3);
+  box-shadow: 0 0 15px rgba(0, 243, 255, 0.15);
+}
+
+.contact-email {
+  color: #00f3ff;
+  text-decoration: none;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  transition: all 0.3s ease;
+}
+
+.contact-email:hover {
+  color: #b900ff;
+  text-shadow: 0 0 8px rgba(185, 0, 255, 0.6);
+}
+
+.btn-copy-email {
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.5);
+  cursor: pointer;
+  font-size: 1rem;
+  padding: 2px;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-copy-email:hover {
+  color: #fff;
+  transform: scale(1.15);
+}
+
+/* Toast Message (복사 완료 알림 토스트) */
+.toast-message {
+  position: fixed;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  background: rgba(10, 10, 20, 0.85);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(0, 243, 255, 0.3);
+  color: #fff;
+  padding: 0.8rem 1.6rem;
+  border-radius: 50px;
+  font-family: 'Pretendard', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 700;
+  z-index: 9999;
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.25);
+  box-shadow: 0 10px 25px rgba(0, 243, 255, 0.25);
+}
+
+.toast-message.show {
+  transform: translateX(-50%) translateY(0);
+  opacity: 1;
 }

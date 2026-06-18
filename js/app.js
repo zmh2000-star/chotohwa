@@ -64,7 +64,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
         
         // 메인 글래스 패널 내부 요소들 시네마틱 등장 효과
-        gsap.from(".slogan, .target-date, .time-block, .time-divider, .teaser-video, .philosophy-btn-wrapper", {
+        gsap.from(".slogan, .target-date, .time-block, .time-divider, .teaser-video, .action-btn-wrapper, .contact-section", {
             y: 50,
             rotationX: 15,
             opacity: 0,
@@ -394,5 +394,68 @@ document.addEventListener('DOMContentLoaded', () => {
             touchStartY = 0;
             isSwiping = false;
         }, { passive: true });
+    }
+
+    // 이메일 클립보드 복사 기능 및 토스트 알림 제어
+    const btnCopyEmail = document.getElementById('btnCopyEmail');
+    const toastMessage = document.getElementById('toastMessage');
+
+    if (btnCopyEmail && toastMessage) {
+        btnCopyEmail.addEventListener('click', () => {
+            const emailText = 'zzmmhh2000@kakao.com';
+
+            // 최신 브라우저의 클립보드 API 지원 여부 확인
+            if (navigator.clipboard && window.isSecureContext) {
+                navigator.clipboard.writeText(emailText)
+                    .then(showToast)
+                    .catch(err => {
+                        console.error('클립보드 복사 실패:', err);
+                        fallbackCopyText(emailText);
+                    });
+            } else {
+                fallbackCopyText(emailText);
+            }
+        });
+    }
+
+    // 토스트 메시지 출력 처리
+    function showToast() {
+        if (!toastMessage) return;
+        toastMessage.classList.add('show');
+        
+        // 이전 타이머가 실행 중인 경우 초기화하여 겹침 방지
+        if (toastMessage.dataset.timeoutId) {
+            clearTimeout(Number(toastMessage.dataset.timeoutId));
+        }
+
+        const timeoutId = setTimeout(() => {
+            toastMessage.classList.remove('show');
+        }, 2000);
+
+        toastMessage.dataset.timeoutId = timeoutId;
+    }
+
+    // 구형 브라우저 및 인앱 브라우저를 위한 폴백 복사 처리
+    function fallbackCopyText(text) {
+        const textArea = document.createElement('textarea');
+        textArea.value = text;
+        
+        // 화면 외곽 보이지 않는 곳에 텍스트 영역 임시 배치
+        textArea.style.position = 'fixed';
+        textArea.style.left = '-999999px';
+        textArea.style.top = '-999999px';
+        document.body.appendChild(textArea);
+        
+        textArea.focus();
+        textArea.select();
+        
+        try {
+            document.execCommand('copy');
+            showToast();
+        } catch (err) {
+            console.error('폴백 복사 기능 오류:', err);
+        }
+        
+        document.body.removeChild(textArea);
     }
 });
