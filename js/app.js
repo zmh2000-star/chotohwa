@@ -11,6 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const videoContainer = document.getElementById('videoContainer');
     const introVideo = document.getElementById('introVideo');
     const mainContent = document.getElementById('mainContent');
+    const teaserVideo = document.getElementById('teaserVideo');
 
     // 1. 모바일/PC 반응형 비디오 소스 주입
     function setupVideo() {
@@ -35,7 +36,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // 카운트다운 목표 날짜: 2026-09-01 15:00:00
     const targetDate = new Date('2026-09-01T15:00:00').getTime();
 
-    // 2. 비디오 종료 시 시네마틱 트랜지션 (글리치 + 블러/아우라 모드)
+    // 2. 비디오 종료 시 시네마틱 트랜지션 및 백그라운드 리소스 완전 해제
     function endIntro() {
         // 이미 종료 처리되었으면 무시 (중복 실행 방지)
         if (introVideo.dataset.ended === 'true') return;
@@ -47,46 +48,52 @@ document.addEventListener('DOMContentLoaded', () => {
             skipBtn.classList.add('hidden');
         }
 
-        // 영상 제거 대신, 커다란 블러 후광으로 변경하여 배경 요소로 재활용!
+        // 인트로 비디오 페이드아웃 및 GPU 렌더링 파이프라인에서 완전히 제외
         gsap.to(introVideo, {
-            scale: 1.1,         // 거대해지면서
-            filter: 'blur(30px) brightness(0.3)', // 어둡고 뿌옇게 글리치 아우라 형성
-            duration: 2.0,
-            ease: "power2.out"
+            scale: 1.05,
+            opacity: 0,
+            duration: 1.2,
+            ease: "power2.out",
+            onComplete: () => {
+                introVideo.pause(); // 비디오 디코딩 정지
+                if (videoContainer) {
+                    videoContainer.style.display = 'none'; // DOM 렌더 트리에서 제외하여 GPU 메모리 해제
+                }
+            }
         });
 
         // 텍스트/카운트다운 컨텐츠 페이드인
         gsap.to(mainContent, {
-            autoAlpha: 1,       // opacity 1, visibility visible
-            duration: 2.0,
-            delay: 0.2,
+            autoAlpha: 1, // opacity 1, visibility visible
+            duration: 1.5,
+            delay: 0.1,
             ease: "power2.inOut"
         });
         
         // 메인 글래스 패널 내부 요소들 시네마틱 등장 효과
         gsap.from(".slogan, .target-date, .time-block, .time-divider, .teaser-video, .action-btn-wrapper, .contact-section", {
-            y: 50,
-            rotationX: 15,
+            y: 40,
+            rotationX: 10,
             opacity: 0,
-            duration: 1.5,
-            stagger: 0.15,
-            delay: 0.5,
+            duration: 1.2,
+            stagger: 0.12,
+            delay: 0.3,
             ease: "back.out(1.2)"
         });
 
-
-        // 티저 비디오 재생 (인트로 종료 후 컨텐츠가 나타날 때 처음부터 재생)
-        const teaserVideo = document.getElementById('teaserVideo');
+        // 티저 비디오 재생 (컨텐츠 등장 후 재생)
         if (teaserVideo) {
             teaserVideo.currentTime = 0;
             teaserVideo.play().then(() => {
                 teaserVideo.classList.add('is-loaded');
             }).catch(e => {
-                console.log('Auto-play prevented:', e);
-                // 자동재생 차단 시에도 영상 표시
+                console.log('자동 재생 제한:', e);
                 teaserVideo.classList.add('is-loaded');
             });
         }
+
+        // 카운트다운 타이머 애니메이션 시작
+        startCountdown();
     }
 
     introVideo.addEventListener('ended', endIntro);
@@ -95,23 +102,31 @@ document.addEventListener('DOMContentLoaded', () => {
     const skipBtn = document.getElementById('skipIntroBtn');
     if (skipBtn) {
         skipBtn.addEventListener('click', () => {
-            introVideo.pause(); // 비디오 정지
-            endIntro();         // 트랜지션 즉시 실행
+            introVideo.pause(); // 비디오 즉시 정지
+            endIntro(); // 트랜지션 즉시 실행
         });
     }
 
-
-    // 3. SVG 프로그레스 링 세팅 및 카운트다운
+    // 3. SVG 프로그레스 링 세팅 및 최적화된 카운트다운 타이머
     const r = 70;
     const circumference = 2 * Math.PI * r;
 
-    // SVG 링들
+    // SVG 링 엘리먼트 캐싱
     const rings = {
         days: document.getElementById('ring-days'),
         hours: document.getElementById('ring-hours'),
         mins: document.getElementById('ring-mins'),
         secs: document.getElementById('ring-secs'),
         ms: document.getElementById('ring-ms')
+    };
+
+    // DOM 텍스트 엘리먼트 캐싱 (반복 조회 방지)
+    const timeTexts = {
+        days: document.getElementById('days'),
+        hours: document.getElementById('hours'),
+        mins: document.getElementById('mins'),
+        secs: document.getElementById('secs'),
+        ms: document.getElementById('ms')
     };
 
     // 초기 대시 설정
@@ -128,12 +143,18 @@ document.addEventListener('DOMContentLoaded', () => {
         ring.style.strokeDashoffset = offset;
     }
 
+    let countdownAnimationId = null;
+    let isCountdownActive = false;
+
     function updateCountdown() {
+        if (!isCountdownActive) return;
+
         const now = new Date().getTime();
         const distance = targetDate - now;
 
         if (distance <= 0) {
             document.querySelectorAll('.number').forEach(el => el.innerText = "00");
+            stopCountdown();
             return;
         }
 
@@ -143,33 +164,91 @@ document.addEventListener('DOMContentLoaded', () => {
         const s = Math.floor((distance % (1000 * 60)) / 1000);
         const ms = Math.floor((distance % 1000) / 10); // 0-99 (두 자리 밀리초)
 
-        document.getElementById('days').innerText = d.toString().padStart(2, '0');
-        document.getElementById('hours').innerText = h.toString().padStart(2, '0');
-        document.getElementById('mins').innerText = m.toString().padStart(2, '0');
-        document.getElementById('secs').innerText = s.toString().padStart(2, '0');
-        document.getElementById('ms').innerText = ms.toString().padStart(2, '0');
+        if (timeTexts.days) timeTexts.days.innerText = d.toString().padStart(2, '0');
+        if (timeTexts.hours) timeTexts.hours.innerText = h.toString().padStart(2, '0');
+        if (timeTexts.mins) timeTexts.mins.innerText = m.toString().padStart(2, '0');
+        if (timeTexts.secs) timeTexts.secs.innerText = s.toString().padStart(2, '0');
+        if (timeTexts.ms) timeTexts.ms.innerText = ms.toString().padStart(2, '0');
 
-        // 프로그레스 바 갱신 (예시: day는 365, hour/min/sec는 각 최대치 기준)
+        // 프로그레스 바 갱신
         setProgress(rings.days, (d / 365) * 100);
         setProgress(rings.hours, (h / 24) * 100);
         setProgress(rings.mins, (m / 60) * 100);
         setProgress(rings.secs, (s / 60) * 100);
         setProgress(rings.ms, ((distance % 1000) / 1000) * 100);
 
-        // 60fps 부드러운 애니메이션 호출 (밀리초 단위 실시간 업데이트용)
-        requestAnimationFrame(updateCountdown);
+        // 다음 프레임 요청
+        countdownAnimationId = requestAnimationFrame(updateCountdown);
     }
 
-    // 초 단위 setInterval 대신 requestAnimationFrame 사용 시작
-    requestAnimationFrame(updateCountdown);
+    // 카운트다운 시작 함수
+    function startCountdown() {
+        if (!isCountdownActive) {
+            isCountdownActive = true;
+            countdownAnimationId = requestAnimationFrame(updateCountdown);
+        }
+    }
 
-    // 4. 묵직한 3D 시네마틱 마우스 패럴랙스 효과 (데스크탑 위주)
+    // 카운트다운 일시 정지 함수 (모달 오픈 또는 탭 비활성화 시 불필요한 GPU/CPU 낭비 방지)
+    function stopCountdown() {
+        if (isCountdownActive) {
+            isCountdownActive = false;
+            if (countdownAnimationId) {
+                cancelAnimationFrame(countdownAnimationId);
+                countdownAnimationId = null;
+            }
+        }
+    }
+
+    // 모달 활성화 시 백그라운드 리소스 일시 정지 (GPU 부하 제거)
+    function pauseBackgroundActivities() {
+        document.body.classList.add('modal-opened');
+        stopCountdown();
+        if (teaserVideo && !teaserVideo.paused) {
+            teaserVideo.pause();
+        }
+    }
+
+    // 모달 닫힘 시 백그라운드 리소스 재개
+    function resumeBackgroundActivities() {
+        document.body.classList.remove('modal-opened');
+        // 인트로가 완료된 상태에서만 재개
+        if (introVideo.dataset.ended === 'true') {
+            startCountdown();
+            if (teaserVideo && teaserVideo.paused) {
+                teaserVideo.play().catch(() => {});
+            }
+        }
+    }
+
+    // 브라우저 탭 활성/비활성 전환 시 백그라운드 리소스 스마트 관리
+    document.addEventListener('visibilitychange', () => {
+        if (document.hidden) {
+            stopCountdown();
+            if (teaserVideo && !teaserVideo.paused) {
+                teaserVideo.pause();
+            }
+        } else {
+            const hasActiveModal = document.querySelector('.philosophy-modal-overlay.is-active, .webtoon-modal-overlay.is-active');
+            if (!hasActiveModal && introVideo.dataset.ended === 'true') {
+                startCountdown();
+                if (teaserVideo && teaserVideo.paused) {
+                    teaserVideo.play().catch(() => {});
+                }
+            }
+        }
+    });
+
+    // 4. 3D 시네마틱 마우스 패럴랙스 효과 (데스크탑 전용)
     if (window.innerWidth > 768) {
         const tiltWrapper = document.getElementById('tiltWrapper');
         const bgImage = document.getElementById('bgImage');
 
         document.addEventListener('mousemove', (e) => {
-            const xAxis = (window.innerWidth / 2 - e.pageX) / 40;     // 기울기 강도 (글래스 패널)
+            // 모달이 열려 있을 때는 패럴랙스 연산 중단
+            if (document.body.classList.contains('modal-opened')) return;
+
+            const xAxis = (window.innerWidth / 2 - e.pageX) / 40; // 기울기 강도 (글래스 패널)
             const yAxis = (window.innerHeight / 2 - e.pageY) / 40; 
             
             // 글래스 컴포넌트 3D 틸트
@@ -198,7 +277,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // 5. Philosophy Modal Control
+    // 5. 무브먼트(Philosophy) 모달 제어
     const openPhilosophyBtn = document.getElementById('openPhilosophyBtn');
     const closePhilosophyBtn = document.getElementById('closePhilosophyBtn');
     const closePhilosophyBottomBtn = document.getElementById('closePhilosophyBottomBtn');
@@ -208,18 +287,20 @@ document.addEventListener('DOMContentLoaded', () => {
         const interactionFg = philosophyModal.querySelector('.interaction-fg');
 
         openPhilosophyBtn.addEventListener('click', () => {
+            // 백그라운드 영상 및 타이머 즉시 정지하여 모바일 스크롤 프레임 확보
+            pauseBackgroundActivities();
             philosophyModal.classList.add('is-active');
             
             // GSAP 모달 내부 텍스트 순차적 페이드업 애니메이션
             gsap.fromTo(philosophyModal.querySelectorAll('.modal-title, .philosophy-section, .philosophy-interaction'), 
-                { y: 30, opacity: 0 }, 
+                { y: 25, opacity: 0 }, 
                 { 
                     y: 0, 
                     opacity: 1, 
-                    duration: 0.8, 
-                    stagger: 0.15, 
+                    duration: 0.6, 
+                    stagger: 0.1, 
                     ease: "power3.out", 
-                    delay: 0.2,
+                    delay: 0.15,
                     onComplete: () => {
                         const interactionBanner = philosophyModal.querySelector('.philosophy-interaction');
                         if (interactionFg && interactionBanner) {
@@ -250,17 +331,20 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             if(interactionFg) {
-                // Reset interaction for next open
+                // 다음 오픈을 위한 인터랙션 리셋
                 setTimeout(() => {
                     interactionFg.classList.remove('active');
-                }, 300); // Wait for modal to hide
+                }, 300);
             }
+
+            // 백그라운드 영상 및 카운트다운 재개
+            resumeBackgroundActivities();
         };
 
         closePhilosophyBtn.addEventListener('click', closeModal);
         if (closePhilosophyBottomBtn) closePhilosophyBottomBtn.addEventListener('click', closeModal);
 
-        // Close modal when clicking outside the content area
+        // 모달 배경 영역 클릭 시 닫기
         philosophyModal.addEventListener('click', (e) => {
             if (e.target === philosophyModal) {
                 closeModal();
@@ -268,7 +352,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // 6. Webtoon Modal Control & Slider
+    // 6. 웹툰(Webtoon) 모달 제어 및 슬라이더
     const openWebtoonBtn = document.getElementById('openWebtoonBtn');
     const closeWebtoonBtn = document.getElementById('closeWebtoonBtn');
     const webtoonModal = document.getElementById('webtoonModal');
@@ -285,6 +369,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const closeWebtoonModal = () => {
         if (webtoonModal) {
             webtoonModal.classList.remove('is-active');
+            resumeBackgroundActivities();
         }
     };
 
@@ -320,6 +405,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (openWebtoonBtn && closeWebtoonBtn && webtoonModal) {
         openWebtoonBtn.addEventListener('click', () => {
+            // 백그라운드 영상 및 타이머 일시 정지
+            pauseBackgroundActivities();
             currentWebtoonIndex = 0;
             updateWebtoonSlider();
             webtoonModal.classList.add('is-active');
@@ -327,22 +414,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
         closeWebtoonBtn.addEventListener('click', closeWebtoonModal);
         
-        // Background click to close
+        // 배경 클릭 시 닫기
         webtoonModal.addEventListener('click', (e) => {
             if (e.target === webtoonModal) {
                 closeWebtoonModal();
             }
         });
 
-        // Click zones
+        // 좌우 클릭 터치 영역
         if(webtoonPrevZone) webtoonPrevZone.addEventListener('click', prevWebtoonPage);
         if(webtoonNextZone) webtoonNextZone.addEventListener('click', nextWebtoonPage);
         
-        // Nav buttons
+        // 이전/다음 버튼
         if(webtoonPrevBtn) webtoonPrevBtn.addEventListener('click', prevWebtoonPage);
         if(webtoonNextBtn) webtoonNextBtn.addEventListener('click', nextWebtoonPage);
 
-        // Keyboard navigation (Escape to close, Left/Right for pages)
+        // 키보드 방향키 및 ESC 단축키
         document.addEventListener('keydown', (e) => {
             if (!webtoonModal.classList.contains('is-active')) return;
             
@@ -396,7 +483,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }, { passive: true });
     }
 
-    // 이메일 클립보드 복사 기능 및 토스트 알림 제어
+    // 7. 이메일 클립보드 복사 기능 및 토스트 알림 제어
     const btnCopyEmail = document.getElementById('btnCopyEmail');
     const toastMessage = document.getElementById('toastMessage');
 
