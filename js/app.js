@@ -12,6 +12,19 @@ document.addEventListener('DOMContentLoaded', () => {
     const introVideo = document.getElementById('introVideo');
     const mainContent = document.getElementById('mainContent');
     const teaserVideo = document.getElementById('teaserVideo');
+    const desktopMotionMedia = window.matchMedia('(min-width: 769px) and (hover: hover) and (pointer: fine)');
+    const reduceMotionMedia = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const tiltWrapper = document.getElementById('tiltWrapper');
+    const bgImage = document.getElementById('bgImage');
+    const teaserSource = teaserVideo?.dataset.src || 'movie/project-energy-wide.mp4';
+    let introComplete = false;
+    let teaserInView = false;
+    let teaserAutoplayBlocked = false;
+    let teaserPlayPending = false;
+    let teaserPlayRequest = 0;
+    let sceneMotionFrame = null;
+    let scenePointerX = 0;
+    let scenePointerY = 0;
 
     // 1. 모바일/PC 반응형 비디오 소스 주입
     function setupVideo() {
@@ -33,9 +46,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     setupVideo();
 
-    // 카운트다운 목표 날짜: 2026-09-01 15:00:00
-    const targetDate = new Date('2026-09-01T15:00:00').getTime();
-
     // 2. 비디오 종료 시 시네마틱 트랜지션 및 백그라운드 리소스 완전 해제
     function endIntro() {
         // 이미 종료 처리되었으면 무시 (중복 실행 방지)
@@ -48,11 +58,20 @@ document.addEventListener('DOMContentLoaded', () => {
             skipBtn.classList.add('hidden');
         }
 
+        // 모션 감소 설정에서는 긴 이동 효과 없이 메인으로 바로 전환한다.
+        if (reduceMotionMedia.matches || typeof gsap === 'undefined') {
+            introVideo.pause();
+            if (videoContainer) videoContainer.style.display = 'none';
+            mainContent.style.opacity = '1';
+            mainContent.style.visibility = 'visible';
+            completeMainReveal();
+            return;
+        }
+
         // 인트로 비디오 페이드아웃 및 GPU 렌더링 파이프라인에서 완전히 제외
         gsap.to(introVideo, {
-            scale: 1.05,
             opacity: 0,
-            duration: 1.2,
+            duration: 0.7,
             ease: "power2.out",
             onComplete: () => {
                 introVideo.pause(); // 비디오 디코딩 정지
@@ -62,41 +81,37 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
-        // 텍스트/카운트다운 컨텐츠 페이드인
+        // 메인 콘텐츠가 실제로 나타난 뒤 티저 자동재생 허용
         gsap.to(mainContent, {
             autoAlpha: 1, // opacity 1, visibility visible
-            duration: 1.5,
+            duration: 0.7,
             delay: 0.1,
-            ease: "power2.inOut"
+            ease: "power2.inOut",
+            onComplete: () => {
+                completeMainReveal();
+            }
         });
         
         // 메인 글래스 패널 내부 요소들 시네마틱 등장 효과
-        gsap.from(".slogan, .target-date, .time-block, .time-divider, .teaser-video, .action-btn-wrapper, .contact-section", {
-            y: 40,
-            rotationX: 10,
+        gsap.from(".slogan, .project-message, .launch-date, .teaser-video, .contact-section, .action-btn-wrapper, .stories-caption", {
+            y: 14,
             opacity: 0,
-            duration: 1.2,
-            stagger: 0.12,
-            delay: 0.3,
-            ease: "back.out(1.2)"
+            duration: 0.65,
+            stagger: 0.06,
+            delay: 0.15,
+            ease: "power2.out"
         });
 
-        // 티저 비디오 재생 (컨텐츠 등장 후 재생)
-        if (teaserVideo) {
-            teaserVideo.currentTime = 0;
-            teaserVideo.play().then(() => {
-                teaserVideo.classList.add('is-loaded');
-            }).catch(e => {
-                console.log('자동 재생 제한:', e);
-                teaserVideo.classList.add('is-loaded');
-            });
-        }
-
-        // 카운트다운 타이머 애니메이션 시작
-        startCountdown();
     }
 
     introVideo.addEventListener('ended', endIntro);
+
+    function completeMainReveal() {
+        introComplete = true;
+        document.body.classList.add('main-ready');
+        syncSceneMotion();
+        syncTeaserPlayback();
+    }
 
     // 스킵 버튼 클릭 이벤트
     const skipBtn = document.getElementById('skipIntroBtn');
@@ -107,175 +122,186 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // 3. SVG 프로그레스 링 세팅 및 최적화된 카운트다운 타이머
-    const r = 70;
-    const circumference = 2 * Math.PI * r;
-
-    // SVG 링 엘리먼트 캐싱
-    const rings = {
-        days: document.getElementById('ring-days'),
-        hours: document.getElementById('ring-hours'),
-        mins: document.getElementById('ring-mins'),
-        secs: document.getElementById('ring-secs'),
-        ms: document.getElementById('ring-ms')
-    };
-
-    // DOM 텍스트 엘리먼트 캐싱 (반복 조회 방지)
-    const timeTexts = {
-        days: document.getElementById('days'),
-        hours: document.getElementById('hours'),
-        mins: document.getElementById('mins'),
-        secs: document.getElementById('secs'),
-        ms: document.getElementById('ms')
-    };
-
-    // 초기 대시 설정
-    Object.values(rings).forEach(ring => {
-        if(ring) {
-            ring.style.strokeDasharray = `${circumference} ${circumference}`;
-            ring.style.strokeDashoffset = circumference;
-        }
-    });
-
-    function setProgress(ring, percent) {
-        if(!ring) return;
-        const offset = circumference - (percent / 100) * circumference;
-        ring.style.strokeDashoffset = offset;
+    // 3. 인트로가 끝난 뒤 화면에 보이는 티저만 무음으로 반복 재생한다.
+    function canPlayTeaser() {
+        return teaserVideo && introComplete && teaserInView && !document.hidden &&
+            !document.body.classList.contains('modal-opened');
     }
 
-    let countdownAnimationId = null;
-    let isCountdownActive = false;
-
-    function updateCountdown() {
-        if (!isCountdownActive) return;
-
-        const now = new Date().getTime();
-        const distance = targetDate - now;
-
-        if (distance <= 0) {
-            document.querySelectorAll('.number').forEach(el => el.innerText = "00");
-            stopCountdown();
+    function syncTeaserPlayback() {
+        if (!teaserVideo) return;
+        if (!canPlayTeaser()) {
+            teaserVideo.pause();
             return;
         }
+        if (!teaserSource || teaserAutoplayBlocked || !teaserVideo.paused || teaserPlayPending) return;
 
-        const d = Math.floor(distance / (1000 * 60 * 60 * 24));
-        const h = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        const m = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-        const s = Math.floor((distance % (1000 * 60)) / 1000);
-        const ms = Math.floor((distance % 1000) / 10); // 0-99 (두 자리 밀리초)
-
-        if (timeTexts.days) timeTexts.days.innerText = d.toString().padStart(2, '0');
-        if (timeTexts.hours) timeTexts.hours.innerText = h.toString().padStart(2, '0');
-        if (timeTexts.mins) timeTexts.mins.innerText = m.toString().padStart(2, '0');
-        if (timeTexts.secs) timeTexts.secs.innerText = s.toString().padStart(2, '0');
-        if (timeTexts.ms) timeTexts.ms.innerText = ms.toString().padStart(2, '0');
-
-        // 프로그레스 바 갱신
-        setProgress(rings.days, (d / 365) * 100);
-        setProgress(rings.hours, (h / 24) * 100);
-        setProgress(rings.mins, (m / 60) * 100);
-        setProgress(rings.secs, (s / 60) * 100);
-        setProgress(rings.ms, ((distance % 1000) / 1000) * 100);
-
-        // 다음 프레임 요청
-        countdownAnimationId = requestAnimationFrame(updateCountdown);
-    }
-
-    // 카운트다운 시작 함수
-    function startCountdown() {
-        if (!isCountdownActive) {
-            isCountdownActive = true;
-            countdownAnimationId = requestAnimationFrame(updateCountdown);
+        if (teaserVideo.getAttribute('src') !== teaserSource) {
+            teaserVideo.src = teaserSource;
+            teaserVideo.load();
         }
-    }
 
-    // 카운트다운 일시 정지 함수 (모달 오픈 또는 탭 비활성화 시 불필요한 GPU/CPU 낭비 방지)
-    function stopCountdown() {
-        if (isCountdownActive) {
-            isCountdownActive = false;
-            if (countdownAnimationId) {
-                cancelAnimationFrame(countdownAnimationId);
-                countdownAnimationId = null;
+        teaserPlayPending = true;
+        const request = ++teaserPlayRequest;
+        Promise.resolve(teaserVideo.play()).then(() => {
+            if (request !== teaserPlayRequest) return;
+            teaserPlayPending = false;
+            // 재생 요청 도중 스크롤·모달·탭 상태가 바뀌었을 수 있다.
+            if (!canPlayTeaser()) teaserVideo.pause();
+            teaserVideo.controls = false;
+        }).catch(error => {
+            if (request !== teaserPlayRequest) return;
+            teaserPlayPending = false;
+            if (error.name === 'AbortError') {
+                // 자동 일시정지로 취소된 요청만 다음 프레임에 재확인한다.
+                if (canPlayTeaser()) requestAnimationFrame(syncTeaserPlayback);
+                return;
             }
+            if (error.name === 'NotAllowedError') {
+                teaserAutoplayBlocked = true;
+                teaserVideo.controls = true;
+            }
+        });
+    }
+
+    if (teaserVideo) {
+        teaserVideo.muted = true;
+        teaserVideo.defaultMuted = true;
+        teaserVideo.playsInline = true;
+        teaserVideo.autoplay = false;
+        teaserVideo.loop = true;
+        teaserVideo.controls = false;
+        teaserVideo.preload = 'none';
+        teaserVideo.poster = teaserVideo.dataset.poster || 'img/project-energy-wide.webp';
+        teaserVideo.classList.add('is-loaded'); // 재생 전에도 포스터를 표시
+
+        if ('IntersectionObserver' in window) {
+            const teaserObserver = new IntersectionObserver(entries => {
+                const entry = entries[0];
+                teaserInView = entry.isIntersecting && entry.intersectionRatio >= 0.25;
+                syncTeaserPlayback();
+            }, { threshold: [0, 0.25] });
+            teaserObserver.observe(teaserVideo);
+        } else {
+            const updateTeaserVisibility = () => {
+                const rect = teaserVideo.getBoundingClientRect();
+                const visibleHeight = Math.max(0, Math.min(rect.bottom, window.innerHeight) - Math.max(rect.top, 0));
+                teaserInView = rect.height > 0 && visibleHeight / rect.height >= 0.25;
+                syncTeaserPlayback();
+            };
+            window.addEventListener('scroll', updateTeaserVisibility, { passive: true });
+            mainContent.addEventListener('scroll', updateTeaserVisibility, { passive: true });
+            window.addEventListener('resize', updateTeaserVisibility, { passive: true });
+            updateTeaserVisibility();
         }
+
+        teaserVideo.addEventListener('playing', () => {
+            teaserAutoplayBlocked = false;
+            teaserVideo.controls = false;
+        });
+
+        // 일부 인앱 브라우저가 무음 자동재생도 막으면 다음 사용자 조작 때 재시도한다.
+        const retryBlockedPlayback = () => {
+            if (!teaserAutoplayBlocked || !canPlayTeaser()) return;
+            teaserAutoplayBlocked = false;
+            syncTeaserPlayback();
+        };
+        document.addEventListener('pointerup', retryBlockedPlayback, { passive: true });
+        document.addEventListener('keydown', retryBlockedPlayback);
     }
 
     // 모달 활성화 시 백그라운드 리소스 일시 정지 (GPU 부하 제거)
     function pauseBackgroundActivities() {
         document.body.classList.add('modal-opened');
-        stopCountdown();
-        if (teaserVideo && !teaserVideo.paused) {
-            teaserVideo.pause();
-        }
+        syncSceneMotion();
+        syncTeaserPlayback();
     }
 
     // 모달 닫힘 시 백그라운드 리소스 재개
     function resumeBackgroundActivities() {
-        document.body.classList.remove('modal-opened');
-        // 인트로가 완료된 상태에서만 재개
-        if (introVideo.dataset.ended === 'true') {
-            startCountdown();
-            if (teaserVideo && teaserVideo.paused) {
-                teaserVideo.play().catch(() => {});
-            }
-        }
+        const hasActiveModal = document.querySelector('.philosophy-modal-overlay.is-active, .webtoon-modal-overlay.is-active');
+        document.body.classList.toggle('modal-opened', Boolean(hasActiveModal));
+        syncSceneMotion();
+        syncTeaserPlayback();
     }
 
     // 브라우저 탭 활성/비활성 전환 시 백그라운드 리소스 스마트 관리
     document.addEventListener('visibilitychange', () => {
-        if (document.hidden) {
-            stopCountdown();
-            if (teaserVideo && !teaserVideo.paused) {
-                teaserVideo.pause();
-            }
-        } else {
-            const hasActiveModal = document.querySelector('.philosophy-modal-overlay.is-active, .webtoon-modal-overlay.is-active');
-            if (!hasActiveModal && introVideo.dataset.ended === 'true') {
-                startCountdown();
-                if (teaserVideo && teaserVideo.paused) {
-                    teaserVideo.play().catch(() => {});
-                }
-            }
-        }
+        syncSceneMotion();
+        syncTeaserPlayback();
     });
 
-    // 4. 3D 시네마틱 마우스 패럴랙스 효과 (데스크탑 전용)
-    if (window.innerWidth > 768) {
-        const tiltWrapper = document.getElementById('tiltWrapper');
-        const bgImage = document.getElementById('bgImage');
+    // 4. 원래 마우스 패럴랙스를 절반 강도로 복원한다. 터치 기기에서는 고정한다.
+    function canMoveScene() {
+        return introComplete && desktopMotionMedia.matches && !reduceMotionMedia.matches &&
+            !document.hidden && !document.body.classList.contains('modal-opened') &&
+            tiltWrapper && bgImage && typeof gsap !== 'undefined';
+    }
 
-        document.addEventListener('mousemove', (e) => {
-            // 모달이 열려 있을 때는 패럴랙스 연산 중단
-            if (document.body.classList.contains('modal-opened')) return;
+    function resetSceneMotion(animate = false) {
+        if (sceneMotionFrame !== null) {
+            cancelAnimationFrame(sceneMotionFrame);
+            sceneMotionFrame = null;
+        }
+        if (typeof gsap === 'undefined') return;
 
-            const xAxis = (window.innerWidth / 2 - e.pageX) / 40; // 기울기 강도 (글래스 패널)
-            const yAxis = (window.innerHeight / 2 - e.pageY) / 40; 
-            
-            // 글래스 컴포넌트 3D 틸트
-            gsap.to(tiltWrapper, {
-                rotationY: xAxis,
-                rotationX: yAxis,
-                duration: 0.8,
-                ease: "power2.out"
-            });
+        const reset = (target, values) => {
+            if (!target) return;
+            gsap.killTweensOf(target);
+            if (animate) {
+                gsap.to(target, { ...values, duration: 0.8, ease: 'power3.out', overwrite: true });
+            } else {
+                gsap.set(target, values);
+            }
+        };
+        reset(tiltWrapper, { rotationY: 0, rotationX: 0 });
+        reset(bgImage, { x: 0, y: 0 });
+    }
 
-            // 배경 이미지 미세한 반대 역동작 (깊이감 증가)
-            const bgX = (e.pageX - window.innerWidth / 2) / 60;
-            const bgY = (e.pageY - window.innerHeight / 2) / 60;
-            gsap.to(bgImage, {
-                x: bgX,
-                y: bgY,
-                duration: 1.5,
-                ease: "power2.out"
-            });
+    function syncSceneMotion() {
+        const paused = document.hidden || document.body.classList.contains('modal-opened');
+        document.body.classList.toggle('motion-paused', paused);
+        if (!canMoveScene()) resetSceneMotion();
+    }
+
+    function updateSceneMotion() {
+        sceneMotionFrame = null;
+        if (!canMoveScene()) return;
+
+        // 뷰포트 밖 좌표는 제한해 포커스 전환 시 과도한 회전을 방지한다.
+        const x = Math.max(0, Math.min(window.innerWidth, scenePointerX));
+        const y = Math.max(0, Math.min(window.innerHeight, scenePointerY));
+        const offsetX = x - window.innerWidth / 2;
+        const offsetY = y - window.innerHeight / 2;
+
+        gsap.to(tiltWrapper, {
+            rotationY: -offsetX / 80, // 기존 /40 → 정확히 50% 강도
+            rotationX: -offsetY / 80,
+            duration: 0.8,
+            ease: 'power2.out',
+            overwrite: true
         });
-
-        // 화면 밖으로 나갈 때 초기화
-        document.addEventListener('mouseleave', () => {
-            gsap.to(tiltWrapper, { rotationY: 0, rotationX: 0, duration: 1.2, ease: "power3.out" });
-            gsap.to(bgImage, { x: 0, y: 0, duration: 1.2, ease: "power3.out" });
+        gsap.to(bgImage, {
+            x: offsetX / 120, // 기존 /60 → 정확히 50% 강도
+            y: offsetY / 120,
+            duration: 1.5,
+            ease: 'power2.out',
+            overwrite: true
         });
     }
+
+    document.addEventListener('pointermove', event => {
+        if (event.pointerType !== 'mouse' || !canMoveScene()) return;
+        scenePointerX = event.clientX;
+        scenePointerY = event.clientY;
+        if (sceneMotionFrame === null) sceneMotionFrame = requestAnimationFrame(updateSceneMotion);
+    }, { passive: true });
+    document.addEventListener('mouseleave', () => resetSceneMotion(Boolean(canMoveScene())));
+    window.addEventListener('blur', () => resetSceneMotion());
+    window.addEventListener('resize', () => resetSceneMotion(), { passive: true });
+    desktopMotionMedia.addEventListener('change', syncSceneMotion);
+    reduceMotionMedia.addEventListener('change', syncSceneMotion);
+    syncSceneMotion();
 
     // 5. 무브먼트(Philosophy) 모달 제어
     const openPhilosophyBtn = document.getElementById('openPhilosophyBtn');
@@ -287,7 +313,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const interactionFg = philosophyModal.querySelector('.interaction-fg');
 
         openPhilosophyBtn.addEventListener('click', () => {
-            // 백그라운드 영상 및 타이머 즉시 정지하여 모바일 스크롤 프레임 확보
+            // 백그라운드 영상 즉시 정지하여 모바일 스크롤 프레임 확보
             pauseBackgroundActivities();
             philosophyModal.classList.add('is-active');
             
@@ -337,7 +363,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }, 300);
             }
 
-            // 백그라운드 영상 및 카운트다운 재개
+            // 시청 중이던 영상만 재생 조건에 따라 이어서 재생
             resumeBackgroundActivities();
         };
 
@@ -405,7 +431,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (openWebtoonBtn && closeWebtoonBtn && webtoonModal) {
         openWebtoonBtn.addEventListener('click', () => {
-            // 백그라운드 영상 및 타이머 일시 정지
+            // 백그라운드 영상 일시 정지
             pauseBackgroundActivities();
             currentWebtoonIndex = 0;
             updateWebtoonSlider();
@@ -484,12 +510,15 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // 7. 이메일 클립보드 복사 기능 및 토스트 알림 제어
+    const contactEmail = document.getElementById('contactEmail');
     const btnCopyEmail = document.getElementById('btnCopyEmail');
     const toastMessage = document.getElementById('toastMessage');
 
     if (btnCopyEmail && toastMessage) {
+        toastMessage.setAttribute('role', 'status');
+        toastMessage.setAttribute('aria-live', 'polite');
         btnCopyEmail.addEventListener('click', () => {
-            const emailText = 'zzmmhh2000@kakao.com';
+            const emailText = contactEmail?.dataset.email || 'zzmmhh2000@kakao.com';
 
             // 최신 브라우저의 클립보드 API 지원 여부 확인
             if (navigator.clipboard && window.isSecureContext) {
@@ -506,8 +535,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // 토스트 메시지 출력 처리
-    function showToast() {
+    function showToast(message = '이메일 주소가 복사되었습니다!') {
         if (!toastMessage) return;
+        toastMessage.textContent = message;
         toastMessage.classList.add('show');
         
         // 이전 타이머가 실행 중인 경우 초기화하여 겹침 방지
@@ -524,6 +554,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 구형 브라우저 및 인앱 브라우저를 위한 폴백 복사 처리
     function fallbackCopyText(text) {
+        const previousFocus = document.activeElement;
         const textArea = document.createElement('textarea');
         textArea.value = text;
         
@@ -537,12 +568,14 @@ document.addEventListener('DOMContentLoaded', () => {
         textArea.select();
         
         try {
-            document.execCommand('copy');
-            showToast();
+            const copied = document.execCommand('copy');
+            showToast(copied ? '이메일 주소가 복사되었습니다!' : '이메일 주소를 길게 눌러 복사해 주세요.');
         } catch (err) {
             console.error('폴백 복사 기능 오류:', err);
+            showToast('이메일 주소를 길게 눌러 복사해 주세요.');
         }
         
         document.body.removeChild(textArea);
+        if (previousFocus instanceof HTMLElement) previousFocus.focus({ preventScroll: true });
     }
 });

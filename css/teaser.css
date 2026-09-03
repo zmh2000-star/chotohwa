@@ -1,0 +1,178 @@
+/* Mobile-first teaser. Existing intro, artwork and brand stories are preserved. */
+.teaser-page .main-content {
+  padding: 44px 0 max(14px, env(safe-area-inset-bottom));
+  overflow-x: hidden;
+  overscroll-behavior-y: contain;
+}
+.teaser-page .content-wrapper { width: calc(100% - 24px); max-width: 1160px; perspective: none; }
+.teaser-page .hud-panel {
+  width: 100%; padding: 38px 16px 14px; border-radius: 26px;
+  background: linear-gradient(145deg, rgba(47,32,63,.68), rgba(12,11,23,.93) 72%);
+  border-color: rgba(214,195,238,.22); box-shadow: 0 24px 80px rgba(0,0,0,.38);
+  transform-style: flat; will-change: auto;
+}
+.teaser-page .profile-badge {
+  width: 64px; height: 64px; top: -32px;
+  border: 2px solid rgba(211,185,233,.55); box-shadow: 0 8px 24px rgba(0,0,0,.35);
+}
+.teaser-page .profile-badge:hover { transform: translateX(-50%); }
+.teaser-page .bg-image { will-change: auto; }
+.teaser-page .slogan { margin: 0 0 16px; transform: none; }
+.teaser-page .slogan-line1 { margin-bottom: 9px; font-size: 12px; letter-spacing: 2px; color: #c1b5cd; }
+.teaser-page .highlight-massive {
+  display: block; margin: 0; font-size: clamp(34px, 10vw, 44px); line-height: 1.25;
+  letter-spacing: -.8px; transform: rotate(-3deg);
+  text-shadow: 1px 1px #ff007f, 2px 2px #ff007f, 3px 3px #ff007f, 4px 4px #ff007f,
+    5px 5px #ff007f, 6px 6px #ff007f, 7px 7px #ff007f, 8px 8px #ff007f,
+    9px 9px #ff007f, 10px 10px #ff007f, 11px 11px #ff007f, 12px 12px #ff007f,
+    15px 15px 25px rgba(0,0,0,.65);
+}
+.teaser-page .slogan-part1, .teaser-page .slogan-part2 { display: block; }
+.teaser-page .bounce-word {
+  /* A 3s cycle keeps the original bounce and 0.12s word stagger. */
+  animation: popBounce 3s infinite cubic-bezier(.28,.84,.42,1);
+  animation-delay: calc(var(--i) * .12s);
+  animation-play-state: paused;
+}
+.teaser-page.main-ready .bounce-word { animation-play-state: running; }
+.teaser-page.motion-paused .bounce-word { animation-play-state: paused; }
+.project-message {
+  margin: 0 0 8px; color: #f7f3fb; font-size: 16px; font-weight: 700;
+  line-height: 1.55; letter-spacing: -.5px; word-break: keep-all;
+}
+.launch-date {
+  display: inline-flex; align-items: center; gap: 7px; padding: 4px 12px; margin: 0 0 14px;
+  border: 1px solid rgba(210,193,230,.23); border-radius: 24px;
+  background: rgba(218,194,240,.07); color: #d4cbdd; font-size: 11px; line-height: 1.5;
+}
+.launch-date::before { content: ''; width: 5px; height: 5px; border-radius: 50%; background: #d0f950; }
+.project-focus {
+  display: grid; width: 100%; margin: 0 auto;
+  border: 1px solid rgba(211,195,229,.24); border-radius: 18px;
+  background: rgba(17,16,26,.7); overflow: hidden;
+}
+.teaser-page .teaser-video {
+  width: 100%; min-width: 0; max-width: 100%; margin: 0; border: 0;
+  border-radius: 0; background: #20222a; box-shadow: none;
+  overflow: hidden; transform: none;
+}
+.teaser-page .teaser-video video {
+  display: block; width: 100%; height: auto;
+  max-width: 100%; max-height: none; aspect-ratio: 16 / 9; object-fit: contain;
+  opacity: 1; background: #20222a;
+}
+.project-actions {
+  display: flex; flex-direction: column; min-width: 0; padding: 16px;
+  border-top: 1px solid rgba(211,195,229,.18); text-align: left;
+}
+.teaser-page .contact-section {
+  gap: 0; align-items: stretch; max-width: none; margin: 0; padding: 0;
+  border: 0; border-radius: 0; background: none; transform: none;
+}
+.teaser-page .contact-title {
+  margin: 0 0 6px; color: #f5f6ec; font-size: 18px; font-weight: 700; line-height: 1.45;
+  letter-spacing: -.6px; text-shadow: none; word-break: keep-all;
+}
+.contact-copy { color: #c0c0ba; margin-bottom: 12px; font-size: 12px; line-height: 1.6; word-break: keep-all; }
+.ui-icon {
+  width: 20px; height: 20px; flex: 0 0 auto; fill: none; stroke: currentColor;
+  stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round;
+}
+.teaser-page .contact-email {
+  display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%;
+  min-height: 52px; padding: 13px 16px; border: 1px solid #d6ff00; border-radius: 12px;
+  background: #d6ff00; color: #1d2600; font-family: inherit; font-weight: 700;
+  letter-spacing: -.3px; text-shadow: none; box-shadow: 0 5px 20px rgba(214,255,0,.1);
+  transition: background .2s, box-shadow .2s;
+}
+.contact-email-label { font-size: 16px; line-height: 1.4; }
+.contact-arrow { width: 18px; height: 18px; margin-left: auto; }
+.teaser-page .btn-copy-email {
+  gap: 7px; justify-content: flex-start; min-height: 44px; max-width: 100%; margin-top: 0; padding: 8px 0;
+  color: #b8bdb1; font-family: inherit; font-size: 11px; transform: none;
+}
+.contact-email-address { font-size: 12px; line-height: 1.5; }
+.btn-copy-email .ui-icon { width: 13px; height: 13px; margin-left: 3px; }
+.copy-label { font-size: 10px; white-space: nowrap; }
+.brand-links { margin-top: 8px; padding-top: 10px; border-top: 1px solid rgba(211,195,229,.16); }
+.stories-caption { margin: 0 0 6px; color: #b8abc5; font-size: 11px; line-height: 1.6; }
+.teaser-page .action-btn-wrapper {
+  display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px;
+  max-width: none; margin: 0; transform: none;
+}
+.teaser-page .btn-philosophy, .teaser-page .btn-webtoon {
+  display: flex; align-items: center; justify-content: center; gap: 7px; min-width: 0; width: 100%;
+  min-height: 44px; padding: 9px 10px; border: 1px solid var(--story-color); border-radius: 10px;
+  background: var(--story-color); color: #12101a; font-family: inherit; font-size: 12px;
+  font-weight: 700; line-height: 1.5; letter-spacing: -.2px; white-space: nowrap; box-shadow: none;
+  backdrop-filter: none; -webkit-backdrop-filter: none; transform: none; transition: background .2s, border-color .2s;
+}
+.teaser-page .btn-philosophy { --story-color: #00e5ff; --story-hover: #65efff; }
+.teaser-page .btn-webtoon { --story-color: #ff4fc8; --story-hover: #ff86d9; }
+.action-btn-wrapper .ui-icon { width: 15px; height: 15px; color: inherit; }
+.button-chevron { margin-left: auto; color: inherit; font-size: 20px; line-height: 1; }
+.brand-signature { margin-top: 12px; color: #91859f; font-size: 10px; line-height: 1.6; letter-spacing: .5px; }
+.teaser-page a:focus-visible, .teaser-page button:focus-visible { outline: 2px solid #fff; outline-offset: 4px; }
+.teaser-page .toast-message { width: max-content; max-width: calc(100% - 32px); text-align: center; }
+@media (max-width: 768px) {
+  .action-btn-wrapper .button-chevron { display: none; }
+}
+@media (hover: hover) {
+  .teaser-page .contact-email:hover { background: #e2ff4d; color: #1d2600; text-shadow: none; box-shadow: 0 6px 26px rgba(214,255,0,.18); }
+  .teaser-page .btn-copy-email:hover { color: #fff; transform: none; }
+  .teaser-page .btn-philosophy:hover, .teaser-page .btn-webtoon:hover { background: var(--story-hover); border-color: var(--story-hover); color: #12101a; }
+}
+@media (max-width: 359px) {
+  .teaser-page .content-wrapper { width: calc(100% - 18px); }
+  .teaser-page .hud-panel { padding-inline: 12px; }
+  .project-message { font-size: 16px; }
+  .project-actions { padding-inline: 12px; }
+  .teaser-page .contact-title { font-size: 18px; }
+  .contact-copy { font-size: 11px; }
+  .contact-email-label { font-size: 15px; }
+  .teaser-page .btn-philosophy, .teaser-page .btn-webtoon { padding-inline: 8px; gap: 5px; font-size: 11px; }
+}
+@media (min-width: 769px) {
+  .teaser-page .main-content { padding: 64px 0 24px; }
+  .teaser-page .content-wrapper { width: calc(100% - 64px); }
+  .teaser-page .hud-panel { padding: 54px 28px 22px; border-radius: 30px; }
+  .teaser-page .profile-badge { width: 84px; height: 84px; top: -42px; }
+  .teaser-page .slogan { margin-bottom: 22px; }
+  .teaser-page .slogan-line1 { font-size: 13px; margin-bottom: 12px; }
+  .teaser-page .highlight-massive { font-size: clamp(42px, 5.2vw, 66px); line-height: 1.25; }
+  .teaser-page .slogan-part1, .teaser-page .slogan-part2 { display: inline-block; }
+  .project-message { font-size: 20px; margin-bottom: 14px; }
+  .project-message br { display: none; }
+  .launch-date { padding-block: 6px; font-size: 12px; margin-bottom: 28px; }
+  .teaser-page .teaser-video { width: 100%; max-width: none; }
+  .teaser-page .teaser-video video { width: 100%; height: auto; aspect-ratio: 16 / 9; }
+  .project-actions { padding: 24px; }
+  .teaser-page .contact-title { font-size: 21px; }
+  .contact-copy { font-size: 13px; margin-bottom: 18px; }
+  .teaser-page .contact-email { min-height: 56px; padding: 15px 18px; }
+  .brand-links { margin-top: 14px; padding-top: 16px; }
+  .stories-caption { margin-bottom: 10px; }
+  .teaser-page .btn-philosophy, .teaser-page .btn-webtoon { min-height: 48px; padding-block: 11px; }
+  .brand-signature { margin-top: 28px; }
+}
+@media (min-width: 1100px) {
+  .teaser-page .hud-panel { padding-inline: 40px; }
+  .project-focus { grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); align-items: stretch; }
+  .teaser-page .teaser-video { display: flex; align-items: center; }
+  .teaser-page .teaser-video video { height: 100%; object-fit: cover; }
+  .project-actions { padding: 22px; border-top: 0; border-left: 1px solid rgba(211,195,229,.18); }
+  .teaser-page .contact-title { font-size: 22px; }
+  .contact-copy { font-size: 13px; margin-bottom: 16px; }
+  .brand-links { margin-top: auto; }
+  .contact-email-label { font-size: 17px; }
+  .teaser-page .btn-philosophy, .teaser-page .btn-webtoon { font-size: 13px; }
+}
+@media (min-width: 769px) and (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .teaser-page .content-wrapper { perspective: 1500px; }
+  .teaser-page .hud-panel { transform-style: preserve-3d; }
+  .teaser-page .bg-image { inset: -1%; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .teaser-page .bounce-word { animation: none; }
+  .teaser-page *, .teaser-page *::before, .teaser-page *::after { scroll-behavior: auto; transition-duration: .01ms; }
+}
